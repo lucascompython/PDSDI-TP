@@ -1,0 +1,11 @@
+[project]
+name = "clothe_match_model"
+version = "0.1.0"
+description = "The machine learning model behind the ClotheMatch app"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = []
+authors = [
+    { name = "Lucas de Linhares", email = "lucaslinhares@ipvc.pt" },
+    { name = "Guilherme Sousa", email = "sousaguilherme@ipvc.pt" },
+]

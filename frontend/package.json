@@ -1,0 +1,22 @@
+{
+  "name": "clothe_match",
+  "type": "module",
+  "version": "0.0.1",
+  "contributors": [
+    "Lucas de Linhares <lucaslinhares@ipvc.pt> (https://github.com/lucascompython)",
+    "Guilherme Sousa <sousaguilherme@ipvc.pt> (https://github.com/BijouTOP)"
+  ],
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro check && astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/check": "^0.9.4",
+    "@playform/compress": "0.1.1",
+    "astro": "^4.15.12",
+    "typescript": "^5.6.2"
+  }
+}
