@@ -5,13 +5,22 @@ from backend import make as backend_make
 from frontend import make as frontend_make
 from model import make as model_make
 
+import concurrent.futures
+
+
+def make_app() -> None:
+    frontend_make.main()
+    app_make.main(build_frontend=False)
+
 
 def main() -> None:
     print("Hello from make.py!")
-    app_make.main()
-    backend_make.main()
-    frontend_make.main()
-    model_make.main()
+
+    with concurrent.futures.ThreadPoolExecutor() as executor:
+        executor.submit(backend_make.main)
+        executor.submit(model_make.main)
+        executor.submit(make_app)
+    print("teste")
 
 
 if __name__ == "__main__":
