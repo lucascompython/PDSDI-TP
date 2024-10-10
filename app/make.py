@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-import sys
 import os
+import sys
 
 
 def main(build_frontend: bool = True) -> None:
@@ -15,4 +15,7 @@ def main(build_frontend: bool = True) -> None:
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except KeyboardInterrupt:
+        print("Exiting...")
