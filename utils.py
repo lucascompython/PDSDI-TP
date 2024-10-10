@@ -37,6 +37,6 @@ class Colors:
 def run_command(command: tuple, **kwargs) -> None:
     try:
         subprocess.run(command, **kwargs, check=True)
-    except (subprocess.CalledProcessError, FileNotFoundError) as e:
+    except FileNotFoundError as e:
         Colors.error(e)
         sys.exit(1)

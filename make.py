@@ -52,9 +52,12 @@ def main() -> None:
     frontend_args = frontend_make.Args(
         dev=args.dev, release=args.release, clean=args.clean
     )
+    backend_args = backend_make.Args(
+        dev=args.dev, release=args.release, clean=args.clean, run=False
+    )
 
     with concurrent.futures.ThreadPoolExecutor() as executor:
-        executor.submit(backend_make.main)
+        executor.submit(backend_make.main, backend_args)
         executor.submit(model_make.main)
         executor.submit(make_app, frontend_args)
 
