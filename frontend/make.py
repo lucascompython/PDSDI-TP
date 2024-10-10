@@ -85,7 +85,7 @@ def parse_args() -> Args:
         "-r",
         "--release",
         action="store_true",
-        help="Run in release mode",
+        help="Build in release mode",
     )
     parser.add_argument(
         "-c",
