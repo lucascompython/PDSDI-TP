@@ -54,7 +54,6 @@ def _release() -> None:
 
 
 def main(args: Args) -> None:
-    print("Hello, World from backend!")
 
     if args.clean:
         _clean()
