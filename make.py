@@ -42,7 +42,7 @@ def parse_args() -> argparse.Namespace:
     return args
 
 
-def make_app(frontend_args: frontend_make.Args) -> None:
+def make_app(app_args: app_make.Args, frontend_args: frontend_make.Args) -> None:
     frontend_make.main(frontend_args)
     app_make.main(build_frontend=False)
 
@@ -55,11 +55,19 @@ def main() -> None:
     backend_args = backend_make.Args(
         dev=args.dev, release=args.release, clean=args.clean, run=False
     )
+    app_args = app_make.Args(
+        dev=args.dev,
+        release=args.release,
+        clean=args.clean,
+        smallest=True,
+        build_frontend=False,
+        native=False,
+    )
 
     with concurrent.futures.ThreadPoolExecutor() as executor:
         executor.submit(backend_make.main, backend_args)
         executor.submit(model_make.main)
-        executor.submit(make_app, frontend_args)
+        executor.submit(make_app, app_args, frontend_args)
 
 
 if __name__ == "__main__":
