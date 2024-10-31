@@ -61,10 +61,11 @@ def main(args: Args) -> None:
     if args.clean:
         _clean()
 
-    run_command(("bun", "install"), cwd=CWD)
     if args.dev:
+        run_command(("bun", "install"), cwd=CWD)
         _dev()
     elif args.release:
+        run_command(("bun", "install"), cwd=CWD)
         _release()
 
 
