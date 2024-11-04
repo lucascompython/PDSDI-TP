@@ -1,0 +1,29 @@
+---
+// import { ui } from "src/i18n/translations";
+import { getLangFromUrl, useTranslations } from "src/i18n/utils";
+---
+
+<nav>
+  <div>
+    <a href="/">
+      <img src="/logo_trans.svg" alt="ClotheMatch Logo" />
+    </a>
+    <a href="/clothes">
+      <img src="/eye_dark.svg" alt="ClotheMatch Logo" />
+    </a>
+    <!-- <a href="/clothes">
+      <img src="/.svg" alt="ClotheMatch Logo" />
+    </a> -->
+  </div>
+</nav>
+
+<style>
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background-color: #23262d;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+</style>
