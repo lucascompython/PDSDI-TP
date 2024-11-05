@@ -5,6 +5,7 @@ import sys
 from dataclasses import dataclass
 from shutil import rmtree
 from time import perf_counter
+from shutil import copyfile
 
 if "frontend" in os.getcwd():  # Make utils module always available
     sys.path.append("..")
@@ -37,6 +38,21 @@ def _clean() -> None:
     )
 
 
+def _copy_files() -> None:
+    """This function copies all the pages to the /pt folder"""
+
+    Colors.info("Copying files")
+    start = perf_counter()
+
+    entries = os.listdir(f"{CWD}/src/pages")
+    for entry in entries:
+        if os.path.isfile(f"{CWD}/src/pages/{entry}"):
+            copyfile(f"{CWD}/src/pages/{entry}", f"{CWD}/src/pages/pt/{entry}")
+
+    elapsed = perf_counter() - start
+    Colors.success(f"Copied files in {elapsed:.2f} seconds")
+
+
 def _dev() -> None:
     Colors.info("Running the development server")
 
@@ -63,9 +79,11 @@ def main(args: Args) -> None:
 
     if args.dev:
         run_command(("bun", "install"), cwd=CWD)
+        _copy_files()
         _dev()
     elif args.release:
         run_command(("bun", "install"), cwd=CWD)
+        _copy_files()
         _release()
 
 
