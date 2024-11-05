@@ -1,6 +1,7 @@
 ---
-// import { ui } from "src/i18n/translations";
 import { getLangFromUrl, useTranslations } from "src/i18n/utils";
+import LanguagePicker from "./LanguagePicker.astro";
+const t = useTranslations(getLangFromUrl(Astro.url));
 ---
 
 <nav>
@@ -11,6 +12,9 @@ import { getLangFromUrl, useTranslations } from "src/i18n/utils";
     <a href="/clothes">
       <img src="/eye_dark.svg" alt="ClotheMatch Logo" />
     </a>
+
+    <LanguagePicker />
+
     <!-- <a href="/clothes">
       <img src="/.svg" alt="ClotheMatch Logo" />
     </a> -->
@@ -25,5 +29,10 @@ import { getLangFromUrl, useTranslations } from "src/i18n/utils";
     padding: 1rem;
     background-color: #23262d;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  nav div {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
   }
 </style>
