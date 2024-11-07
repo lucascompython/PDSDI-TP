@@ -6,8 +6,8 @@ const t = useTranslations(lang);
 
 <div>
   <select name="languages" id="languages">
-    <option selected={lang === "en"} value="EN">🇬🇧&emsp;English</option>
-    <option selected={lang === "pt"} value="PT">🇵🇹&emsp;Português</option>
+    <option selected={lang === "en"} value="en">🇬🇧&emsp;English</option>
+    <option selected={lang === "pt"} value="pt">🇵🇹&emsp;Português</option>
   </select>
 
   <style>
@@ -21,7 +21,7 @@ const t = useTranslations(lang);
 <script>
   const select = document.getElementById("languages");
   select?.addEventListener("change", (e: any) => {
-    if (e.target.value === "EN") {
+    if (e.target.value === "en") {
       window.location.href = "/";
     } else {
       window.location.href = "/pt";
