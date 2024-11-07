@@ -1,6 +1,7 @@
 ---
 import { getLangFromUrl, useTranslations } from "src/i18n/utils";
 import LanguagePicker from "./LanguagePicker.astro";
+import ThemeIcon from "./ThemeIcon.astro";
 const t = useTranslations(getLangFromUrl(Astro.url));
 ---
 
@@ -13,11 +14,10 @@ const t = useTranslations(getLangFromUrl(Astro.url));
       <img src="/eye_dark.svg" alt="ClotheMatch Logo" />
     </a>
 
-    <LanguagePicker />
-
-    <!-- <a href="/clothes">
-      <img src="/.svg" alt="ClotheMatch Logo" />
-    </a> -->
+    <div class="right">
+      <LanguagePicker />
+      <ThemeIcon />
+    </div>
   </div>
 </nav>
 
