@@ -32,6 +32,9 @@ ndk_home = (
 )
 os.environ["ANDROID_HOME"] = android_home
 os.environ["NDK_HOME"] = ndk_home
+os.environ["JAVA_HOME"] = os.path.expanduser(
+    "~/.local/share/JetBrains/Toolbox/apps/android-studio/jbr"  # Change this if you're not using JetBrains Toolbox
+)
 
 
 @dataclass
