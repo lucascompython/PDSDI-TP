@@ -87,12 +87,12 @@ def _release(args: Args) -> None:
         "tauri",
         "build",
         "--target",
-        TARGET,
+        TARGET[:7] if args.mobile else TARGET,
     ]
     rustflags = []
 
     if args.mobile:
-        command.insert(3, "android")
+        command.insert(2, "android")
 
     if args.nightly:
         command.insert(1, "+nightly")
@@ -139,6 +139,10 @@ def _release(args: Args) -> None:
 
 
 def main(args: Args) -> None:
+    global TARGET
+    if args.mobile:
+        TARGET = "aarch64-linux-android"
+
     if args.smallest:
         args.release = True
         args.upx = True
