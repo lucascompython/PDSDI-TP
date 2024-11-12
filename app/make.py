@@ -29,6 +29,7 @@ match OS:
 class Args:
     dev: bool
     release: bool
+    mobile: bool
     clean: bool
     upx: bool
     nightly: bool
@@ -51,9 +52,12 @@ def _clean() -> None:
     )
 
 
-def _dev() -> None:
+def _dev(mobile: bool) -> None:
     Colors.info("Running the development build")
-    run_command(("cargo", "tauri", "dev"), cwd=CWD)
+    if mobile:
+        run_command(("cargo", "tauri", "android", "dev"), cwd=CWD)
+    else:
+        run_command(("cargo", "tauri", "dev"), cwd=CWD)
 
 
 def _get_size() -> str:
@@ -69,8 +73,17 @@ def _release(args: Args) -> None:
     Colors.info("Building in release mode")
     start = perf_counter()
 
-    command = ["cargo", "tauri", "build", "--target", TARGET]
+    command = [
+        "cargo",
+        "tauri",
+        "build",
+        "--target",
+        TARGET,
+    ]
     rustflags = []
+
+    if args.mobile:
+        command.insert(3, "android")
 
     if args.nightly:
         command.insert(1, "+nightly")
@@ -127,7 +140,7 @@ def main(args: Args) -> None:
         _clean()
 
     if args.dev:
-        _dev()
+        _dev(args.mobile)
 
     if args.build_frontend:
         from frontend import make as frontend_make
@@ -156,6 +169,12 @@ def parse_args() -> Args:
     )
     group.add_argument(
         "-r", "--release", action="store_true", help="Build in release mode"
+    )
+    parser.add_argument(
+        "-m",
+        "--mobile",
+        action="store_true",
+        help="Build the mobile version (requires Android NDK and SDK)",
     )
     parser.add_argument(
         "-bf",
