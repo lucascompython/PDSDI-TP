@@ -2,7 +2,6 @@
 import { getLangFromUrl } from "src/i18n/utils";
 const lang = getLangFromUrl(Astro.url);
 ---
-
 <div>
   <select name="languages" id="languages">
     <option selected={lang === "en"} value="en">🇬🇧&emsp;English</option>
@@ -22,8 +21,8 @@ const lang = getLangFromUrl(Astro.url);
 </script>
 
 <style>
-  img {
-    width: 70px;
-    height: auto;
+  select {
+    display:block;
+    margin:auto;
   }
 </style>

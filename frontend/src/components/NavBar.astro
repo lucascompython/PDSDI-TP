@@ -7,17 +7,21 @@ const t = useTranslations(getLangFromUrl(Astro.url));
 
 <nav>
   <div>
+
     <a href="/">
-      <img src="/logo_trans.svg" alt="ClotheMatch Logo" />
+      <img src="/logo_trans.svg" alt="ClotheMatch Logo" class="centerImg">
     </a>
     <a href="/clothes">
-      <img src="/eye_dark.svg" alt="ClotheMatch Logo" />
+      <img src="/eye_dark.svg" alt="Clothes Logo" class="centerImg"/>
     </a>
 
-    <div class="right">
-      <LanguagePicker />
-      <ThemeIcon />
-    </div>
+    <LanguagePicker />
+    <ThemeIcon />
+
+    <a href="/settings">
+      <img src="/settings.svg" alt="Settings Logo" class="centerImg"/>
+    </a>
+
   </div>
 </nav>
 
@@ -34,5 +38,9 @@ const t = useTranslations(getLangFromUrl(Astro.url));
     display: flex;
     align-items: center;
     gap: 1rem;
+  }
+  .centerImg {
+    display: block;
+    margin: auto;
   }
 </style>
