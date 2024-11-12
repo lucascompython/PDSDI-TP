@@ -25,6 +25,15 @@ match OS:
         sys.exit(1)
 
 
+android_home = os.path.expanduser("~/Android/Sdk")
+ndk_directories = os.listdir(os.path.join(android_home, "ndk"))
+ndk_home = (
+    os.path.join(android_home, "ndk", ndk_directories[0]) if ndk_directories else ""
+)
+os.environ["ANDROID_HOME"] = android_home
+os.environ["NDK_HOME"] = ndk_home
+
+
 @dataclass
 class Args:
     dev: bool
