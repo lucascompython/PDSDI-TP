@@ -115,25 +115,25 @@ def _release(args: Args) -> None:
             ]
         )
 
-        if args.native:
-            rustflags.append("-C target-cpu=native")
+    if args.native:
+        rustflags.append("-C target-cpu=native")
 
-        env = os.environ.copy()
-        run_command(
-            command,
-            cwd=CWD,
-            env={**env, "RUSTFLAGS": " ".join(rustflags)},
-        )
+    env = os.environ.copy()
+    run_command(
+        command,
+        cwd=CWD,
+        env={**env, "RUSTFLAGS": " ".join(rustflags)},
+    )
 
-        if args.upx:
-            upx_start = perf_counter()
-            Colors.info("Compressing the binary with UPX")
+    if args.upx and not args.mobile:
+        upx_start = perf_counter()
+        Colors.info("Compressing the binary with UPX")
 
-            run_command(("upx", "--ultra-brute", f"target/{TARGET}/release/{APP_NAME}"))
+        run_command(("upx", "--ultra-brute", f"target/{TARGET}/release/{APP_NAME}"))
 
-            upx_elapsed = perf_counter() - upx_start
+        upx_elapsed = perf_counter() - upx_start
 
-            Colors.success(f"Compressed the binary in {upx_elapsed:.2f} seconds")
+        Colors.success(f"Compressed the binary in {upx_elapsed:.2f} seconds")
 
     elapsed = perf_counter() - start
     size = _get_size()
