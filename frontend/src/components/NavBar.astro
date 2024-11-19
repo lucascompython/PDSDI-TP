@@ -2,26 +2,27 @@
 import { getLangFromUrl, useTranslations } from "src/i18n/utils";
 import LanguagePicker from "./LanguagePicker.astro";
 import ThemeIcon from "./ThemeIcon.astro";
+import SettingsIcon from "./SettingsIcon.astro";
 const t = useTranslations(getLangFromUrl(Astro.url));
 ---
 
 <nav>
   <div>
-
     <a href="/">
-      <img src="/logo_trans.svg" alt="ClotheMatch Logo" class="centerImg">
+      <img src="/logo_trans.svg" alt="ClotheMatch Logo" class="center-img" />
     </a>
     <a href="/clothes">
-      <img src="/eye_dark.svg" alt="Clothes Logo" class="centerImg"/>
+      <img src="/eye_dark.svg" alt="Clothes Logo" class="center-img" />
     </a>
 
     <LanguagePicker />
     <ThemeIcon />
 
     <a href="/settings">
-      <img src="/settings.svg" alt="Settings Logo" class="centerImg"/>
+      <div class="center-img">
+        <SettingsIcon />
+      </div>
     </a>
-
   </div>
 </nav>
 
@@ -33,13 +34,15 @@ const t = useTranslations(getLangFromUrl(Astro.url));
     padding: 1rem;
     background-color: #23262d;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 100%;
   }
+
   nav div {
     display: flex;
     align-items: center;
     gap: 1rem;
   }
-  .centerImg {
+  .center-img {
     display: block;
     margin: auto;
   }
