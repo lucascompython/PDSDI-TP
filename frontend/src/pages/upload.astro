@@ -1,0 +1,45 @@
+---
+import Layout from "@layouts/Layout.astro";
+import NavBar from "@components/NavBar.astro";
+import UploadButton from "@components/UploadButton.astro";
+import Footer from "@components/Footer.astro";
+
+import { getLangFromUrl, useTranslations } from "src/i18n/utils";
+
+const t = useTranslations(getLangFromUrl(Astro.url));
+---
+
+<Layout title="Clothe Match">
+  <main>
+    <NavBar />
+    <div>
+        <UploadButton />
+      <span class="subtitle">{t("nav.upload")}</span>
+    </div>
+
+    <Footer />
+  </main>
+</Layout>
+
+<style>
+  main {
+    /* margin: auto; */
+    /* width: 800px; */
+    /* max-width: calc(100% - 2rem); */
+    color: white;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+  div {
+    flex: 1;
+    align-content: center;
+    text-align: center;
+  }
+  .subtitle {
+    display: block;2
+    font-size: 0.9rem;
+    color: #666;
+    padding-top: 1rem;
+  }
+</style>

@@ -13,14 +13,15 @@ const t = useTranslations(getLangFromUrl(Astro.url));
 <Layout title="Clothe Match">
   <main>
     <NavBar />
-
     <div class="split-screen">
       <div class="left">
         <div class="top">
           <AddButton />
+          <span class="subtitle">{t("nav.upload")}</span>
         </div>
         <div class="bottom">
           <Generate_Outfit />
+          <span class="subtitle">{t("nav.generate")}</span>
         </div>
       </div>
       <div class="right">Right content</div>
@@ -56,6 +57,7 @@ const t = useTranslations(getLangFromUrl(Astro.url));
     .top {
       flex-basis: 50%;
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
       border-bottom: 1px solid #ccc;
@@ -63,6 +65,7 @@ const t = useTranslations(getLangFromUrl(Astro.url));
     .bottom {
       flex-basis: 50%;
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
     }
@@ -70,5 +73,11 @@ const t = useTranslations(getLangFromUrl(Astro.url));
       border-left: 1px solid #ccc;
       flex-basis: 50%;
     }
+    .subtitle {
+    display: block;2
+    font-size: 0.9rem;
+    color: #666;
+    padding-top: 1rem;
+  }
   </style>
 </Layout>
