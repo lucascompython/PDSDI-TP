@@ -3,24 +3,29 @@ use mimalloc::MiMalloc;
 #[global_allocator]
 static GLOBAL: MiMalloc = MiMalloc;
 
-use actix_web::{get, web, App, HttpResponse, HttpServer, Responder};
-use serde::Serialize;
+use actix_web::{get, web, App, HttpServer, Responder};
+mod json_utils;
+use json_utils::{json_response, Json};
+use serde::{Deserialize, Serialize};
 
-#[derive(Serialize)]
+#[derive(Serialize, Deserialize)]
 struct MyObj {
     name: String,
     age: u8,
 }
 
 #[get("/")]
-async fn index() -> impl Responder {
-    let data = MyObj {
+async fn index(data: web::Bytes) -> impl Responder {
+    let Json(data): Json<MyObj> = Json::from_bytes(data).unwrap();
+    println!("data.name: {}", data.name);
+    println!("data.age: {}", data.age);
+
+    let data2 = MyObj {
         name: "Rust".to_string(),
         age: 8,
     };
 
-    // HttpResponse::Ok().json(data)
-    web::Json(data)
+    json_response(&data2)
 }
 
 #[actix_web::main]
