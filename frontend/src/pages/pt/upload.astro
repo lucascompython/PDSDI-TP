@@ -1,7 +1,8 @@
 ---
 import Layout from "@layouts/Layout.astro";
 import NavBar from "@components/NavBar.astro";
-import UploadButton from "@components/UploadButton.astro";
+// import UploadButton from "@components/UploadButton.astro";
+import UploadButton from "@components/Modal.svelte";
 import Footer from "@components/Footer.astro";
 
 import { getLangFromUrl, useTranslations } from "src/i18n/utils";
@@ -13,7 +14,7 @@ const t = useTranslations(getLangFromUrl(Astro.url));
   <main>
     <NavBar />
     <div>
-        <UploadButton />
+        <UploadButton client:load />
       <span class="subtitle">{t("nav.upload")}</span>
     </div>
 
