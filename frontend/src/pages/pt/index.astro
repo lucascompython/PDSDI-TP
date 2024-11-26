@@ -2,6 +2,7 @@
 import Layout from "@layouts/Layout.astro";
 import NavBar from "@components/NavBar.astro";
 import AddButton from "@components/AddButton.astro";
+import Generate_Outfit from "@components/GenerateOutfitsButton.astro";
 import Footer from "@components/Footer.astro";
 
 import { getLangFromUrl, useTranslations } from "src/i18n/utils";
@@ -14,44 +15,69 @@ const t = useTranslations(getLangFromUrl(Astro.url));
     <NavBar />
     <div class="split-screen">
       <div class="left">
-        <AddButton />
+        <div class="top">
+          <AddButton />
+          <span class="subtitle">{t("nav.upload")}</span>
+        </div>
+        <div class="bottom">
+          <Generate_Outfit />
+          <span class="subtitle">{t("nav.generate")}</span>
+        </div>
       </div>
       <div class="right">Right content</div>
-      <div class="line"></div>
+      <div class="line-horizontal"></div>
     </div>
     <Footer />
   </main>
+
+  <style>
+    main {
+      /* margin: auto; */
+      /* width: 800px; */
+      /* max-width: calc(100% - 2rem); */
+      color: white;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+    .split-screen {
+      background-color: slategray;
+      flex: 1;
+      display: flex;
+      width: 100%;
+      position: relative;
+      /* border: 1px solid #db7979; */
+    }
+
+    .left {
+      flex-basis: 50%;
+      display: flex;
+      flex-direction: column;
+    }
+    .top {
+      flex-basis: 50%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      border-bottom: 1px solid #ccc;
+    }
+    .bottom {
+      flex-basis: 50%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .right {
+      border-left: 1px solid #ccc;
+      flex-basis: 50%;
+    }
+    .subtitle {
+    display: block;2
+    font-size: 0.9rem;
+    color: #666;
+    padding-top: 1rem;
+  }
+  </style>
 </Layout>
-
-<style>
-  main {
-    /* margin: auto; */
-    /* padding: 1rem; */
-    /* width: 800px; */
-    /* max-width: calc(100% - 2rem); */\\\\\\\
-    color: white;
-    font-size: 20px;
-    line-height: 1.6;
-  }
-  .split-screen {
-    display: flex;
-    width: 100%;
-
-    /* adjust height as needed */
-  }
-
-  .left,
-  .right {
-    flex-basis: 50%;
-    padding: 20px;
-    border: 1px solid #ddd;
-  }
-  .line {
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    width: 1px;
-    background-color: #ccc;
-    transform: translateX(-50%);
-  }
-</style>
