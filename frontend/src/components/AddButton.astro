@@ -1,10 +1,12 @@
 ---
 import { getLangFromUrl, useTranslatedPath } from "src/i18n/utils";
+import AddButtonSvg from "./AddButtonSvg.astro";
 const translatePath = useTranslatedPath(getLangFromUrl(Astro.url));
 ---
 
 <a href={translatePath("/upload")}>
-  <img src="/plus_square.svg" alt="Add" />
+  <!-- <img src="/plus_square.svg" alt="Add" /> -->
+  <AddButtonSvg />
 </a>
 
 <style>

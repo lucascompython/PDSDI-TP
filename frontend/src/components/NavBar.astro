@@ -7,6 +7,7 @@ import {
 import LanguagePicker from "./LanguagePicker.astro";
 import ThemeIcon from "./ThemeIcon.astro";
 import SettingsIcon from "./SettingsIcon.astro";
+import Eye from "./Eye.astro";
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 const translatePath = useTranslatedPath(lang);
@@ -18,7 +19,9 @@ const translatePath = useTranslatedPath(lang);
       <img src="/logo_trans.svg" alt="ClotheMatch Logo" class="center-img" />
     </a>
     <a href={translatePath("/clothes")}>
-      <img src="/eye_dark.svg" alt="Clothes Logo" class="center-img" />
+      <div class="center-img">
+        <Eye />
+      </div>
     </a>
 
     <LanguagePicker />

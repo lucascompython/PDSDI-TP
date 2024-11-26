@@ -18,7 +18,7 @@ const t = useTranslations(getLangFromUrl(Astro.url));
           <AddButton />
           <span class="subtitle">{t("nav.upload")}</span>
         </div>
-        <div class="bottom buttons">
+        <div class="buttons">
           <Generate_Outfit />
           <span class="subtitle">{t("nav.generate")}</span>
         </div>
@@ -37,14 +37,12 @@ const t = useTranslations(getLangFromUrl(Astro.url));
       color: white;
       display: flex;
       flex-direction: column;
-      flex: 1;
     }
     .split-screen {
       flex: 1;
       display: flex;
       width: 100%;
       position: relative;
-      /* border: 1px solid #db7979; */
     }
 
     .left {
@@ -54,19 +52,12 @@ const t = useTranslations(getLangFromUrl(Astro.url));
     }
     .buttons {
       background-color: #D9D9D9;
-      flex-basis: 50%;
-      display: flex;
-      flex-direction: column;
       align-items: center;
       justify-content: center;
     }
     .top {
       border-bottom: 3px solid #b3b1b1;
     }
-    .bottom {
-      background-color: #D9D9D9;
-    }
-
     :global(.dark) .bottom {
       background-color: #0d1117;
     }
