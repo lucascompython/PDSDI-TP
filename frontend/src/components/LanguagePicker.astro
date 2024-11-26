@@ -2,6 +2,7 @@
 import { getLangFromUrl } from "src/i18n/utils";
 const lang = getLangFromUrl(Astro.url);
 ---
+
 <div>
   <select name="languages" id="languages">
     <option selected={lang === "en"} value="en">🇬🇧&emsp;English</option>
@@ -13,16 +14,17 @@ const lang = getLangFromUrl(Astro.url);
   const select = document.getElementById("languages");
   select?.addEventListener("change", (e: any) => {
     if (e.target.value === "en") {
-      window.location.href = "/";
+      window.location.href =
+        window.location.pathname.replace(/^\/pt/, "") || "/";
     } else {
-      window.location.href = "/pt";
+      window.location.href = `/pt${window.location.pathname}`;
     }
   });
 </script>
 
 <style>
   select {
-    display:block;
-    margin:auto;
+    display: block;
+    margin: auto;
   }
 </style>

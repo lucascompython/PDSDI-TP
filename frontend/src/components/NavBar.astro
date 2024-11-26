@@ -1,17 +1,23 @@
 ---
-import { getLangFromUrl, useTranslations } from "src/i18n/utils";
+import {
+  getLangFromUrl,
+  useTranslations,
+  useTranslatedPath,
+} from "src/i18n/utils";
 import LanguagePicker from "./LanguagePicker.astro";
 import ThemeIcon from "./ThemeIcon.astro";
 import SettingsIcon from "./SettingsIcon.astro";
-const t = useTranslations(getLangFromUrl(Astro.url));
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const translatePath = useTranslatedPath(lang);
 ---
 
 <nav>
   <div>
-    <a href="/">
+    <a href={translatePath("/")}>
       <img src="/logo_trans.svg" alt="ClotheMatch Logo" class="center-img" />
     </a>
-    <a href="/clothes">
+    <a href={translatePath("/clothes")}>
       <img src="/eye_dark.svg" alt="Clothes Logo" class="center-img" />
     </a>
 

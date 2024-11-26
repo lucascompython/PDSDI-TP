@@ -1,8 +1,9 @@
 ---
-
+import { getLangFromUrl, useTranslatedPath } from "src/i18n/utils";
+const translatePath = useTranslatedPath(getLangFromUrl(Astro.url));
 ---
 
-<a href="/upload">
+<a href={translatePath("/upload")}>
   <img src="/plus_square.svg" alt="Add" />
 </a>
 

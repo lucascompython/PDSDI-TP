@@ -11,3 +11,9 @@ export function useTranslations(lang: keyof typeof translations) {
     return translations[lang][key] || translations[defaultLang][key];
   };
 }
+
+export function useTranslatedPath(lang: keyof typeof translations) {
+  return function translatePath(path: string, l: string = lang) {
+    return l === defaultLang ? path : `/${l}${path}`;
+  };
+}
