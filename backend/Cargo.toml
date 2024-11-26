@@ -9,6 +9,8 @@ authors = [
 [dependencies]
 actix-web = "4"
 mimalloc = "0.1.43"
+serde = { version = "1", default-features = false, features = ["derive"] }
+sonic-rs = "0.3.16"
 tokio = { version = "1", default-features = false, features = [
     "rt-multi-thread",
 ] }
