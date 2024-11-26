@@ -12,9 +12,9 @@ async fn index() -> impl Responder {
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-    println!("Server running at http://127.0.0.1:8080");
+    println!("Server running at http://127.0.0.1:1234");
     HttpServer::new(|| App::new().service(index))
-        .bind(("127.0.0.1", 8080))?
+        .bind(("127.0.0.1", 1234))?
         .run()
         .await
 }
