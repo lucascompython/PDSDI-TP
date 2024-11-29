@@ -1,8 +1,9 @@
 # Things needed to build the project
 
-- [python](https://www.python.org/downloads/) - used extensively to make a small custom build system, was only tested with python 3.12 or higher
+- [python](https://www.python.org/downloads/) - used to make a small custom build system, was only tested with python 3.12 or higher
 - [rust](https://www.rust-lang.org/tools/install) - was only tested with rust 1.81 or higher
 - [bun](https://bun.sh/) - fast JS runtime
+- [postgresql](https://www.postgresql.org/) - database, was only tested with postgresql 16
 - [uv](https://github.com/astral-sh/uv) - modern python package manager  
 - [cargo-watch](https://crates.io/crates/cargo-watch) - reload backend dev server on changes  
 - [upx](https://upx.github.io/) - compress the app binary  
