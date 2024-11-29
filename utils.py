@@ -1,6 +1,6 @@
 import subprocess
 import sys
-from typing import Callable
+from typing import Callable, Any
 
 
 class Colors:
@@ -35,7 +35,7 @@ class Colors:
         print(f"{Colors.GREEN}SUCCESS:{Colors.RESET} {string}")
 
 
-def use_run_command(cwd: str) -> Callable[[tuple[str]], None]:
+def use_run_command(cwd: str) -> Callable[[tuple[str], Any], None]:
     def run_command(command: tuple[str], **kwargs) -> None:
         try:
             subprocess.run(command, **kwargs, check=True, cwd=cwd)
