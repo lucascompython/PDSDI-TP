@@ -3,8 +3,10 @@ use mimalloc::MiMalloc;
 #[global_allocator]
 static GLOBAL: MiMalloc = MiMalloc;
 
-use actix_web::{get, web, App, HttpServer, Responder};
+mod db;
 mod json_utils;
+
+use actix_web::{get, web, App, HttpServer, Responder};
 use json_utils::{json_response, Json};
 use serde::{Deserialize, Serialize};
 
