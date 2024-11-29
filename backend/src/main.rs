@@ -8,6 +8,8 @@ mod json_utils;
 use json_utils::{json_response, Json};
 use serde::{Deserialize, Serialize};
 
+const DB_SCHEMA: &str = include_str!("../sql/schema.sql");
+
 #[derive(Serialize, Deserialize)]
 struct MyObj {
     name: String,
@@ -30,7 +32,23 @@ async fn index(data: web::Bytes) -> impl Responder {
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
+    let (client, connection) = tokio_postgres::connect(
+        "host=localhost user=pdsdi dbname=clothe_match password=pdsdi",
+        tokio_postgres::NoTls,
+    )
+    .await
+    .unwrap();
+    tokio::spawn(async move {
+        if let Err(e) = connection.await {
+            eprintln!("connection error: {}", e);
+        }
+    });
+
+    client.batch_execute(DB_SCHEMA).await.unwrap();
+    println!("Database schema applied!");
+
     println!("Server running at http://127.0.0.1:1234");
+
     HttpServer::new(|| App::new().service(index))
         .bind(("127.0.0.1", 1234))?
         .run()
