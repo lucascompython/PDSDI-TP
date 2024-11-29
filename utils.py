@@ -1,5 +1,6 @@
 import subprocess
 import sys
+from typing import Callable
 
 
 class Colors:
@@ -34,9 +35,12 @@ class Colors:
         print(f"{Colors.GREEN}SUCCESS:{Colors.RESET} {string}")
 
 
-def run_command(command: tuple, **kwargs) -> None:
-    try:
-        subprocess.run(command, **kwargs, check=True)
-    except (FileNotFoundError, subprocess.CalledProcessError) as e:
-        Colors.error(e)
-        sys.exit(1)
+def use_run_command(cwd: str) -> Callable[[tuple[str]], None]:
+    def run_command(command: tuple[str], **kwargs) -> None:
+        try:
+            subprocess.run(command, **kwargs, check=True, cwd=cwd)
+        except (FileNotFoundError, subprocess.CalledProcessError) as e:
+            Colors.error(e)
+            sys.exit(1)
+
+    return run_command

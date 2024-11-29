@@ -13,7 +13,9 @@ if "frontend" in os.getcwd():  # Make utils module always available
 else:
     CWD = "frontend"
 
-from utils import Colors, run_command
+from utils import Colors, use_run_command
+
+run_command = use_run_command(CWD)
 
 
 @dataclass
@@ -56,7 +58,7 @@ def _copy_files() -> None:
 def _dev() -> None:
     Colors.info("Running the development server")
 
-    run_command(("bunx", "--bun", "astro", "dev"), cwd=CWD)
+    run_command(("bunx", "--bun", "astro", "dev"))
 
 
 def _release() -> None:
@@ -64,7 +66,7 @@ def _release() -> None:
 
     start = perf_counter()
 
-    run_command(("bunx", "--bun", "astro", "build"), cwd=CWD)
+    run_command(("bunx", "--bun", "astro", "build"))
 
     elapsed = perf_counter() - start
 
@@ -78,11 +80,11 @@ def main(args: Args) -> None:
         _clean()
 
     if args.dev:
-        run_command(("bun", "install"), cwd=CWD)
+        run_command(("bun", "install"))
         _copy_files()
         _dev()
     elif args.release:
-        run_command(("bun", "install"), cwd=CWD)
+        run_command(("bun", "install"))
         _copy_files()
         _release()
 

@@ -10,7 +10,9 @@ if "app" in os.getcwd():  # Make utils module always available
 else:
     CWD = "app"
 
-from utils import Colors, run_command
+from utils import Colors, use_run_command
+
+run_command = use_run_command(CWD)
 
 OS = sys.platform
 match OS:
@@ -56,7 +58,7 @@ def _clean() -> None:
         f"Cleaning {Colors.UNDERLINE}dist{Colors.RESET} and {Colors.UNDERLINE}node_modules{Colors.RESET} directories"
     )
     start = perf_counter()
-    run_command(("cargo", "clean"), cwd=CWD)
+    run_command(("cargo", "clean"))
     elapsed = perf_counter() - start
 
     Colors.success(
@@ -67,9 +69,9 @@ def _clean() -> None:
 def _dev(mobile: bool) -> None:
     Colors.info("Running the development build")
     if mobile:
-        run_command(("cargo", "tauri", "android", "dev"), cwd=CWD)
+        run_command(("cargo", "tauri", "android", "dev"))
     else:
-        run_command(("cargo", "tauri", "dev"), cwd=CWD)
+        run_command(("cargo", "tauri", "dev"))
 
 
 def _get_size() -> str:
@@ -121,7 +123,6 @@ def _release(args: Args) -> None:
     env = os.environ.copy()
     run_command(
         command,
-        cwd=CWD,
         env={**env, "RUSTFLAGS": " ".join(rustflags)},
     )
 
@@ -167,7 +168,7 @@ def main(args: Args) -> None:
         _release(args)
 
     if args.run:
-        run_command((f"target/{TARGET}/release/{APP_NAME}",), cwd=CWD)
+        run_command((f"target/{TARGET}/release/{APP_NAME}",))
 
 
 def parse_args() -> Args:

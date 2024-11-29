@@ -11,7 +11,9 @@ if "backend" in os.getcwd():  # Make utils module always available
 else:
     CWD = "backend"
 
-from utils import Colors, run_command
+from utils import Colors, use_run_command
+
+run_command = use_run_command(CWD)
 
 
 @dataclass
@@ -26,7 +28,7 @@ def _clean() -> None:
     Colors.info(f"Cleaning {Colors.UNDERLINE}target{Colors.RESET} directory")
 
     start = perf_counter()
-    run_command(("cargo", "clean"), cwd=CWD)
+    run_command(("cargo", "clean"))
     elapsed = perf_counter() - start
 
     Colors.success(
@@ -37,7 +39,7 @@ def _clean() -> None:
 def _dev() -> None:
     Colors.info("Running the development server")
 
-    run_command(("cargo", "watch", "-x", "run"), cwd=CWD)
+    run_command(("cargo", "watch", "-x", "run"))
 
 
 def _release() -> None:
@@ -46,7 +48,7 @@ def _release() -> None:
 
     start = perf_counter()
 
-    run_command(("cargo", "build", "--release"), cwd=CWD)
+    run_command(("cargo", "build", "--release"))
 
     elapsed = perf_counter() - start
 
@@ -64,7 +66,7 @@ def main(args: Args) -> None:
         _release()
 
     if args.run:
-        run_command(("./target/release/backend"), cwd=CWD)
+        run_command(("./target/release/backend"))
 
 
 def parse_args() -> Args:
