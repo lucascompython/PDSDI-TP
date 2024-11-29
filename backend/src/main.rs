@@ -7,6 +7,7 @@ mod db;
 mod json_utils;
 
 use actix_web::{get, web, App, HttpServer, Responder};
+use db::get_color_by_id;
 use json_utils::{json_response, Json};
 use serde::{Deserialize, Serialize};
 
@@ -50,6 +51,25 @@ async fn main() -> std::io::Result<()> {
 
     println!("Database schema applied!");
     println!("Server running at http://127.0.0.1:1234");
+
+    let stmt = client.prepare("SELECT * FROM colors").await.unwrap();
+    let rows = client.query(&stmt, &[]).await.unwrap();
+    for row in rows {
+        let color_id: i32 = row.get(0);
+        let color_name: String = row.get(1);
+        println!("color_id: {}, color_name: {}", color_id, color_name);
+    }
+
+    let stmt = client.prepare("SELECT * FROM categories").await.unwrap();
+    let rows = client.query(&stmt, &[]).await.unwrap();
+    for row in rows {
+        let category_id: i32 = row.get(0);
+        let category_name: String = row.get(1);
+        println!(
+            "category_id: {}, category_name: {}",
+            category_id, category_name
+        );
+    }
 
     HttpServer::new(|| App::new().service(index))
         .bind(("127.0.0.1", 1234))?
