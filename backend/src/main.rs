@@ -45,8 +45,8 @@ async fn main() -> std::io::Result<()> {
     });
 
     client.batch_execute(DB_SCHEMA).await.unwrap();
-    println!("Database schema applied!");
 
+    println!("Database schema applied!");
     println!("Server running at http://127.0.0.1:1234");
 
     HttpServer::new(|| App::new().service(index))

@@ -9,7 +9,7 @@ where
     T: DeserializeOwned,
 {
     pub fn from_bytes(bytes: web::Bytes) -> Result<Self, sonic_rs::Error> {
-        let obj = sonic_rs::from_slice(&bytes).unwrap();
+        let obj = unsafe { sonic_rs::from_slice_unchecked(&bytes).unwrap() }; // Assuming the bytes are valid JSON
         Ok(Json(obj))
     }
 }
