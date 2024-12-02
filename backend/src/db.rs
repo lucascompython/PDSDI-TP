@@ -115,10 +115,7 @@ impl DbClient {
             get_outfit_clothing_items,
         };
 
-        Ok(Self {
-            client,
-            statements: statements,
-        })
+        Ok(Self { client, statements })
     }
 
     pub async fn insert_user(&self, user: &User) -> Result<u64, tokio_postgres::Error> {
