@@ -1,5 +1,7 @@
 use serde::{Deserialize, Serialize};
-use tokio_postgres::Client;
+use tokio_postgres::{Client, Statement};
+
+const DB_SCHEMA: &str = include_str!("../sql/schema.sql");
 
 #[derive(Serialize, Deserialize)]
 pub struct User {
@@ -46,161 +48,169 @@ pub struct OutfitClothingItem {
     pub clothing_item_id: i32,
 }
 
-pub async fn insert_user(client: &Client, user: &User) -> Result<u64, tokio_postgres::Error> {
-    let stmt = client
-        .prepare("INSERT INTO users (username, email, password, is_admin) VALUES ($1, $2, $3, $4)")
-        .await?;
-    client
-        .execute(
-            &stmt,
-            &[&user.username, &user.email, &user.password, &user.is_admin],
+pub struct DbStatements {
+    pub insert_user: Statement,
+    pub get_user_by_id: Statement,
+    pub insert_color: Statement,
+    pub get_color_by_id: Statement,
+    pub insert_category: Statement,
+    pub get_category_by_id: Statement,
+    pub insert_clothing_item: Statement,
+    pub get_clothing_item_by_id: Statement,
+    pub insert_outfit: Statement,
+    pub get_outfit_by_id: Statement,
+    pub insert_outfit_clothing_item: Statement,
+    pub get_outfit_clothing_items: Statement,
+}
+
+pub struct DbClient {
+    client: Client,
+    statements: DbStatements,
+}
+
+impl DbClient {
+    pub async fn new() -> Result<Self, tokio_postgres::Error> {
+        let (client, connection) = tokio_postgres::connect(
+            "host=localhost user=pdsdi dbname=clothe_match password=pdsdi",
+            tokio_postgres::NoTls,
         )
         .await
-}
+        .unwrap();
+        tokio::spawn(async move {
+            if let Err(e) = connection.await {
+                eprintln!("connection error: {}", e);
+            }
+        });
 
-pub async fn get_user_by_id(client: &Client, user_id: i32) -> Result<User, tokio_postgres::Error> {
-    let stmt = client
-        .prepare(
-            "SELECT user_id, username, email, password, is_admin FROM users WHERE user_id = $1",
-        )
-        .await?;
-    let row = client.query_one(&stmt, &[&user_id]).await?;
-    Ok(User {
-        user_id: row.get(0),
-        username: row.get(1),
-        email: row.get(2),
-        password: row.get(3),
-        is_admin: row.get(4),
-    })
-}
+        let (_, insert_user, get_user_by_id, insert_color, get_color_by_id, insert_category, get_category_by_id, insert_clothing_item, get_clothing_item_by_id, insert_outfit, get_outfit_by_id, insert_outfit_clothing_item, get_outfit_clothing_items) = tokio::try_join!(
+            client.batch_execute(DB_SCHEMA),
+            client.prepare("INSERT INTO users (username, email, password, is_admin) VALUES ($1, $2, $3, $4)"),
+            client.prepare("SELECT user_id, username, email, password, is_admin FROM users WHERE user_id = $1"),
+            client.prepare("INSERT INTO colors (color_name) VALUES ($1)"),
+            client.prepare("SELECT color_id, color_name FROM colors WHERE color_id = $1"),
+            client.prepare("INSERT INTO categories (category_name) VALUES ($1)"),
+            client.prepare("SELECT category_id, category_name FROM categories WHERE category_id = $1"),
+            client.prepare("INSERT INTO clothing_items (name, color_id, category_id, user_id, is_hot_weather) VALUES ($1, $2, $3, $4, $5)"),
+            client.prepare("SELECT clothing_item_id, name, color_id, category_id, user_id, is_hot_weather FROM clothing_items WHERE clothing_item_id = $1"),
+            client.prepare("INSERT INTO outfits (name, user_id) VALUES ($1, $2)"),
+            client.prepare("SELECT outfit_id, name, created_at, user_id FROM outfits WHERE outfit_id = $1"),
+            client.prepare("INSERT INTO outfit_clothing_items (outfit_id, clothing_item_id) VALUES ($1, $2)"),
+            client.prepare("SELECT ci.clothing_item_id, ci.name, ci.color_id, ci.category_id, ci.user_id, ci.is_hot_weather FROM clothing_items ci JOIN outfit_clothing_items oci ON ci.clothing_item_id = oci.clothing_item_id WHERE oci.outfit_id = $1")
+        )?;
 
-pub async fn insert_color(client: &Client, color: &Color) -> Result<u64, tokio_postgres::Error> {
-    let stmt = client
-        .prepare("INSERT INTO colors (color_name) VALUES ($1)")
-        .await?;
-    client.execute(&stmt, &[&color.color_name]).await
-}
+        println!("Database schema applied!");
 
-pub async fn get_color_by_id(
-    client: &Client,
-    color_id: i32,
-) -> Result<Color, tokio_postgres::Error> {
-    let stmt = client
-        .prepare("SELECT color_id, color_name FROM colors WHERE color_id = $1")
-        .await?;
-    let row = client.query_one(&stmt, &[&color_id]).await?;
-    Ok(Color {
-        color_id: row.get(0),
-        color_name: row.get(1),
-    })
-}
+        let statements = DbStatements {
+            insert_user,
+            get_user_by_id,
+            insert_color,
+            get_color_by_id,
+            insert_category,
+            get_category_by_id,
+            insert_clothing_item,
+            get_clothing_item_by_id,
+            insert_outfit,
+            get_outfit_by_id,
+            insert_outfit_clothing_item,
+            get_outfit_clothing_items,
+        };
 
-pub async fn insert_category(
-    client: &Client,
-    category: &Category,
-) -> Result<u64, tokio_postgres::Error> {
-    let stmt = client
-        .prepare("INSERT INTO categories (category_name) VALUES ($1)")
-        .await?;
-    client.execute(&stmt, &[&category.category_name]).await
-}
+        Ok(Self {
+            client,
+            statements: statements,
+        })
+    }
 
-pub async fn get_category_by_id(
-    client: &Client,
-    category_id: i32,
-) -> Result<Category, tokio_postgres::Error> {
-    let stmt = client
-        .prepare("SELECT category_id, category_name FROM categories WHERE category_id = $1")
-        .await?;
-    let row = client.query_one(&stmt, &[&category_id]).await?;
-    Ok(Category {
-        category_id: row.get(0),
-        category_name: row.get(1),
-    })
-}
+    pub async fn insert_user(&self, user: &User) -> Result<u64, tokio_postgres::Error> {
+        self.client
+            .execute(
+                &self.statements.insert_user,
+                &[&user.username, &user.email, &user.password, &user.is_admin],
+            )
+            .await
+    }
 
-pub async fn insert_clothing_item(
-    client: &Client,
-    item: &ClothingItem,
-) -> Result<u64, tokio_postgres::Error> {
-    let stmt = client.prepare("INSERT INTO clothing_items (name, color_id, category_id, user_id, is_hot_weather) VALUES ($1, $2, $3, $4, $5)").await?;
-    client
-        .execute(
-            &stmt,
-            &[
-                &item.name,
-                &item.color_id,
-                &item.category_id,
-                &item.user_id,
-                &item.is_hot_weather,
-            ],
-        )
-        .await
-}
+    pub async fn get_user_by_id(&self, user_id: i32) -> Result<User, tokio_postgres::Error> {
+        let row = self
+            .client
+            .query_one(&self.statements.get_user_by_id, &[&user_id])
+            .await?;
+        Ok(User {
+            user_id: row.get(0),
+            username: row.get(1),
+            email: row.get(2),
+            password: row.get(3),
+            is_admin: row.get(4),
+        })
+    }
 
-pub async fn get_clothing_item_by_id(
-    client: &Client,
-    clothing_item_id: i32,
-) -> Result<ClothingItem, tokio_postgres::Error> {
-    let stmt = client.prepare("SELECT clothing_item_id, name, color_id, category_id, user_id, is_hot_weather FROM clothing_items WHERE clothing_item_id = $1").await?;
-    let row = client.query_one(&stmt, &[&clothing_item_id]).await?;
-    Ok(ClothingItem {
-        clothing_item_id: row.get(0),
-        name: row.get(1),
-        color_id: row.get(2),
-        category_id: row.get(3),
-        user_id: row.get(4),
-        is_hot_weather: row.get(5),
-    })
-}
+    pub async fn insert_color(&self, color: &Color) -> Result<u64, tokio_postgres::Error> {
+        self.client
+            .execute(&self.statements.insert_color, &[&color.color_name])
+            .await
+    }
 
-pub async fn insert_outfit(client: &Client, outfit: &Outfit) -> Result<u64, tokio_postgres::Error> {
-    let stmt = client
-        .prepare("INSERT INTO outfits (name, user_id) VALUES ($1, $2)")
-        .await?;
-    client
-        .execute(&stmt, &[&outfit.name, &outfit.user_id])
-        .await
-}
+    pub async fn get_color_by_id(&self, color_id: i32) -> Result<Color, tokio_postgres::Error> {
+        let row = self
+            .client
+            .query_one(&self.statements.get_color_by_id, &[&color_id])
+            .await?;
+        Ok(Color {
+            color_id: row.get(0),
+            color_name: row.get(1),
+        })
+    }
 
-pub async fn get_outfit_by_id(
-    client: &Client,
-    outfit_id: i32,
-) -> Result<Outfit, tokio_postgres::Error> {
-    let stmt = client
-        .prepare("SELECT outfit_id, name, created_at, user_id FROM outfits WHERE outfit_id = $1")
-        .await?;
-    let row = client.query_one(&stmt, &[&outfit_id]).await?;
-    Ok(Outfit {
-        outfit_id: row.get(0),
-        name: row.get(1),
-        created_at: row.get(2),
-        user_id: row.get(3),
-    })
-}
+    pub async fn insert_category(&self, category: &Category) -> Result<u64, tokio_postgres::Error> {
+        self.client
+            .execute(&self.statements.insert_category, &[&category.category_name])
+            .await
+    }
 
-pub async fn insert_outfit_clothing_item(
-    client: &Client,
-    outfit_id: i32,
-    clothing_item_id: i32,
-) -> Result<u64, tokio_postgres::Error> {
-    let stmt = client
-        .prepare("INSERT INTO outfit_clothing_items (outfit_id, clothing_item_id) VALUES ($1, $2)")
-        .await?;
-    client
-        .execute(&stmt, &[&outfit_id, &clothing_item_id])
-        .await
-}
+    pub async fn get_category_by_id(
+        &self,
+        category_id: i32,
+    ) -> Result<Category, tokio_postgres::Error> {
+        let row = self
+            .client
+            .query_one(&self.statements.get_category_by_id, &[&category_id])
+            .await?;
+        Ok(Category {
+            category_id: row.get(0),
+            category_name: row.get(1),
+        })
+    }
 
-pub async fn get_outfit_clothing_items(
-    client: &Client,
-    outfit_id: i32,
-) -> Result<Vec<ClothingItem>, tokio_postgres::Error> {
-    let stmt = client.prepare("SELECT ci.clothing_item_id, ci.name, ci.color_id, ci.category_id, ci.user_id, ci.is_hot_weather FROM clothing_items ci JOIN outfit_clothing_items oci ON ci.clothing_item_id = oci.clothing_item_id WHERE oci.outfit_id = $1").await?;
-    let rows = client.query(&stmt, &[&outfit_id]).await?;
-    Ok(rows
-        .iter()
-        .map(|row| ClothingItem {
+    pub async fn insert_clothing_item(
+        &self,
+        item: &ClothingItem,
+    ) -> Result<u64, tokio_postgres::Error> {
+        self.client
+            .execute(
+                &self.statements.insert_clothing_item,
+                &[
+                    &item.name,
+                    &item.color_id,
+                    &item.category_id,
+                    &item.user_id,
+                    &item.is_hot_weather,
+                ],
+            )
+            .await
+    }
+
+    pub async fn get_clothing_item_by_id(
+        &self,
+        clothing_item_id: i32,
+    ) -> Result<ClothingItem, tokio_postgres::Error> {
+        let row = self
+            .client
+            .query_one(
+                &self.statements.get_clothing_item_by_id,
+                &[&clothing_item_id],
+            )
+            .await?;
+        Ok(ClothingItem {
             clothing_item_id: row.get(0),
             name: row.get(1),
             color_id: row.get(2),
@@ -208,5 +218,61 @@ pub async fn get_outfit_clothing_items(
             user_id: row.get(4),
             is_hot_weather: row.get(5),
         })
-        .collect())
+    }
+
+    pub async fn insert_outfit(&self, outfit: &Outfit) -> Result<u64, tokio_postgres::Error> {
+        self.client
+            .execute(
+                &self.statements.insert_outfit,
+                &[&outfit.name, &outfit.user_id],
+            )
+            .await
+    }
+
+    pub async fn get_outfit_by_id(&self, outfit_id: i32) -> Result<Outfit, tokio_postgres::Error> {
+        let row = self
+            .client
+            .query_one(&self.statements.get_outfit_by_id, &[&outfit_id])
+            .await?;
+        Ok(Outfit {
+            outfit_id: row.get(0),
+            name: row.get(1),
+            created_at: row.get(2),
+            user_id: row.get(3),
+        })
+    }
+
+    pub async fn insert_outfit_clothing_item(
+        &self,
+        outfit_id: i32,
+        clothing_item_id: i32,
+    ) -> Result<u64, tokio_postgres::Error> {
+        self.client
+            .execute(
+                &self.statements.insert_outfit_clothing_item,
+                &[&outfit_id, &clothing_item_id],
+            )
+            .await
+    }
+
+    pub async fn get_outfit_clothing_items(
+        &self,
+        outfit_id: i32,
+    ) -> Result<Vec<ClothingItem>, tokio_postgres::Error> {
+        let rows = self
+            .client
+            .query(&self.statements.get_outfit_clothing_items, &[&outfit_id])
+            .await?;
+        Ok(rows
+            .iter()
+            .map(|row| ClothingItem {
+                clothing_item_id: row.get(0),
+                name: row.get(1),
+                color_id: row.get(2),
+                category_id: row.get(3),
+                user_id: row.get(4),
+                is_hot_weather: row.get(5),
+            })
+            .collect())
+    }
 }

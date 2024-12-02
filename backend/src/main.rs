@@ -7,11 +7,9 @@ mod db;
 mod json_utils;
 
 use actix_web::{get, web, App, HttpServer, Responder};
-use db::get_color_by_id;
+use db::DbClient;
 use json_utils::{json_response, Json};
 use serde::{Deserialize, Serialize};
-
-const DB_SCHEMA: &str = include_str!("../sql/schema.sql");
 
 #[derive(Serialize, Deserialize)]
 struct MyObj {
@@ -35,41 +33,13 @@ async fn index(data: web::Bytes) -> impl Responder {
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-    let (client, connection) = tokio_postgres::connect(
-        "host=localhost user=pdsdi dbname=clothe_match password=pdsdi",
-        tokio_postgres::NoTls,
-    )
-    .await
-    .unwrap();
-    tokio::spawn(async move {
-        if let Err(e) = connection.await {
-            eprintln!("connection error: {}", e);
-        }
-    });
+    let client = DbClient::new().await.unwrap();
 
-    client.batch_execute(DB_SCHEMA).await.unwrap();
+    let first_color = client.get_color_by_id(1).await.unwrap();
 
-    println!("Database schema applied!");
+    println!("first_color: {}", first_color.color_name);
+
     println!("Server running at http://127.0.0.1:1234");
-
-    let stmt = client.prepare("SELECT * FROM colors").await.unwrap();
-    let rows = client.query(&stmt, &[]).await.unwrap();
-    for row in rows {
-        let color_id: i32 = row.get(0);
-        let color_name: String = row.get(1);
-        println!("color_id: {}, color_name: {}", color_id, color_name);
-    }
-
-    let stmt = client.prepare("SELECT * FROM categories").await.unwrap();
-    let rows = client.query(&stmt, &[]).await.unwrap();
-    for row in rows {
-        let category_id: i32 = row.get(0);
-        let category_name: String = row.get(1);
-        println!(
-            "category_id: {}, category_name: {}",
-            category_id, category_name
-        );
-    }
 
     HttpServer::new(|| App::new().service(index))
         .bind(("127.0.0.1", 1234))?
