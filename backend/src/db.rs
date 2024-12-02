@@ -1,9 +1,7 @@
-use serde::{Deserialize, Serialize};
 use tokio_postgres::{Client, Statement};
 
 const DB_SCHEMA: &str = include_str!("../sql/schema.sql");
 
-#[derive(Serialize, Deserialize)]
 pub struct User {
     pub user_id: i32,
     pub username: String,
@@ -12,19 +10,16 @@ pub struct User {
     pub is_admin: bool,
 }
 
-#[derive(Serialize, Deserialize)]
 pub struct Color {
     pub color_id: i32,
     pub color_name: String,
 }
 
-#[derive(Serialize, Deserialize)]
 pub struct Category {
     pub category_id: i32,
     pub category_name: String,
 }
 
-#[derive(Serialize, Deserialize)]
 pub struct ClothingItem {
     pub clothing_item_id: i32,
     pub name: String,
@@ -34,7 +29,6 @@ pub struct ClothingItem {
     pub is_hot_weather: bool,
 }
 
-#[derive(Serialize, Deserialize)]
 pub struct Outfit {
     pub outfit_id: i32,
     pub name: String,
@@ -42,7 +36,6 @@ pub struct Outfit {
     pub user_id: i32,
 }
 
-#[derive(Serialize, Deserialize)]
 pub struct OutfitClothingItem {
     pub outfit_id: i32,
     pub clothing_item_id: i32,
