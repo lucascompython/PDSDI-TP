@@ -55,6 +55,12 @@ def _release() -> None:
     Colors.success(f"Built the release version in {elapsed:.2f} seconds")
 
 
+def _run() -> None:
+    Colors.info("Running the release version")
+
+    run_command(("./target/release/backend"))
+
+
 def main(args: Args) -> None:
 
     if args.clean:
@@ -66,7 +72,7 @@ def main(args: Args) -> None:
         _release()
 
     if args.run:
-        run_command(("./target/release/backend"))
+        _run()
 
 
 def parse_args() -> Args:
@@ -95,6 +101,7 @@ def parse_args() -> Args:
         help="Clean the target directory",
     )
     parser.add_argument(
+        "-R",
         "--run",
         action="store_true",
         help="Run the release application",

@@ -142,6 +142,11 @@ def _release(args: Args) -> None:
     Colors.success(f"Binary size: {size}")
 
 
+def _run() -> None:
+    Colors.info("Running the release version")
+    run_command((f"target/{TARGET}/release/{APP_NAME}",))
+
+
 def main(args: Args) -> None:
     global TARGET
     if args.mobile:
@@ -168,7 +173,7 @@ def main(args: Args) -> None:
         _release(args)
 
     if args.run:
-        run_command((f"target/{TARGET}/release/{APP_NAME}",))
+        _run()
 
 
 def parse_args() -> Args:
@@ -212,6 +217,7 @@ def parse_args() -> Args:
         help="Compress the binary with UPX",
     )
     parser.add_argument(
+        "-R",
         "--run",
         action="store_true",
         help="Run the release application",
