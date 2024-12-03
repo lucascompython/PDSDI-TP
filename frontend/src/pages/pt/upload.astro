@@ -14,7 +14,7 @@ const t = useTranslations(getLangFromUrl(Astro.url));
   <main>
     <NavBar />
     <div>
-        <UploadButton client:load />
+      <UploadButton client:load />
       <span class="subtitle">{t("nav.upload")}</span>
     </div>
 
@@ -38,7 +38,7 @@ const t = useTranslations(getLangFromUrl(Astro.url));
     text-align: center;
   }
   .subtitle {
-    display: block;2
+    display: block;
     font-size: 0.9rem;
     color: #666;
     padding-top: 1rem;
