@@ -23,6 +23,7 @@ class Args:
     dev: bool
     release: bool
     clean: bool
+    run: bool
 
 
 def _clean() -> None:
@@ -75,6 +76,11 @@ def _release() -> None:
     )
 
 
+def _run() -> None:
+    Colors.info("Running the production build")
+    run_command(("bunx", "--bun", "astro", "preview", "--host"))
+
+
 def main(args: Args) -> None:
     if args.clean:
         _clean()
@@ -87,6 +93,9 @@ def main(args: Args) -> None:
         run_command(("bun", "install"))
         _copy_files()
         _release()
+
+    if args.run:
+        _run()
 
 
 def parse_args() -> Args:
@@ -113,6 +122,12 @@ def parse_args() -> Args:
         "--clean",
         action="store_true",
         help="Clean the dist and node_modules directories",
+    )
+    parser.add_argument(
+        "-R",
+        "--run",
+        action="store_true",
+        help="Run the production build",
     )
 
     if len(sys.argv) == 1:
