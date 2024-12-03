@@ -115,7 +115,7 @@ def _release(args: Args) -> None:
                 "-Z",
                 "trim-paths",
             ]
-        )
+        )  # TODO: Check if these optimizations are valid for mobile
 
     if args.native:
         rustflags.append("-C target-cpu=native")
@@ -167,7 +167,11 @@ def main(args: Args) -> None:
     if args.build_frontend:
         from frontend import make as frontend_make
 
-        frontend_make.main()
+        frontend_args = frontend_make.Args(
+            dev=args.dev, release=args.release, clean=args.clean, run=False
+        )
+
+        frontend_make.main(frontend_args)
 
     if args.release:
         _release(args)

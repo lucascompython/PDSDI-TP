@@ -11,7 +11,7 @@ if "frontend" in os.getcwd():  # Make utils module always available
     sys.path.append("..")
     CWD = "."
 else:
-    CWD = "frontend"
+    CWD = "frontend"  # TODO: make sure this works in the app make script
 
 from utils import Colors, use_run_command
 

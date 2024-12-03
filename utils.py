@@ -35,12 +35,16 @@ class Colors:
         print(f"{Colors.GREEN}SUCCESS:{Colors.RESET} {string}")
 
 
-def use_run_command(cwd: str) -> Callable[[tuple[str], Any], None]:
-    def run_command(command: tuple[str], **kwargs) -> None:
+def use_run_command(cwd: str) -> Callable[[tuple[str, ...], Any], None]:
+    def run_command(command: tuple[str, ...], **kwargs) -> None:
         try:
             subprocess.run(command, **kwargs, check=True, cwd=cwd)
         except (FileNotFoundError, subprocess.CalledProcessError) as e:
-            Colors.error(e)
+            if isinstance(e, subprocess.CalledProcessError) and (
+                e.returncode == 2 or e.returncode == 130 or e.returncode == -2
+            ):  # do not print error on SIGINT
+                sys.exit(1)
+            Colors.error(f"{e}\nFailed to run command: {command}")
             sys.exit(1)
 
     return run_command

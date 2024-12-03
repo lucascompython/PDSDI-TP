@@ -1,6 +1,0 @@
-[build]
-build-std = ["std", "panic_abort"]
-build-std-features = ["panic_immediate_abort", "optimize-for_size"]
-trim-paths = true
-location-detail = "none"
-fmt-debug = "none"
