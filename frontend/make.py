@@ -7,13 +7,18 @@ from shutil import rmtree
 from time import perf_counter
 from shutil import copyfile
 
-if "frontend" in os.getcwd():  # Make utils module always available
+cwd = os.getcwd()
+
+if "frontend" in cwd:  # Make utils module always available
     sys.path.append("..")
     CWD = "."
+elif "app" in cwd:
+    sys.path.append("..")
+    CWD = "../frontend"
 else:
-    CWD = "frontend"  # TODO: make sure this works in the app make script
+    CWD = "frontend"
 
-from utils import Colors, use_run_command
+from utils import Colors, use_run_command  # noqa: E402
 
 run_command = use_run_command(CWD)
 
@@ -58,7 +63,6 @@ def _copy_files() -> None:
 
 def _dev() -> None:
     Colors.info("Running the development server")
-
     run_command(("bunx", "--bun", "astro", "dev"))
 
 

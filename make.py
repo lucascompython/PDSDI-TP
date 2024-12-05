@@ -11,8 +11,6 @@ from frontend import make as frontend_make
 from model import make as model_make
 from utils import Colors
 
-# TODO: Add prefix for each project on logs
-
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Build the entire project")
@@ -108,7 +106,7 @@ def release(
 
     elapsed = perf_counter() - start
     Colors.success(
-        f"Built the release version of {', '.join(projects)} in {elapsed:.2f} seconds"
+        f"Built the release version of {Colors.UNDERLINE}{', '.join(projects)}{Colors.RESET} in {elapsed:.2f} seconds"
     )
 
 
@@ -132,6 +130,29 @@ def run(
         Colors.info("Running projects...")
 
 
+def clean(
+    projects: tuple[str, ...],
+    frontend_args: frontend_make.Args,
+    backend_args: backend_make.Args,
+    app_args: app_make.Args,
+) -> None:
+    start = perf_counter()
+    with concurrent.futures.ThreadPoolExecutor() as executor:
+        if "app" in projects:
+            app_args.smallest = False
+            executor.submit(app_make.main, app_args)
+        if "frontend" in projects:
+            executor.submit(frontend_make.main, frontend_args)
+        if "backend" in projects:
+            executor.submit(backend_make.main, backend_args)
+
+    elapsed = perf_counter() - start
+
+    Colors.success(
+        f"Cleaned {Colors.UNDERLINE}{', '.join(projects)}{Colors.RESET} in {elapsed:.2f} seconds"
+    )
+
+
 def main() -> None:
     args = parse_args()
     frontend_args = frontend_make.Args(
@@ -152,6 +173,9 @@ def main() -> None:
         upx=False,
         nightly=False,
     )
+
+    if args.clean:
+        clean(args.projects, frontend_args, backend_args, app_args)
 
     if args.dev:
         dev(args.projects, frontend_args, backend_args, app_args)

@@ -164,7 +164,7 @@ def main(args: Args) -> None:
     if args.dev:
         _dev(args.mobile)
 
-    if args.build_frontend:
+    if args.build_frontend and args.release:
         from frontend import make as frontend_make
 
         frontend_args = frontend_make.Args(
