@@ -7,7 +7,7 @@ import {
 import LanguagePicker from "./LanguagePicker.astro";
 import ThemeIcon from "./ThemeIcon.astro";
 import SettingsIcon from "./SettingsIcon.astro";
-import Eye from "./Eye.astro";
+import EyeIcon from "./EyeIcon.astro";
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 const translatePath = useTranslatedPath(lang);
@@ -20,7 +20,7 @@ const translatePath = useTranslatedPath(lang);
     </a>
     <a href={translatePath("/clothes")}>
       <div class="center-img">
-        <Eye />
+        <EyeIcon />
       </div>
     </a>
 
