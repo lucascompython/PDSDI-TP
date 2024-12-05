@@ -15,3 +15,10 @@
   - Android SDK Build-Tools
   - Android SDK Command-line Tools
 - android target - `rustup target add aarch64-linux-android`
+
+## Run the project
+
+```bash
+# after cloning and changing into the project directory
+./make.py --help
+```
