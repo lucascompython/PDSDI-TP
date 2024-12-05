@@ -13,7 +13,10 @@ from utils import Colors
 
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Build the entire project")
+    parser = argparse.ArgumentParser(
+        description="Main make script used to build the different parts of the project.\nYou may want to build the projects with more control by using the make scripts in the respective subdirectories.",
+        formatter_class=argparse.RawTextHelpFormatter,
+    )
 
     group = parser.add_mutually_exclusive_group()
 
