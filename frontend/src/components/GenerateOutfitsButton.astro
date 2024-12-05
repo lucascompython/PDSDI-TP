@@ -4,7 +4,7 @@ import GenerateOutfitButton from "./Generate_Outfit_Icon.astro";
 const translatePath = useTranslatedPath(getLangFromUrl(Astro.url));
 ---
 
-<a href="/outfit">
+<a href={translatePath("/outfit")}>
   <GenerateOutfitButton />
 </a>
 

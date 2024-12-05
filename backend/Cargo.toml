@@ -9,7 +9,7 @@ authors = [
 [dependencies]
 chrono = { version = "0.4.38", default-features = false }
 actix-web = "4"
-faststr = "0.2.23"
+faststr = "0.2.27"
 mimalloc = "0.1.43"
 serde = { version = "1", default-features = true }
 sonic-rs = "0.3.16"
