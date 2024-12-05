@@ -1,5 +1,11 @@
-<a href="/generate_outfit">
-  <img src="/generate_outfit_button.svg" alt="Add" />
+---
+import { getLangFromUrl, useTranslatedPath } from "src/i18n/utils";
+import GenerateOutfitButton from "./Generate_Outfit_Icon.astro";
+const translatePath = useTranslatedPath(getLangFromUrl(Astro.url));
+---
+
+<a href="/outfit">
+  <GenerateOutfitButton />
 </a>
 
 <style>

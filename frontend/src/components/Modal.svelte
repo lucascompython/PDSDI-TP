@@ -1,18 +1,12 @@
 <script>
-  let { header, children } = $props();
+  let { showModal = $bindable(), header, children } = $props();
 
   let dialog = $state(); // HTMLDialogElement
 
   $effect(() => {
     if (showModal) dialog.showModal();
   });
-
-  let showModal = $state(false);
 </script>
-
-<button onclick={() => (showModal = true)}>
-  <img src="/plus_square.svg" alt="Add" />
-</button>
 
 <!-- svelte-ignore a11y_click_events_have_key_events, a11y_no_noninteractive_element_interactions -->
 <dialog
@@ -38,10 +32,10 @@
     border-radius: 0.2em;
     border: none;
     padding: 0;
-    background-color: black;
+    background-color: var(--bg-color);
   }
   dialog::backdrop {
-    background: black;
+    background: var(--bg-color);
   }
   dialog > div {
     padding: 1em;
@@ -70,12 +64,5 @@
   }
   button {
     display: block;
-    margin: auto;
-    width: 200px;
-    height: 200px;
-    background: none;
-    border: none;
-    padding: 0;
-    cursor: pointer;
   }
 </style>
