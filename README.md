@@ -22,3 +22,11 @@
 # after cloning and changing into the project directory
 ./make.py --help
 ```
+
+## Notes
+
+Each dependency was chosen very carefully to make the project as fast as possible:
+
+- [tokio_postgres](https://crates.io/crates/tokio-postgres) was chosen because it is the fastest postgres driver for rust.
+
+- [argon2-kdf](https://crates.io/crates/argon2-kdf) was chosen because after making our own [benchmarks](https://github.com/lucascompython/argon2-bench-rust) we observed that argon2-kdf was the fastest.
