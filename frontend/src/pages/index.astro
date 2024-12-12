@@ -34,6 +34,7 @@ const t = useTranslations(getLangFromUrl(Astro.url));
       /* margin: auto; */
       /* width: 800px; */
       /* max-width: calc(100% - 2rem); */
+      background-color: #d9d9d9;
       color: white;
       display: flex;
       flex-direction: column;
@@ -52,14 +53,13 @@ const t = useTranslations(getLangFromUrl(Astro.url));
       flex-direction: column;
     }
     .buttons {
-      background-color: #d9d9d9;
       align-items: center;
       justify-content: center;
     }
     .top {
       border-bottom: 3px solid #b3b1b1;
     }
-    :global(.dark) .left {
+    :global(.dark) main {
       background-color: #0d1117;
     }
     .right {

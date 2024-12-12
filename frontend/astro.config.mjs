@@ -3,7 +3,9 @@ import { defineConfig } from "astro/config";
 
 import svelte from "@astrojs/svelte";
 
+import tailwind from "@astrojs/tailwind";
+
 // https://astro.build/config
 export default defineConfig({
-  integrations: [svelte(), (await import("@playform/compress")).default()],
+  integrations: [svelte(),  tailwind(), (await import("@playform/compress")).default()],
 });

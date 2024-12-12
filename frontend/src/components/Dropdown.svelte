@@ -1,40 +1,17 @@
-<script>
-  import DropdownIcon from "./DropdownIcon.svelte";
+<!-- COR BACKGROUND -->
 
-  let isDropdownOpen = false; // default state (dropdown close)
-
-  const handleDropdownClick = () => {
-    isDropdownOpen = !isDropdownOpen; // togle state on click
-  };
-
-  const handleDropdownFocusLoss = ({ relatedTarget, currentTarget }) => {
-    // use "focusout" event to ensure that we can close the dropdown when clicking outside or when we leave the dropdown with the "Tab" button
-    if (
-      relatedTarget instanceof HTMLElement &&
-      currentTarget.contains(relatedTarget)
-    )
-      return; // check if the new focus target doesn't present in the dropdown tree (exclude ul\li padding area because relatedTarget, in this case, will be null)
-    isDropdownOpen = false;
-  };
-</script>
-
-<div class="dropdown" on:focusout={handleDropdownFocusLoss}>
-  <button on:click={handleDropdownClick}>
-    <DropdownIcon />
-  </button>
+<details class="dropdown">
+  <summary class="btn m-1">Colors</summary>
   <ul
-    class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52"
-    style:visibility={isDropdownOpen ? "visible" : "hidden"}
+    class="menu dropdown-content bg-base-100 rounded-box z-[1] w-52 p-2 shadow"
   >
-    <li><button class="btn text-slate-300">Item 1</button></li>
-    <li><button class="btn text-slate-300">Item 2</button></li>
+    <li><a>Item 1</a></li>
+    <li><a>Item 2</a></li>
   </ul>
-</div>
+</details>
 
 <style>
-  .dropdown {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  a {
+    color: var(--text-color);
   }
 </style>
