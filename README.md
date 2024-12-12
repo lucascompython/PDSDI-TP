@@ -30,3 +30,11 @@ Each dependency was chosen very carefully to make the project as fast as possibl
 - [tokio_postgres](https://crates.io/crates/tokio-postgres) was chosen because it is the fastest postgres driver for rust.
 
 - [argon2-kdf](https://crates.io/crates/argon2-kdf) was chosen because after making our own [benchmarks](https://github.com/lucascompython/argon2-bench-rust) we observed that argon2-kdf was the fastest.
+
+- [sonic-rs](https://crates.io/crates/sonic-rs) was chosen because it is the fastest json serializer and deserializer.
+
+- [bun](https://bun.sh/) was chosen because it is the fastest JS runtime.
+
+- [astro](https://astro.build/) was chosen because it is the fastest meta-framework.
+
+- [svelte](https://svelte.dev/) was chosen because it is one of the fastest and most modern JS frameworks.
