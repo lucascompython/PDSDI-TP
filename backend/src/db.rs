@@ -1,12 +1,23 @@
+use thiserror::Error;
+
+use argon2_kdf::Hasher;
 use tokio_postgres::{Client, Statement};
 
 const DB_SCHEMA: &str = include_str!("../sql/schema.sql");
+
+#[derive(Error, Debug)]
+pub enum RegistrationError {
+    #[error("User already exists")]
+    UserAlreadyExists,
+    #[error("Database error")]
+    DatabaseError(#[from] tokio_postgres::Error),
+}
 
 pub struct User {
     pub user_id: i32,
     pub username: String,
     pub email: String,
-    pub password: Vec<u8>,
+    pub password: String,
     pub is_admin: bool,
 }
 
@@ -54,6 +65,7 @@ pub struct DbStatements {
     pub get_outfit_by_id: Statement,
     pub insert_outfit_clothing_item: Statement,
     pub get_outfit_clothing_items: Statement,
+    pub check_user_exists: Statement,
 }
 
 pub struct DbClient {
@@ -75,7 +87,22 @@ impl DbClient {
             }
         });
 
-        let (_, insert_user, get_user_by_id, insert_color, get_color_by_id, insert_category, get_category_by_id, insert_clothing_item, get_clothing_item_by_id, insert_outfit, get_outfit_by_id, insert_outfit_clothing_item, get_outfit_clothing_items) = tokio::try_join!(
+        let (
+            _,
+            insert_user,
+            get_user_by_id,
+            insert_color,
+            get_color_by_id,
+            insert_category,
+            get_category_by_id,
+            insert_clothing_item,
+            get_clothing_item_by_id,
+            insert_outfit,
+            get_outfit_by_id,
+            insert_outfit_clothing_item,
+            get_outfit_clothing_items,
+            check_user_exists,
+        ) = tokio::try_join!(
             client.batch_execute(DB_SCHEMA),
             client.prepare("INSERT INTO users (username, email, password, is_admin) VALUES ($1, $2, $3, $4)"),
             client.prepare("SELECT user_id, username, email, password, is_admin FROM users WHERE user_id = $1"),
@@ -88,7 +115,9 @@ impl DbClient {
             client.prepare("INSERT INTO outfits (name, user_id) VALUES ($1, $2)"),
             client.prepare("SELECT outfit_id, name, created_at, user_id FROM outfits WHERE outfit_id = $1"),
             client.prepare("INSERT INTO outfit_clothing_items (outfit_id, clothing_item_id) VALUES ($1, $2)"),
-            client.prepare("SELECT ci.clothing_item_id, ci.name, ci.color_id, ci.category_id, ci.user_id, ci.is_hot_weather FROM clothing_items ci JOIN outfit_clothing_items oci ON ci.clothing_item_id = oci.clothing_item_id WHERE oci.outfit_id = $1")
+            client.prepare("SELECT ci.clothing_item_id, ci.name, ci.color_id, ci.category_id, ci.user_id, ci.is_hot_weather FROM clothing_items ci JOIN outfit_clothing_items oci ON ci.clothing_item_id = oci.clothing_item_id WHERE oci.outfit_id = $1"),
+            client.prepare("SELECT user_id FROM users WHERE username = $1 OR email = $2")
+
         )?;
 
         println!("Database schema applied!");
@@ -106,9 +135,47 @@ impl DbClient {
             get_outfit_by_id,
             insert_outfit_clothing_item,
             get_outfit_clothing_items,
+            check_user_exists,
         };
 
         Ok(Self { client, statements })
+    }
+
+    pub async fn register_user(
+        &self,
+        username: &str,
+        email: &str,
+        password: &str,
+    ) -> Result<u64, RegistrationError> {
+        let user_exists = self
+            .client
+            .query(&self.statements.check_user_exists, &[&username, &email])
+            .await?;
+
+        if user_exists.len() > 0 {
+            return Err(RegistrationError::UserAlreadyExists);
+        }
+
+        let hash = Hasher::new()
+            .algorithm(argon2_kdf::Algorithm::Argon2id)
+            .salt_length(16)
+            .iterations(4)
+            .memory_cost_kib(65536)
+            .hash_length(32)
+            .threads(4)
+            .hash(password.as_bytes())
+            .unwrap()
+            .to_string();
+
+        Ok(self
+            .insert_user(&User {
+                user_id: 0,
+                username: username.to_string(),
+                email: email.to_string(),
+                password: hash,
+                is_admin: false,
+            })
+            .await?)
     }
 
     pub async fn insert_user(&self, user: &User) -> Result<u64, tokio_postgres::Error> {

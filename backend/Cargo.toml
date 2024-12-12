@@ -19,6 +19,7 @@ tokio = { version = "1", default-features = false, features = [
 ] }
 tokio-postgres = { version = "0.7.12", features = ["with-chrono-0_4"] }
 argon2-kdf = "1.5.3"
+thiserror = "2.0.6"
 
 [profile.release]
 codegen-units = 1 # Allows LLVM to perform better optimization.

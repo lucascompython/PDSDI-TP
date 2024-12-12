@@ -2,7 +2,7 @@ CREATE TABLE IF NOT EXISTS users (
     user_id SERIAL PRIMARY KEY,
     username VARCHAR(50) UNIQUE NOT NULL,
     email VARCHAR(100) UNIQUE NOT NULL,
-    password BYTEA NOT NULL,
+    password VARCHAR(97) NOT NULL,
     is_admin BOOLEAN DEFAULT FALSE
 );
 
