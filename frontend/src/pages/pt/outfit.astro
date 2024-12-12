@@ -1,0 +1,72 @@
+---
+import Layout from "@layouts/Layout.astro";
+import NavBar from "@components/NavBar.astro";
+import Dropdown from "@components/Dropdown.svelte";
+import Footer from "@components/Footer.astro";
+
+import { getLangFromUrl, useTranslations } from "src/i18n/utils";
+const t = useTranslations(getLangFromUrl(Astro.url));
+---
+
+<Layout title="Clothe Match">
+  <main>
+    <NavBar />
+    <div class="split-screen">
+      <div class="left">
+        <div>
+          <Dropdown client:load />
+        </div>
+        <div class="line-horizontal"></div>
+      </div>
+      <div class="right">Right content</div>
+      <div class="line-horizontal"></div>
+    </div>
+    <Footer />
+  </main>
+
+  <style>
+    main {
+      /* margin: auto; */
+      /* width: 800px; */
+      /* max-width: calc(100% - 2rem); */
+      color: white;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      background-color: var(--background-color);
+    }
+    .split-screen {
+      flex: 1;
+      display: flex;
+      width: 100%;
+      position: relative;
+    }
+
+    .left {
+      flex-basis: 50%;
+      display: flex;
+      flex-direction: column;
+    }
+    /* .buttons {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    } */
+    /* .top {
+      border-bottom: 3px solid #b3b1b1;
+    } */
+    :global(.dark) .left {
+      background-color: #0d1117;
+    }
+    .right {
+      border-left: 3px solid #b3b1b1;
+      flex-basis: 50%;
+    }
+    .subtitle {
+      display: block;
+      font-size: 0.9rem;
+      color: var(--text-color);
+      padding-top: 1rem;
+    }
+  </style>
+</Layout>
