@@ -1,8 +1,10 @@
 ---
 import Layout from "@layouts/Layout.astro";
 import NavBar from "@components/NavBarLogin.astro";
-import UploadButton from "@components/Button.svelte";
+import Avatar from "@components/GenericAvatarIcon.astro";
 import Footer from "@components/Footer.astro";
+import Input from "@components/InputLogin.svelte";
+import KEK from "@components/KEK.svelte";
 
 import { getLangFromUrl, useTranslations } from "src/i18n/utils";
 
@@ -13,10 +15,10 @@ const t = useTranslations(getLangFromUrl(Astro.url));
   <main>
     <NavBar />
     <div>
-      <UploadButton client:load />
-      <span class="subtitle">{t("nav.upload")}</span>
+      <Avatar />
+      <Input client:load />
+      <KEK />
     </div>
-
     <Footer />
   </main>
 </Layout>
@@ -33,9 +35,12 @@ const t = useTranslations(getLangFromUrl(Astro.url));
     background-color: #0d1117;
   }
   div {
-    flex: 1;
-    align-content: center;
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     text-align: center;
+    flex: 1;
   }
   .subtitle {
     display: block;
