@@ -8,8 +8,6 @@
   <AddButtonIcon />
 </button>
 
-<!-- Lembrar Traduções Dentro Modal -->
-
 <Modal bind:showModal>
   {#snippet header()}
     <h2 class="color">

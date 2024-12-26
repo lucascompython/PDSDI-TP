@@ -1,0 +1,29 @@
+---
+import LanguagePicker from "./LanguagePicker.astro";
+import ThemeIcon from "./ThemeIcon.astro";
+---
+
+<nav>
+  <div>
+    <LanguagePicker />
+    <ThemeIcon />
+  </div>
+</nav>
+
+<style>
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    box-shadow: 0 2px 4px rgba(63, 62, 62, 0.3);
+    z-index: 1;
+  }
+
+  nav div {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-left: auto;
+  }
+</style>

@@ -1,0 +1,51 @@
+---
+import Layout from "@layouts/Layout.astro";
+import NavBar from "@components/NavBarLogin.astro";
+import Avatar from "@components/GenericAvatarIcon.astro";
+import Footer from "@components/Footer.astro";
+import Input from "@components/InputLogin.svelte";
+import KEK from "@components/KEK.svelte";
+
+import { getLangFromUrl, useTranslations } from "src/i18n/utils";
+
+const t = useTranslations(getLangFromUrl(Astro.url));
+---
+
+<Layout title="Clothe Match">
+  <main>
+    <NavBar />
+    <div>
+      <Avatar />
+      <Input client:load />
+      <KEK />
+    </div>
+    <Footer />
+  </main>
+</Layout>
+
+<style>
+  main {
+    background-color: #d9d9d9;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+  :global(.dark) main {
+    background-color: #0d1117;
+  }
+  div {
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    flex: 1;
+  }
+  .subtitle {
+    display: block;
+    font-size: 0.9rem;
+    color: var(--text-color);
+    padding-top: 1rem;
+  }
+</style>
