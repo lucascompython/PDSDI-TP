@@ -6,7 +6,7 @@ import {
 } from "src/i18n/utils";
 import LanguagePicker from "./LanguagePicker.astro";
 import ThemeIcon from "./ThemeIcon.astro";
-import SettingsIcon from "./ModalSettings.svelte";
+import ModalSettings from "./ModalSettings.svelte";
 import EyeIcon from "./EyeIcon.astro";
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
@@ -14,23 +14,34 @@ const translatePath = useTranslatedPath(lang);
 ---
 
 <nav>
-  <div>
-    <a href={translatePath("/")}>
-      <img src="/logo_trans.svg" alt="ClotheMatch Logo" class="center-img" />
-    </a>
-    <a href={translatePath("/clothes")}>
-      <div class="center-img">
-        <EyeIcon />
-      </div>
-    </a>
+  <div class="center">
+    <div>
+      <a href={translatePath("/")}>
+        <img src="/logo_trans.svg" alt="ClotheMatch Logo" class="center-img" />
+      </a>
+      <a href={translatePath("/clothes")} class="ml-5">
+        <div class="center-img">
+          <EyeIcon />
+        </div>
+      </a>
+    </div>
 
-    <LanguagePicker />
-    <ThemeIcon />
-    <SettingsIcon client:only />
+    <div>
+      <LanguagePicker />
+      <ThemeIcon />
+      <ModalSettings client:load windowLocation={Astro.url} />
+    </div>
   </div>
 </nav>
 
 <style>
+  .center {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
   nav {
     display: flex;
     justify-content: space-between;

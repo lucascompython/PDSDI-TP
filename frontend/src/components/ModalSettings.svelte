@@ -1,9 +1,10 @@
 <script lang="ts">
   import SettingsIcon from "./SettingsIcon.svelte";
   import { getLangFromUrl, useTranslatedPath } from "src/i18n/utils";
-  const translatePath = useTranslatedPath(
-    getLangFromUrl(window.location.pathname),
-  );
+
+  let { windowLocation }: { windowLocation: URL } = $props();
+
+  const translatePath = useTranslatedPath(getLangFromUrl(windowLocation));
 </script>
 
 <!-- Faltam Merdas -->

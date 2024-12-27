@@ -1,6 +1,8 @@
 <script lang="ts">
   import { getLangFromUrl, useTranslations } from "src/i18n/utils";
-  const lang = getLangFromUrl(window.location.pathname);
+
+  let { windowLocation }: { windowLocation: URL } = $props();
+  const lang = getLangFromUrl(windowLocation);
   const t = useTranslations(lang);
 </script>
 

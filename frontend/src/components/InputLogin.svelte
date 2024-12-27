@@ -6,10 +6,11 @@
     useTranslatedPath,
     useTranslations,
   } from "src/i18n/utils";
-  const t = useTranslations(getLangFromUrl(window.location.pathname));
-  const translatePath = useTranslatedPath(
-    getLangFromUrl(window.location.pathname),
-  );
+
+  let { windowLocation }: { windowLocation: URL } = $props();
+  const lang = getLangFromUrl(windowLocation);
+  const t = useTranslations(lang);
+  const translatePath = useTranslatedPath(lang);
 </script>
 
 <div class="container mx-auto p-4 max-w-lg">
