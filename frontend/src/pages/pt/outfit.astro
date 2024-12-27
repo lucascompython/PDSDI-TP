@@ -16,9 +16,9 @@ const t = useTranslations(getLangFromUrl(Astro.url));
       <div class="left">
         <div class="margin-left">
           <!-- ?!?!?! -->
-          <DropdownTemperature client:only />
+          <DropdownTemperature client:load windowLocation={Astro.url} />
           <div class="margin-top">
-            <DropdownColor client:only />
+            <DropdownColor client:load windowLocation={Astro.url} />
           </div>
         </div>
         <div class="line-horizontal"></div>
