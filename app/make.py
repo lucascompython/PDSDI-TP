@@ -35,8 +35,9 @@ try:
     )
     os.environ["ANDROID_HOME"] = android_home
     os.environ["NDK_HOME"] = ndk_home
-    os.environ["JAVA_HOME"] = os.path.expanduser(
-        "~/.local/share/JetBrains/Toolbox/apps/android-studio/jbr"  # Change this if you're not using JetBrains Toolbox
+    os.environ["JAVA_HOME"] = (
+        # "~/.local/share/JetBrains/Toolbox/apps/android-studio/jbr"  # Change this to your Android Studio JBR path
+        "/mnt/Roubado/ToolboxApps/android-studio/jbr"
     )
 except FileNotFoundError:
     Colors.warning("Android SDK and NDK not found. Mobile build will not work")
@@ -54,6 +55,34 @@ class Args:
     build_frontend: bool
     run: bool
     smallest: bool
+    keys: bool
+
+
+def _create_keys() -> None:
+    Colors.info("Creating keystore and upload keys")
+    start = perf_counter()
+
+    run_command(
+        (
+            "keytool",
+            "-genkey",
+            "-v",
+            "-keystore",
+            "keystore.jks",
+            "-keyalg",
+            "RSA",
+            "-keysize",
+            "2048",
+            "-validity",
+            "10000",
+            "-alias",
+            "upload",
+        )
+    )
+
+    elapsed = perf_counter() - start
+
+    Colors.success(f"Created keys in {elapsed:.2f} seconds")
 
 
 def _clean() -> None:
@@ -77,9 +106,14 @@ def _dev(mobile: bool) -> None:
         run_command(("cargo", "tauri", "dev"))
 
 
-def _get_size() -> str:
+def _get_size(mobile: bool) -> str:
     try:
-        size = os.path.getsize(f"target/{TARGET}/release/{APP_NAME}")
+        if mobile:
+            size = os.path.getsize(
+                "gen/android/app/build/outputs/apk/universal/release/app-universal-release.apk"
+            )
+        else:
+            size = os.path.getsize(f"target/{TARGET}/release/{APP_NAME}")
         return f"{size / 1024:.2f} KB"
     except FileNotFoundError:
         Colors.warning(f"Binary not found at target/{TARGET}/release/{APP_NAME}")
@@ -140,7 +174,7 @@ def _release(args: Args) -> None:
         Colors.success(f"Compressed the binary in {upx_elapsed:.2f} seconds")
 
     elapsed = perf_counter() - start
-    size = _get_size()
+    size = _get_size(args.mobile)
     Colors.success(f"Built the release version in {elapsed:.2f} seconds")
     Colors.success(f"Binary size: {size}")
 
@@ -177,6 +211,8 @@ def main(args: Args) -> None:
         frontend_make.main(frontend_args)
 
     if args.release:
+        if args.keys:
+            _create_keys()
         _release(args)
 
     if args.run:
@@ -245,6 +281,12 @@ def parse_args() -> Args:
         "--smallest",
         action="store_true",
         help="Build with optimizations for size (enables release, nightly and upx)",
+    )
+    parser.add_argument(
+        "-k",
+        "--keys",
+        action="store_true",
+        help="Create keystore and upload keys",
     )
 
     if len(sys.argv) == 1:

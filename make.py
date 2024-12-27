@@ -175,6 +175,7 @@ def main() -> None:
         mobile=False,
         upx=False,
         nightly=False,
+        keys=False,
     )
 
     if args.clean:
