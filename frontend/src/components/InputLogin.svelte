@@ -41,7 +41,6 @@
     class="btn btn-primary w-full"
     onclick={() => {
       localStorage.setItem("isAdmin", "true");
-      console.log(isAdmin);
       window.location.href = translatePath("/");
     }}>{t("login.login")}</button
   >

@@ -17,7 +17,6 @@
   } catch (e) {
     isAdmin = "false";
   }
-  console.log("isAdmin", isAdmin);
 </script>
 
 <div class="dropdown dropdown-end">
