@@ -1,5 +1,5 @@
 <script lang="ts">
-  import AddButtonIcon from "./AddButtonIcon.svelte";
+  import AddButtonIcon from "./Svgs/AddButtonIcon.svelte";
 </script>
 
 <button

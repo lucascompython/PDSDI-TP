@@ -1,7 +1,7 @@
 ---
 import Layout from "@layouts/Layout.astro";
 import NavBar from "@components/NavBarLogin.astro";
-import Avatar from "@components/GenericAvatarIcon.astro";
+import Avatar from "@components/Svgs/GenericAvatarIcon.astro";
 import Footer from "@components/Footer.astro";
 import Input from "@components/InputLogin.svelte";
 import KEK from "@components/KEK.svelte";
@@ -16,7 +16,7 @@ const t = useTranslations(getLangFromUrl(Astro.url));
     <NavBar />
     <div>
       <Avatar />
-      <Input client:load />
+      <Input client:load windowLocation={Astro.url} />
       <KEK client:load />
     </div>
     <Footer />

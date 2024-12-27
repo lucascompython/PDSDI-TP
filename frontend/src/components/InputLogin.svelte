@@ -1,6 +1,6 @@
 <script lang="ts">
-  import UsernameLoginIcon from "./UsernameLoginIcon.svelte";
-  import PasswordLoginIcon from "./PasswordLoginIcon.svelte";
+  import UsernameLoginIcon from "./Svgs/UsernameLoginIcon.svelte";
+  import PasswordLoginIcon from "./Svgs/PasswordLoginIcon.svelte";
   import {
     getLangFromUrl,
     useTranslatedPath,

@@ -3,13 +3,14 @@ import { getLangFromUrl } from "src/i18n/utils";
 const lang = getLangFromUrl(Astro.url);
 ---
 
-<div>
-  <select name="languages" id="languages">
-    <option selected={lang === "en"} value="en">🇬🇧&emsp;English</option>
-    <option selected={lang === "pt"} value="pt">🇵🇹&emsp;Português</option>
-  </select>
-</div>
-
+<select
+  class="select select-bordered w-full max-w-xs"
+  name="languages"
+  id="languages"
+>
+  <option selected={lang === "en"} value="en">🇬🇧&emsp;English</option>
+  <option selected={lang === "pt"} value="pt">🇵🇹&emsp;Português</option>
+</select>
 <script>
   const select = document.getElementById("languages");
   select?.addEventListener("change", (e: any) => {
@@ -26,7 +27,6 @@ const lang = getLangFromUrl(Astro.url);
   select {
     display: block;
     margin: auto;
-    border-color: var(--text-color);
     background-color: var(--bg-color);
     color: var(--text-color);
   }

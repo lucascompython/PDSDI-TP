@@ -5,9 +5,9 @@ import {
   useTranslatedPath,
 } from "src/i18n/utils";
 import LanguagePicker from "./LanguagePicker.astro";
-import ThemeIcon from "./ThemeIcon.astro";
+import ThemeIcon from "./Svgs/ThemeIcon.astro";
 import ModalSettings from "./ModalSettings.svelte";
-import EyeIcon from "./EyeIcon.astro";
+import EyeIcon from "./Svgs/EyeIcon.astro";
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 const translatePath = useTranslatedPath(lang);

@@ -1,42 +1,44 @@
 <script lang="ts">
-  import SettingsIcon from "./SettingsIcon.svelte";
-  import { getLangFromUrl, useTranslatedPath } from "src/i18n/utils";
+  import SettingsIcon from "./Svgs/SettingsIcon.svelte";
+  import {
+    getLangFromUrl,
+    useTranslatedPath,
+    useTranslations,
+  } from "src/i18n/utils";
 
   let { windowLocation }: { windowLocation: URL } = $props();
-
-  const translatePath = useTranslatedPath(getLangFromUrl(windowLocation));
+  const lang = getLangFromUrl(windowLocation);
+  const t = useTranslations(lang);
+  const translatePath = useTranslatedPath(lang);
 </script>
 
 <!-- Faltam Merdas -->
 
-<button
-  onclick={() =>
-    (document.getElementById("my_modal_2") as HTMLDialogElement)?.showModal()}
-  ><SettingsIcon /></button
->
-<dialog id="my_modal_2" class="modal">
-  <div class="modal-box">
-    <h3 class="text-lg font-bold">Hello!</h3>
-    <p class="py-4">Press ESC key or click outside to close</p>
-    <button
-      class="btn btn-error"
-      onclick={() => (window.location.href = translatePath("/login"))}
-      >Logout</button
-    >
-  </div>
-  <form method="dialog" class="modal-backdrop">
-    <button>close</button>
-  </form>
-</dialog>
+<div class="dropdown dropdown-end">
+  <div tabindex="0" role="button" class="m-1"><SettingsIcon /></div>
+  <ul
+    tabindex="0"
+    class="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow"
+  >
+    <li><a>Item 1</a></li>
+    <li><a>Item 2</a></li>
+    <li>
+      <button
+        class="btn btn-error"
+        onclick={() => (window.location.href = translatePath("/login"))}
+        >{t("settings.logout")}</button
+      >
+    </li>
+  </ul>
+</div>
 
 <style>
-  button {
-    background-color: none;
-    border: none;
-    border-radius: none;
+  ul {
+    background-color: var(--text-color);
+    color: var(--bg-color);
   }
-
-  button:hover {
-    background-color: none;
-  }
+  /* BORDA?? */
+  /* .bottom-border {
+    border-bottom: 1px solid black;
+  } */
 </style>
