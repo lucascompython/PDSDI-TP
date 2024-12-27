@@ -58,7 +58,7 @@ def use_run_command(cwd: str) -> Callable[[tuple[str, ...], Any], None]:
 
                 while True:
                     try:
-                        output = os.read(master_fd, 1024).decode()
+                        output = os.read(master_fd, 512).decode()
                         if output == "" and proc.poll() is not None:
                             break
                         if output:
