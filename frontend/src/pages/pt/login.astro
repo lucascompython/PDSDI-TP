@@ -16,8 +16,8 @@ const t = useTranslations(getLangFromUrl(Astro.url));
     <NavBar />
     <div>
       <Avatar />
-      <Input client:load />
-      <KEK />
+      <Input client:only="svelte" />
+      <KEK client:only="svelte" />
     </div>
     <Footer />
   </main>

@@ -1,10 +1,14 @@
-<script>
+<script lang="ts">
   import AddButtonIcon from "./AddButtonIcon.svelte";
 </script>
 
 <!-- When u open the button moves? sus -->
 
-<button on:click={() => my_modal_2.showModal()}><AddButtonIcon /></button>
+<button
+  onclick={() =>
+    (document.getElementById("my_modal_2") as HTMLDialogElement)?.showModal()}
+  ><AddButtonIcon /></button
+>
 <dialog id="my_modal_2" class="modal">
   <div class="modal-box">
     <h3 class="text-lg font-bold">Hello!</h3>

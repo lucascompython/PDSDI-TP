@@ -12,6 +12,7 @@ export const translations = {
     "nav.upload": "Upload",
     "nav.generate": "Generate",
     "colorS.colorLabel": "Pick the color for your outfit",
+    "kek.total.outfits.created": "Total outfits created",
   },
   pt: {
     "nav.home": "Início",
@@ -19,5 +20,6 @@ export const translations = {
     "nav.upload": "Enviar",
     "nav.generate": "Gerar",
     "colorS.colorLabel": "Escolha a cor para seu look",
+    "kek.total.outfits.created": "Total de outfits criados",
   },
 } as const;

@@ -1,6 +1,10 @@
-<script>
+<script lang="ts">
   import UsernameLoginIcon from "./UsernameLoginIcon.svelte";
   import PasswordLoginIcon from "./PasswordLoginIcon.svelte";
+  import { getLangFromUrl, useTranslatedPath } from "src/i18n/utils";
+  const translatePath = useTranslatedPath(
+    getLangFromUrl(window.location.pathname),
+  );
 </script>
 
 <div class="container mx-auto p-4 max-w-lg">
@@ -22,7 +26,10 @@
 
   <!-- HREF TRANSLATE PATH SVELTE -->
 
-  <button class="btn btn-primary w-full"><a href="">Login</a></button>
+  <button
+    class="btn btn-primary w-full"
+    onclick={() => (window.location.href = translatePath("/"))}>Login</button
+  >
 </div>
 
 <style>
