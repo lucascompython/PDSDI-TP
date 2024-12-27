@@ -1,0 +1,70 @@
+{
+	"info": {
+		"_postman_id": "61fb5cb9-f887-4063-b757-9c6d507ef34b",
+		"name": "PDSDI",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "19509548"
+	},
+	"item": [
+		{
+			"name": "home",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"lucas\",\n    \"age\": 19\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "register",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"lucas\",\n    \"email\": \"lucasdelinhares@gmail.com\",\n    \"password\": \"1234\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "0.0.0.0:1234/register",
+					"host": [
+						"0",
+						"0",
+						"0",
+						"0"
+					],
+					"port": "1234",
+					"path": [
+						"register"
+					]
+				},
+				"description": "Returns 200 OK if the user was registered successfully\n\nReturns 400 Bad Request if user already exists  \nReturns 500 Internal Server Error if something unexpected happend"
+			},
+			"response": []
+		}
+	]
+}
