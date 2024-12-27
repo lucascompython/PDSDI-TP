@@ -7,6 +7,10 @@
     useTranslations,
   } from "src/i18n/utils";
 
+  import { writable } from "svelte/store";
+
+  export const isAdmin = writable(false);
+
   let { windowLocation }: { windowLocation: URL } = $props();
   const lang = getLangFromUrl(windowLocation);
   const t = useTranslations(lang);
@@ -32,8 +36,11 @@
 
   <button
     class="btn btn-primary w-full"
-    onclick={() => (window.location.href = translatePath("/"))}
-    >{t("login.login")}</button
+    onclick={() => {
+      window.location.href = translatePath("/");
+      isAdmin = true;
+    }}>{t("login.login")}</button
+  >
   >
 </div>
 
