@@ -7,9 +7,7 @@
     useTranslations,
   } from "src/i18n/utils";
 
-  import { writable } from "svelte/store";
-
-  let isAdmin = writable(false);
+  import { isAdmin } from "./store";
 
   let { windowLocation }: { windowLocation: URL } = $props();
   const lang = getLangFromUrl(windowLocation);

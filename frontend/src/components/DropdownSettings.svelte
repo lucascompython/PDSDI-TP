@@ -1,6 +1,8 @@
 <script lang="ts">
+  import { get } from "svelte/store";
   import SettingsIcon from "./Icons/SettingsIcon.svelte";
-  import { writable } from "svelte/store";
+  import { isAdmin } from "./store";
+
   import {
     getLangFromUrl,
     useTranslatedPath,
@@ -11,11 +13,7 @@
   const lang = getLangFromUrl(windowLocation);
   const t = useTranslations(lang);
   const translatePath = useTranslatedPath(lang);
-
-  let isAdmin = writable(false);
 </script>
-
-<!-- Faltam Merdas -->
 
 <div class="dropdown dropdown-end">
   <div
@@ -46,20 +44,23 @@
         >{t("settings.profile")}</button
       >
     </li>
-    {#if isAdmin}
+    {#if get(isAdmin)}
       <li>
         <button
           class="btn"
-          onclick={() => (window.location.href = translatePath("/admin"))}
-          >{t("settings.admin")}</button
+          onclick={() => {
+            window.location.href = translatePath("/admin");
+          }}>{t("settings.admin")}</button
         >
       </li>
     {/if}
     <li>
       <button
         class="btn btn-error"
-        onclick={() => (window.location.href = translatePath("/login"))}
-        >{t("settings.logout")}</button
+        onclick={() => {
+          window.location.href = translatePath("/login");
+          isAdmin.set(false);
+        }}>{t("settings.logout")}</button
       >
     </li>
   </ul>
