@@ -1,7 +1,5 @@
 <script lang="ts">
-  import SettingsIcon from "./Svgs/SettingsIcon.svelte";
-  import { writable } from "svelte/store";
-  import { isAdmin } from "./ModalSettings.svelte";
+  import SettingsIcon from "./Icons/SettingsIcon.svelte";
   import {
     getLangFromUrl,
     useTranslatedPath,
@@ -19,25 +17,11 @@
 <div class="dropdown dropdown-end">
   <div tabindex="0" role="button" class="m-1"><SettingsIcon /></div>
   <ul
-    tabindex="0"
+    tabindex="-1"
     class="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow"
   >
-    <li>
-      <button
-        class="btn"
-        onclick={() => (window.location.href = translatePath("/profile"))}
-        >{t("settings.profile")}</button
-      >
-    </li>
-    {#if isAdmin}
-      <li>
-        <button
-          class="btn"
-          onclick={() => (window.location.href = translatePath("/admin"))}
-          >{t("settings.admin")}</button
-        >
-      </li>
-    {/if}
+    <li><a>Item 1</a></li>
+    <li><a>Item 2</a></li>
     <li>
       <button
         class="btn btn-error"
@@ -50,6 +34,11 @@
 
 <style>
   ul {
-    background-color: none;
+    background-color: var(--text-color);
+    color: var(--bg-color);
   }
+  /* BORDA?? */
+  /* .bottom-border {
+    border-bottom: 1px solid black;
+  } */
 </style>
