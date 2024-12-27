@@ -1,5 +1,5 @@
 <script lang="ts">
-  import UsernameLoginIcon from "./Icons/UsernameLoginIcon.svelte";
+  import EmailIcon from "./Icons/EmailIcon.svelte";
   import PasswordLoginIcon from "./Icons/PasswordLoginIcon.svelte";
   import {
     getLangFromUrl,
@@ -22,8 +22,8 @@
 
 <div class="container mx-auto p-4 max-w-lg">
   <label class="input input-bordered flex items-center gap-2 mb-4">
-    <UsernameLoginIcon />
-    <input type="text" class="grow p-2" placeholder={t("login.username")} />
+    <EmailIcon />
+    <input type="email" class="grow p-2" placeholder={t("login.email")} />
   </label>
   <label class="input input-bordered flex items-center gap-2 mb-4">
     <PasswordLoginIcon />
