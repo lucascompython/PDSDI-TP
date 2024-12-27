@@ -23,11 +23,12 @@
     role="button"
     class="m-1"
     onmousedown={(event) => {
+      event.preventDefault();
       const element = event.currentTarget;
       if (document.activeElement === element) {
-        element.removeAttribute("tabindex");
+        element.blur();
       } else {
-        element.tabIndex = 0;
+        element.focus();
       }
     }}
   >
