@@ -7,6 +7,7 @@
 <div class="stats shadow div-margin">
   <div class="stat">
     <div class="stat-title">{t("kek.total.outfits.created")}</div>
+    <!-- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
     <div class="stat-value">89,400</div>
     <div class="stat-desc">21% more than last month</div>
   </div>

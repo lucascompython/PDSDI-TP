@@ -1,7 +1,12 @@
 <script lang="ts">
   import UsernameLoginIcon from "./UsernameLoginIcon.svelte";
   import PasswordLoginIcon from "./PasswordLoginIcon.svelte";
-  import { getLangFromUrl, useTranslatedPath } from "src/i18n/utils";
+  import {
+    getLangFromUrl,
+    useTranslatedPath,
+    useTranslations,
+  } from "src/i18n/utils";
+  const t = useTranslations(getLangFromUrl(window.location.pathname));
   const translatePath = useTranslatedPath(
     getLangFromUrl(window.location.pathname),
   );
@@ -10,25 +15,24 @@
 <div class="container mx-auto p-4 max-w-lg">
   <label class="input input-bordered flex items-center gap-2 mb-4">
     <UsernameLoginIcon />
-    <input type="text" class="grow p-2" placeholder="Username" />
+    <input type="text" class="grow p-2" placeholder={t("login.username")} />
   </label>
   <label class="input input-bordered flex items-center gap-2 mb-4">
     <PasswordLoginIcon />
     <input
       type="password"
       class="grow p-2"
-      placeholder="Password"
+      placeholder={t("login.password")}
       id="passwordInput"
     />
   </label>
 
-  <a class="link link-hover mb-4">I'm a simple link</a>
-
-  <!-- HREF TRANSLATE PATH SVELTE -->
+  <a class="link link-hover mb-4">{t("login.forgot.password")}</a>
 
   <button
     class="btn btn-primary w-full"
-    onclick={() => (window.location.href = translatePath("/"))}>Login</button
+    onclick={() => (window.location.href = translatePath("/"))}
+    >{t("login.login")}</button
   >
 </div>
 

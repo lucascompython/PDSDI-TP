@@ -2,14 +2,12 @@
   import AddButtonIcon from "./AddButtonIcon.svelte";
 </script>
 
-<!-- When u open the button moves? sus -->
-
 <button
   onclick={() =>
-    (document.getElementById("my_modal_2") as HTMLDialogElement)?.showModal()}
+    (document.getElementById("my_modal_1") as HTMLDialogElement)?.showModal()}
   ><AddButtonIcon /></button
 >
-<dialog id="my_modal_2" class="modal">
+<dialog id="my_modal_1" class="modal scrollbar">
   <div class="modal-box">
     <h3 class="text-lg font-bold">Hello!</h3>
     <p class="py-4">Press ESC key or click outside to close</p>

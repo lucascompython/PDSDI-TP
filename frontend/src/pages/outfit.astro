@@ -1,8 +1,8 @@
 ---
 import Layout from "@layouts/Layout.astro";
 import NavBar from "@components/NavBar.astro";
-import Range from "@components/Range.svelte";
-import Dropdown from "@components/Dropdown.svelte";
+import DropdownTemperature from "@components/DropdownTemperature.svelte";
+import DropdownColor from "@components/DropdownColor.svelte";
 import Footer from "@components/Footer.astro";
 
 import { getLangFromUrl, useTranslations } from "src/i18n/utils";
@@ -16,9 +16,9 @@ const t = useTranslations(getLangFromUrl(Astro.url));
       <div class="left">
         <div class="margin-left">
           <!-- ?!?!?! -->
-          <Range client:load />
+          <DropdownTemperature client:only />
           <div class="margin-top">
-            <Dropdown client:load client:only />
+            <DropdownColor client:only />
           </div>
         </div>
         <div class="line-horizontal"></div>
