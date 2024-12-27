@@ -17,7 +17,7 @@ const t = useTranslations(getLangFromUrl(Astro.url));
     <div>
       <Avatar />
       <Input client:load windowLocation={Astro.url} />
-      <KEK client:load />
+      <KEK client:load windowLocation={Astro.url} />
     </div>
     <Footer />
   </main>

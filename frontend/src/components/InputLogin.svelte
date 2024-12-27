@@ -9,7 +9,7 @@
 
   import { writable } from "svelte/store";
 
-  export const isAdmin = writable(false);
+  let isAdmin = writable(false);
 
   let { windowLocation }: { windowLocation: URL } = $props();
   const lang = getLangFromUrl(windowLocation);
@@ -38,9 +38,8 @@
     class="btn btn-primary w-full"
     onclick={() => {
       window.location.href = translatePath("/");
-      isAdmin = true;
+      isAdmin.set(true);
     }}>{t("login.login")}</button
-  >
   >
 </div>
 
