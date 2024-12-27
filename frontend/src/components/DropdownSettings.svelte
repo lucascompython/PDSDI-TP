@@ -1,7 +1,5 @@
 <script lang="ts">
-  import { get } from "svelte/store";
   import SettingsIcon from "./Icons/SettingsIcon.svelte";
-  import { isAdmin } from "./store";
 
   import {
     getLangFromUrl,
@@ -13,6 +11,13 @@
   const lang = getLangFromUrl(windowLocation);
   const t = useTranslations(lang);
   const translatePath = useTranslatedPath(lang);
+  let isAdmin = $state("false");
+  try {
+    isAdmin = localStorage.getItem("isAdmin")!;
+  } catch (e) {
+    isAdmin = "false";
+  }
+  console.log("isAdmin", isAdmin);
 </script>
 
 <div class="dropdown dropdown-end">
@@ -44,7 +49,7 @@
         >{t("settings.profile")}</button
       >
     </li>
-    {#if get(isAdmin)}
+    {#if isAdmin === "true"}
       <li>
         <button
           class="btn"
@@ -58,8 +63,8 @@
       <button
         class="btn btn-error"
         onclick={() => {
+          localStorage.setItem("isAdmin", "false");
           window.location.href = translatePath("/login");
-          isAdmin.set(false);
         }}>{t("settings.logout")}</button
       >
     </li>

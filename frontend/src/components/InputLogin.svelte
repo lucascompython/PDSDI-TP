@@ -7,12 +7,17 @@
     useTranslations,
   } from "src/i18n/utils";
 
-  import { isAdmin } from "./store";
-
   let { windowLocation }: { windowLocation: URL } = $props();
   const lang = getLangFromUrl(windowLocation);
   const t = useTranslations(lang);
   const translatePath = useTranslatedPath(lang);
+
+  let isAdmin = "false";
+  try {
+    isAdmin = localStorage.getItem("isAdmin")!;
+  } catch (e) {
+    isAdmin = "false";
+  }
 </script>
 
 <div class="container mx-auto p-4 max-w-lg">
@@ -35,8 +40,9 @@
   <button
     class="btn btn-primary w-full"
     onclick={() => {
+      localStorage.setItem("isAdmin", "true");
+      console.log(isAdmin);
       window.location.href = translatePath("/");
-      isAdmin.set(true);
     }}>{t("login.login")}</button
   >
 </div>
