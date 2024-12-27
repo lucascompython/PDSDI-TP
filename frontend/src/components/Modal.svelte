@@ -22,6 +22,7 @@
     background-color: none;
     border: none;
     border-radius: none;
+    outline: none;
   }
 
   button:hover {
