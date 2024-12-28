@@ -10,6 +10,7 @@ export const translations = {
     "nav.home": "Home",
     "nav.about": "About",
     "nav.generate": "Generate",
+    "nav.upload": "Upload",
     "login.forgot.password": "Forgot password?",
     "login.login": "Login",
     "login.email": "E-mail Adress",
@@ -41,6 +42,7 @@ export const translations = {
   pt: {
     "nav.home": "Início",
     "nav.about": "Sobre",
+    "nav.generate": "Gerar",
     "nav.upload": "Enviar",
     "login.forgot.password": "Esqueceu a senha?",
     "login.login": "Entrar",
