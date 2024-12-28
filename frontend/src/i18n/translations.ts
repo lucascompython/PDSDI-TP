@@ -36,7 +36,7 @@ export const translations = {
     "typeO.dropdownOption4": "Cozy and warm",
     "typeO.dropdownOption5": "Heavy and insulated",
     "dropdown.firstOption": "Pick one",
-    "kek.total.outfits.created": "Total outfits created",
+    "stats.total.outfits.created": "Total outfits created",
   },
   pt: {
     "nav.home": "Início",
@@ -68,6 +68,6 @@ export const translations = {
     "typeO.dropdownOption4": "Aconchegante e quente",
     "typeO.dropdownOption5": "Quente e isolado",
     "dropdown.firstOption": "Escolha uma",
-    "kek.total.outfits.created": "Total de outfits criados",
+    "stats.total.outfits.created": "Total de outfits criados",
   },
 } as const;
