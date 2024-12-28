@@ -44,7 +44,7 @@ export const translations = {
     "nav.about": "Sobre",
     "nav.generate": "Gerar",
     "nav.upload": "Enviar",
-    "login.forgot.password": "Esqueceu a senha?",
+    "login.forgot.password": "Esqueceu-se da senha?",
     "login.login": "Entrar",
     "login.email": "Endereço de E-mail",
     "login.password": "Palavra Passe",
