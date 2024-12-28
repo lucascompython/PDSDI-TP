@@ -141,23 +141,9 @@ def _release(args: Args) -> None:
         command.insert(1, "+nightly")
         rustflags.extend(["-Zlocation-detail=none", "-Zfmt-debug=none"])
 
-        if not args.mobile:
-            command.extend(
-                [
-                    "--",
-                    "-Z",
-                    "build-std=std,panic_abort",
-                    "-Z",
-                    "build-std-features='optimize-for_size'",
-                    "-Z",
-                    "build-std-features=panic_immediate_abort",
-                    "-Z",
-                    "trim-paths",
-                ]
-            )  # TODO: Check if these optimizations are valid for mobile
-
     if args.native:
         rustflags.append("-C target-cpu=native")
+
     env = os.environ.copy()
     run_command(
         command,
