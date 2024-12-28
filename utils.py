@@ -35,8 +35,10 @@ class Colors:
         print(f"{Colors.GREEN}SUCCESS:{Colors.RESET} {string}")
 
 
-def use_run_command(cwd: str) -> Callable[[tuple[str, ...], Any], None]:
+def use_run_command(_cwd: str) -> Callable[[tuple[str, ...], Any], None]:
     def run_command(command: tuple[str, ...], **kwargs) -> None:
+        # check for cwd in kwargs and if it is there then use it
+        cwd = kwargs.pop("cwd", _cwd)
         try:
             master_fd = None
             if cwd == "." or cwd.startswith(".."):

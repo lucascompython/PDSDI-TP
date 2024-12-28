@@ -40,4 +40,5 @@ CREATE TABLE IF NOT EXISTS outfit_clothing_items (
 
 INSERT INTO colors (color_name) VALUES ('Red'), ('Orange'), ('Yellow'), ('Green'), ('Blue'), ('Purple'), ('Pink'), ('Brown'), ('Black'), ('White'), ('Gray') ON CONFLICT DO NOTHING;
 
+-- TODO: Remove socks and gloves
 INSERT INTO categories (category_name) VALUES ('Shirt'), ('Pants'), ('Shorts'), ('Dress'), ('Skirt'), ('Jacket'), ('Sweater'), ('Shoes'), ('Hat'), ('Gloves'), ('Scarf'), ('Socks') ON CONFLICT DO NOTHING;

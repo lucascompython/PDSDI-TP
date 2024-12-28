@@ -91,10 +91,11 @@ def _clean() -> None:
     )
     start = perf_counter()
     run_command(("cargo", "clean"))
+    run_command(("./gradlew", "clean"), cwd="./gen/android")
     elapsed = perf_counter() - start
 
     Colors.success(
-        f"Cleaned {Colors.UNDERLINE}target{Colors.RESET} directory in {elapsed:.2f} seconds"
+        f"Cleaned {Colors.UNDERLINE}target{Colors.RESET} and {Colors.UNDERLINE}gradle{Colors.RESET} directories in {elapsed:.2f} seconds"
     )
 
 
@@ -140,23 +141,23 @@ def _release(args: Args) -> None:
         command.insert(1, "+nightly")
         rustflags.extend(["-Zlocation-detail=none", "-Zfmt-debug=none"])
 
-        command.extend(
-            [
-                "--",
-                "-Z",
-                "build-std=std,panic_abort",
-                "-Z",
-                "build-std-features='optimize-for_size'",
-                "-Z",
-                "build-std-features=panic_immediate_abort",
-                "-Z",
-                "trim-paths",
-            ]
-        )  # TODO: Check if these optimizations are valid for mobile
+        if not args.mobile:
+            command.extend(
+                [
+                    "--",
+                    "-Z",
+                    "build-std=std,panic_abort",
+                    "-Z",
+                    "build-std-features='optimize-for_size'",
+                    "-Z",
+                    "build-std-features=panic_immediate_abort",
+                    "-Z",
+                    "trim-paths",
+                ]
+            )  # TODO: Check if these optimizations are valid for mobile
 
     if args.native:
         rustflags.append("-C target-cpu=native")
-
     env = os.environ.copy()
     run_command(
         command,
