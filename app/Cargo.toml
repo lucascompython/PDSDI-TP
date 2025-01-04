@@ -18,10 +18,10 @@ name = "clothe_match_lib"
 crate-type = ["staticlib", "cdylib", "rlib"]
 
 [build-dependencies]
-tauri-build = { version = "2.0.3", features = [] }
+tauri-build = { version = "2.0.4", features = [] }
 
 [dependencies]
-tauri = { version = "2.1.1", features = ["wry"], default-features = false }
+tauri = { version = "2.2.0", features = ["wry"], default-features = false }
 serde = { version = "1.0.217", features = ["derive"] }
 serde_json = "1.0.134"
 
