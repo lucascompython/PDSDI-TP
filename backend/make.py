@@ -39,7 +39,7 @@ def _clean() -> None:
 def _dev() -> None:
     Colors.info("Running the development server")
 
-    run_command(("cargo", "watch", "-x", "run"))
+    run_command(("cargo", "watch", "-x", "run", "--features", "log"))
 
 
 def _release() -> None:

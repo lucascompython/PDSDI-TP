@@ -1,5 +1,6 @@
 use std::sync::Arc;
 
+use actix_session::{storage::CookieSessionStore, Session, SessionMiddleware};
 use mimalloc::MiMalloc;
 
 #[global_allocator]
@@ -8,7 +9,7 @@ static GLOBAL: MiMalloc = MiMalloc;
 mod db;
 mod json_utils;
 
-use actix_web::{get, post, web, App, HttpResponse, HttpServer, Responder};
+use actix_web::{cookie::Key, get, post, web, App, HttpResponse, HttpServer, Responder};
 use db::{DbClient, RegistrationError};
 use json_utils::{json_response, Json};
 use serde::{Deserialize, Serialize};
@@ -32,18 +33,50 @@ struct LoginRequest {
     password: String,
 }
 
-#[get("/")]
-async fn index(data: web::Bytes) -> impl Responder {
-    let Json(data): Json<MyObj> = Json::from_bytes(data).unwrap();
-    println!("data.name: {}", data.name);
-    println!("data.age: {}", data.age);
+fn validate_session(session: &Session) -> Result<i32, HttpResponse> {
+    let user_id = session.get::<i32>("user_id").unwrap_or(None);
 
-    let data2 = MyObj {
-        name: "Rust".to_string(),
-        age: 8,
+    match user_id {
+        Some(id) => {
+            session.renew();
+            Ok(id)
+        }
+        None => Err(HttpResponse::Unauthorized().finish()),
+    }
+}
+
+#[get("/")]
+async fn index(session: Session) -> impl Responder {
+    // let Json(data): Json<MyObj> = Json::from_bytes(data).unwrap();
+    // println!("data.name: {}", data.name);
+    // println!("data.age: {}", data.age);
+
+    // let data2 = MyObj {
+    //     name: "Rust".to_string(),
+    //     age: 8,
+    // };
+
+    // json_response(&data2)
+    // if let Some(user_id) = session.get::<String>("user_id").unwrap() {
+    //     HttpResponse::Ok().body(format!(
+    //         "User logged in with id: {}; is_admin? {}",
+    //         user_id,
+    //         session.get::<bool>("is_admin").unwrap().unwrap()
+    //     ))
+    // } else {
+    //     HttpResponse::Unauthorized().body("User not logged in")
+    // }
+
+    let user_id = match validate_session(&session) {
+        Ok(id) => id,
+        Err(response) => return response,
     };
 
-    json_response(&data2)
+    HttpResponse::Ok().body(format!(
+        "User logged in with id: {}; IsAdmin: {}",
+        user_id,
+        session.get::<bool>("is_admin").unwrap().unwrap()
+    ))
 }
 
 #[post("/register")]
@@ -65,13 +98,47 @@ async fn register(db: web::Data<Arc<DbClient>>, request_data: web::Bytes) -> imp
 }
 
 #[post("/login")]
-async fn login(db: web::Data<Arc<DbClient>>, login_data: web::Bytes) -> impl Responder {
+async fn login(
+    db: web::Data<Arc<DbClient>>,
+    login_data: web::Bytes,
+    session: Session,
+) -> impl Responder {
     let Json(data): Json<LoginRequest> = Json::from_bytes(login_data).unwrap();
 
     match db.login_user(&data.email, &data.password).await {
-        Ok(_) => HttpResponse::Ok().finish(),
+        Ok(user) => {
+            session.insert("user_id", user.user_id).unwrap();
+            session.insert("is_admin", user.is_admin).unwrap();
+            HttpResponse::Ok().finish()
+        }
         Err(_) => HttpResponse::Unauthorized().finish(),
     }
+}
+
+#[get("/logout")]
+async fn logout(session: Session) -> impl Responder {
+    session.clear();
+    HttpResponse::Ok().finish()
+}
+
+#[get("/protected")]
+async fn protected(session: Session) -> impl Responder {
+    let user_id = match validate_session(&session) {
+        Ok(id) => id,
+        Err(response) => return response,
+    };
+
+    let is_admin = session.get::<bool>("is_admin").unwrap().unwrap();
+
+    if !is_admin {
+        return HttpResponse::Forbidden().finish();
+    }
+
+    HttpResponse::Ok().body(format!(
+        "User logged in with id: {}; And is admin: {}",
+        user_id,
+        session.get::<bool>("is_admin").unwrap().unwrap()
+    ))
 }
 
 #[actix_web::main]
@@ -81,14 +148,21 @@ async fn main() -> std::io::Result<()> {
     println!("Server running at http://127.0.0.1:1234");
 
     if cfg!(debug_assertions) {
+        #[cfg(feature = "log")]
         env_logger::init_from_env(env_logger::Env::new().default_filter_or("info"));
         HttpServer::new(move || {
             App::new()
                 .wrap(actix_web::middleware::Logger::default())
+                .wrap(SessionMiddleware::new(
+                    CookieSessionStore::default(),
+                    Key::generate(),
+                ))
                 .app_data(web::Data::new(client.clone()))
                 .service(index)
                 .service(register)
                 .service(login)
+                .service(logout)
+                .service(protected)
         })
         .bind(("127.0.0.1", 1234))?
         .run()
@@ -96,10 +170,19 @@ async fn main() -> std::io::Result<()> {
     } else {
         HttpServer::new(move || {
             App::new()
+                .wrap(
+                    SessionMiddleware::builder(CookieSessionStore::default(), Key::generate())
+                        .cookie_secure(false)
+                        .cookie_http_only(true)
+                        .cookie_same_site(actix_web::cookie::SameSite::Strict)
+                        .build(),
+                )
                 .app_data(web::Data::new(client.clone()))
                 .service(index)
                 .service(register)
                 .service(login)
+                .service(logout)
+                .service(protected)
         })
         .bind(("127.0.0.1", 1234))?
         .run()

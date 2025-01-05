@@ -198,6 +198,7 @@ def main(args: Args) -> None:
         frontend_make.main(frontend_args)
 
     if args.release:
+        # TODO: Change this to not be in release
         if args.keys:
             _create_keys()
         _release(args)
