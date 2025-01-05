@@ -4,7 +4,7 @@ const lang = getLangFromUrl(Astro.url);
 ---
 
 <select
-  class="select select-bordered w-full max-w-xs"
+  class="select select-bordered w-full maxW"
   name="languages"
   id="languages"
 >
@@ -29,5 +29,13 @@ const lang = getLangFromUrl(Astro.url);
     margin: auto;
     background-color: var(--bg-color);
     color: var(--text-color);
+  }
+  .maxW {
+    max-width: 20rem;
+  }
+  @media screen and (max-width: 600px) {
+    .maxW {
+      max-width: 5rem;
+    }
   }
 </style>

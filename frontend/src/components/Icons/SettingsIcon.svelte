@@ -14,3 +14,12 @@
     stroke-width="1.5"
   ></path>
 </svg>
+
+<style>
+  @media only screen and (max-width: 600px) {
+    svg {
+      width: 25px;
+      height: 25px;
+    }
+  }
+</style>

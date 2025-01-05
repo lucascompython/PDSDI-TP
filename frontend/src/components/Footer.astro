@@ -7,19 +7,24 @@ import GitHub from "./Icons/GitHub.astro";
   <aside class="grid-flow-col items-center">
     <HashtagIcon />
     <p>Copyleft © {new Date().getFullYear()} - Fully Open Source</p>
+    <nav class="grid-flow-col gap-4 md:place-self-center md:justify-self-end">
+      <!-- TODO: fazer isto abrir no browser em mobile -->
+      <a
+        href="https://github.com/lucascompython/PDSDI-TP"
+        target="_blank"
+        rel="noopener noreferrer"><GitHub /></a
+      >
+    </nav>
   </aside>
-  <nav class="grid-flow-col gap-4 md:place-self-center md:justify-self-end">
-    <!-- TODO: fazer isto abrir no browser em mobile -->
-    <a
-      href="https://github.com/lucascompython/PDSDI-TP"
-      target="_blank"
-      rel="noopener noreferrer"><GitHub /></a
-    >
-  </nav>
 </footer>
 <style>
   footer {
     border-top: 3px solid #b3b1b1;
     color: #969494;
+    position: relative;
+  }
+  nav {
+    position: absolute;
+    right: 0;
   }
 </style>

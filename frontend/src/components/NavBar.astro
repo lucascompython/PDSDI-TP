@@ -17,48 +17,69 @@ const translatePath = useTranslatedPath(lang);
   <div class="center">
     <div>
       <a href={translatePath("/")}>
-        <!-- TODO: add this svg on Icons folder so it can be optimized -->
-        <img src="/logo_trans.svg" alt="ClotheMatch Logo" class="center-img" />
+        <div>
+          <img src="/logo_trans.svg" alt="Large Icon" class="iconLarge" />
+          <img src="/LogoMobile.svg" alt="Small Icon" class="iconSmall" />
+        </div>
       </a>
       <a href={translatePath("/clothes")} class="ml-5">
-        <div class="center-img">
+        <div class="center-img size-eye">
           <EyeIcon />
         </div>
       </a>
     </div>
-
-    <div>
+    <div class="nav_div2">
       <LanguagePicker />
       <ThemeIcon />
       <DropdownSettings client:load windowLocation={Astro.url} />
     </div>
   </div>
+
+  <style>
+    .center {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem;
+      box-shadow: 0 2px 4px rgba(63, 62, 62, 0.3);
+      z-index: 1;
+    }
+
+    nav div {
+      display: flex;
+      align-items: center;
+    }
+    .nav_div2 {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .center-img {
+      display: block;
+      margin: auto;
+    }
+    .iconSmall {
+      display: none;
+    }
+
+    .iconLarge {
+      display: block;
+    }
+
+    @media screen and (max-width: 600px) {
+      .iconLarge {
+        display: none;
+      }
+      .iconSmall {
+        display: block;
+      }
+    }
+  </style>
 </nav>
-
-<style>
-  .center {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem;
-    box-shadow: 0 2px 4px rgba(63, 62, 62, 0.3);
-    z-index: 1;
-  }
-
-  nav div {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-  }
-  .center-img {
-    display: block;
-    margin: auto;
-  }
-</style>
