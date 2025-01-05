@@ -13,11 +13,19 @@ pub enum RegistrationError {
     DatabaseError(#[from] tokio_postgres::Error),
 }
 
+#[derive(Error, Debug)]
+pub enum LoginError {
+    #[error("User does not exist or incorrect password")]
+    UserDoesNotExistOrIncorrectPassword,
+    #[error("Database error")]
+    DatabaseError(#[from] tokio_postgres::Error),
+}
+
 pub struct User {
     pub user_id: i32,
     pub username: String,
     pub email: String,
-    pub password: String,
+    pub password: [u8; 48], // 16 bytes for the salt and 32 bytes for the hash
     pub is_admin: bool,
 }
 
@@ -54,7 +62,7 @@ pub struct OutfitClothingItem {
 
 pub struct DbStatements {
     pub insert_user: Statement,
-    pub get_user_by_id: Statement,
+    pub get_user_by_email: Statement,
     pub insert_color: Statement,
     pub get_color_by_id: Statement,
     pub insert_category: Statement,
@@ -90,7 +98,7 @@ impl DbClient {
         let (
             _,
             insert_user,
-            get_user_by_id,
+            get_user_by_email,
             insert_color,
             get_color_by_id,
             insert_category,
@@ -105,7 +113,7 @@ impl DbClient {
         ) = tokio::try_join!(
             client.batch_execute(DB_SCHEMA),
             client.prepare("INSERT INTO users (username, email, password, is_admin) VALUES ($1, $2, $3, $4)"),
-            client.prepare("SELECT user_id, username, email, password, is_admin FROM users WHERE user_id = $1"),
+            client.prepare("SELECT user_id, username, email, password, is_admin FROM users WHERE email = $1"),
             client.prepare("INSERT INTO colors (color_name) VALUES ($1)"),
             client.prepare("SELECT color_id, color_name FROM colors WHERE color_id = $1"),
             client.prepare("INSERT INTO categories (category_name) VALUES ($1)"),
@@ -116,15 +124,14 @@ impl DbClient {
             client.prepare("SELECT outfit_id, name, created_at, user_id FROM outfits WHERE outfit_id = $1"),
             client.prepare("INSERT INTO outfit_clothing_items (outfit_id, clothing_item_id) VALUES ($1, $2)"),
             client.prepare("SELECT ci.clothing_item_id, ci.name, ci.color_id, ci.category_id, ci.user_id, ci.is_hot_weather FROM clothing_items ci JOIN outfit_clothing_items oci ON ci.clothing_item_id = oci.clothing_item_id WHERE oci.outfit_id = $1"),
-            client.prepare("SELECT user_id FROM users WHERE username = $1 OR email = $2")
-
+            client.prepare("SELECT user_id FROM users WHERE email = $1")
         )?;
 
         println!("Database schema applied!");
 
         let statements = DbStatements {
             insert_user,
-            get_user_by_id,
+            get_user_by_email,
             insert_color,
             get_color_by_id,
             insert_category,
@@ -149,14 +156,14 @@ impl DbClient {
     ) -> Result<u64, RegistrationError> {
         let user_exists = self
             .client
-            .query(&self.statements.check_user_exists, &[&username, &email])
+            .query(&self.statements.check_user_exists, &[&email])
             .await?;
 
         if user_exists.len() > 0 {
             return Err(RegistrationError::UserAlreadyExists);
         }
 
-        let hash = Hasher::new()
+        let hash = &Hasher::new()
             .algorithm(argon2_kdf::Algorithm::Argon2id)
             .salt_length(16)
             .iterations(4)
@@ -164,39 +171,74 @@ impl DbClient {
             .hash_length(32)
             .threads(4)
             .hash(password.as_bytes())
-            .unwrap()
-            .to_string();
+            .unwrap();
+        let mut combined_bytes = [0u8; 48]; // 16 bytes for the salt and 32 bytes for the hash
+
+        combined_bytes[..16].copy_from_slice(hash.salt_bytes());
+        combined_bytes[16..].copy_from_slice(hash.as_bytes());
 
         Ok(self
             .insert_user(&User {
                 user_id: 0,
                 username: username.to_string(),
                 email: email.to_string(),
-                password: hash,
+                password: combined_bytes,
                 is_admin: false,
             })
             .await?)
+    }
+
+    pub async fn login_user(&self, email: &str, password: &str) -> Result<User, LoginError> {
+        let user = self.get_user_by_email(email).await;
+
+        let user = match user {
+            Ok(user) => user,
+            Err(_) => return Err(LoginError::UserDoesNotExistOrIncorrectPassword),
+        };
+
+        let hash = argon2_kdf::Hash {
+            alg: argon2_kdf::Algorithm::Argon2id,
+            mem_cost_kib: 65536,
+            iterations: 4,
+            threads: 4,
+            salt: (&user.password[..16]).to_vec(), // TODO: https://github.com/lucascompython/argon2-kdf/tree/feat-arrays-instead-of-vecs
+            hash: (&user.password[16..]).to_vec(),
+        };
+
+        if hash.verify(password.as_bytes()) {
+            Ok(user)
+        } else {
+            Err(LoginError::UserDoesNotExistOrIncorrectPassword)
+        }
     }
 
     pub async fn insert_user(&self, user: &User) -> Result<u64, tokio_postgres::Error> {
         self.client
             .execute(
                 &self.statements.insert_user,
-                &[&user.username, &user.email, &user.password, &user.is_admin],
+                &[
+                    &user.username,
+                    &user.email,
+                    &&user.password[..],
+                    &user.is_admin,
+                ],
             )
             .await
     }
 
-    pub async fn get_user_by_id(&self, user_id: i32) -> Result<User, tokio_postgres::Error> {
+    pub async fn get_user_by_email(&self, email: &str) -> Result<User, tokio_postgres::Error> {
         let row = self
             .client
-            .query_one(&self.statements.get_user_by_id, &[&user_id])
+            .query_one(&self.statements.get_user_by_email, &[&email])
             .await?;
+        let password_slice: &[u8] = row.get(3);
+        let mut password = [0u8; 48];
+        password.copy_from_slice(password_slice);
         Ok(User {
             user_id: row.get(0),
             username: row.get(1),
             email: row.get(2),
-            password: row.get(3),
+            password,
             is_admin: row.get(4),
         })
     }

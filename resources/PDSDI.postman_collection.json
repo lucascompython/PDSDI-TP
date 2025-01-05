@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "2279c7ff-2ee0-4e9e-a7cb-77daadc4b1fd",
+		"_postman_id": "8fccc6ec-011a-46d0-ba11-8c38c5242d11",
 		"name": "PDSDI",
 		"description": "Postman Collection for this project",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
@@ -51,19 +51,42 @@
 					}
 				},
 				"url": {
-					"raw": "0.0.0.0:1234/register",
+					"raw": "{{host}}/register",
 					"host": [
-						"0",
-						"0",
-						"0",
-						"0"
+						"{{host}}"
 					],
-					"port": "1234",
 					"path": [
 						"register"
 					]
 				},
-				"description": "Returns 200 OK if the user was registered successfully\n\nReturns 400 Bad Request if user already exists  \nReturns 500 Internal Server Error if something unexpected happend"
+				"description": "Returns 200 OK if the user was registered successfully  \nReturns 400 Bad Request if user already exists  \nReturns 500 Internal Server Error if something unexpected happend"
+			},
+			"response": []
+		},
+		{
+			"name": "login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"lucasdelinhares@gmail.com\",\n    \"password\": \"1234\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/login",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"login"
+					]
+				},
+				"description": "Returns 200 OK if the user was logged in successfully  \nReturns 401 Unauthorized if user did not login successfully"
 			},
 			"response": []
 		}

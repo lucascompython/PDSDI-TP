@@ -26,6 +26,12 @@ struct RegisterRequest {
     password: String,
 }
 
+#[derive(Deserialize)]
+struct LoginRequest {
+    email: String,
+    password: String,
+}
+
 #[get("/")]
 async fn index(data: web::Bytes) -> impl Responder {
     let Json(data): Json<MyObj> = Json::from_bytes(data).unwrap();
@@ -58,19 +64,15 @@ async fn register(db: web::Data<Arc<DbClient>>, request_data: web::Bytes) -> imp
     }
 }
 
-// #[post("/login")]
-// async fn login(data: web::Bytes) -> impl Responder {
-//     let Json(data): Json<User> = Json::from_bytes(data).unwrap();
-//     println!("data.name: {}", data.name);
-//     println!("data.age: {}", data.age);
+#[post("/login")]
+async fn login(db: web::Data<Arc<DbClient>>, login_data: web::Bytes) -> impl Responder {
+    let Json(data): Json<LoginRequest> = Json::from_bytes(login_data).unwrap();
 
-//     let data2 = MyObj {
-//         name: "Rust".to_string(),
-//         age: 8,
-//     };
-
-//     json_response(&data2)
-// }
+    match db.login_user(&data.email, &data.password).await {
+        Ok(_) => HttpResponse::Ok().finish(),
+        Err(_) => HttpResponse::Unauthorized().finish(),
+    }
+}
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
@@ -87,6 +89,7 @@ async fn main() -> std::io::Result<()> {
             .app_data(web::Data::new(client.clone()))
             .service(index)
             .service(register)
+            .service(login)
     })
     .bind(("127.0.0.1", 1234))?
     .run()
