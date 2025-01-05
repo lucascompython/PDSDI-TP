@@ -18,8 +18,7 @@ const translatePath = useTranslatedPath(lang);
     <div>
       <a href={translatePath("/")}>
         <div>
-          <img src="/logo_trans.svg" alt="Large Icon" class="iconLarge" />
-          <img src="/LogoMobile.svg" alt="Small Icon" class="iconSmall" />
+          <img src="/logo_trans.svg" alt="Large Icon" id="logo" />
         </div>
       </a>
       <a href={translatePath("/clothes")} class="ml-5">
@@ -65,20 +64,10 @@ const translatePath = useTranslatedPath(lang);
       display: block;
       margin: auto;
     }
-    .iconSmall {
-      display: none;
-    }
-
-    .iconLarge {
-      display: block;
-    }
 
     @media screen and (max-width: 600px) {
-      .iconLarge {
-        display: none;
-      }
-      .iconSmall {
-        display: block;
+      #logo {
+        content: url("/LogoMobile.svg");
       }
     }
   </style>
