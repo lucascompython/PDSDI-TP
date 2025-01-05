@@ -78,20 +78,31 @@ async fn login(db: web::Data<Arc<DbClient>>, login_data: web::Bytes) -> impl Res
 async fn main() -> std::io::Result<()> {
     let client = Arc::new(DbClient::new().await.unwrap());
 
-    let first_color = client.get_color_by_id(1).await.unwrap();
-
-    println!("first_color: {}", first_color.color_name);
-
     println!("Server running at http://127.0.0.1:1234");
 
-    HttpServer::new(move || {
-        App::new()
-            .app_data(web::Data::new(client.clone()))
-            .service(index)
-            .service(register)
-            .service(login)
-    })
-    .bind(("127.0.0.1", 1234))?
-    .run()
-    .await
+    if cfg!(debug_assertions) {
+        env_logger::init_from_env(env_logger::Env::new().default_filter_or("info"));
+        HttpServer::new(move || {
+            App::new()
+                .wrap(actix_web::middleware::Logger::default())
+                .app_data(web::Data::new(client.clone()))
+                .service(index)
+                .service(register)
+                .service(login)
+        })
+        .bind(("127.0.0.1", 1234))?
+        .run()
+        .await
+    } else {
+        HttpServer::new(move || {
+            App::new()
+                .app_data(web::Data::new(client.clone()))
+                .service(index)
+                .service(register)
+                .service(login)
+        })
+        .bind(("127.0.0.1", 1234))?
+        .run()
+        .await
+    }
 }
