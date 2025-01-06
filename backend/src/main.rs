@@ -16,9 +16,9 @@ use json_utils::{json_response, Json};
 use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize)]
-struct MyObj {
-    name: String,
-    age: u8,
+struct LoggedIn {
+    id: i32,
+    is_admin: bool,
 }
 
 #[derive(Deserialize)]
@@ -53,11 +53,10 @@ async fn index(session: Session) -> impl Responder {
         Err(response) => return response,
     };
 
-    HttpResponse::Ok().body(format!(
-        "User logged in with id: {}; IsAdmin: {}",
-        user_id,
-        session.get::<bool>("is_admin").unwrap().unwrap()
-    ))
+    json_response(&LoggedIn {
+        id: user_id,
+        is_admin: session.get::<bool>("is_admin").unwrap().unwrap(),
+    })
 }
 
 #[post("/register")]
@@ -128,22 +127,21 @@ async fn main() -> std::io::Result<()> {
 
     println!("Server running at http://127.0.0.1:1234");
 
+    let key = Key::generate();
+
     if cfg!(debug_assertions) {
         #[cfg(feature = "log")]
         env_logger::init_from_env(env_logger::Env::new().default_filter_or("info"));
         HttpServer::new(move || {
             App::new()
-                .wrap(
-                    Cors::default()
-                        .allow_any_origin()
-                        .allow_any_method()
-                        .allow_any_header(),
-                )
+                .wrap(Cors::permissive()) // TODO: Change this to a more secure configuration
                 .wrap(actix_web::middleware::Logger::default())
-                .wrap(SessionMiddleware::new(
-                    CookieSessionStore::default(),
-                    Key::generate(),
-                ))
+                .wrap(
+                    SessionMiddleware::builder(CookieSessionStore::default(), key.clone())
+                        .cookie_secure(false)
+                        .cookie_http_only(false)
+                        .build(),
+                )
                 .app_data(web::Data::new(client.clone()))
                 .service(index)
                 .service(register)
@@ -158,13 +156,10 @@ async fn main() -> std::io::Result<()> {
         HttpServer::new(move || {
             App::new()
                 .wrap(
-                    Cors::default()
-                        .allow_any_origin()
-                        .allow_any_method()
-                        .allow_any_header(),
+                    Cors::permissive(), // TODO: Change this to a more secure configuration
                 )
                 .wrap(
-                    SessionMiddleware::builder(CookieSessionStore::default(), Key::generate())
+                    SessionMiddleware::builder(CookieSessionStore::default(), key.clone())
                         .cookie_secure(false)
                         .cookie_http_only(true)
                         .cookie_same_site(actix_web::cookie::SameSite::Strict)
