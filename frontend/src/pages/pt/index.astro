@@ -29,6 +29,18 @@ const t = useTranslations(getLangFromUrl(Astro.url));
     <Footer />
   </main>
 
+  <script>
+    // TODO: make this before the page is rendered
+    async function checkIfUserIsLoggedIn() {
+      const response = await fetch("http://localhost:1234/");
+      if (!response.ok) {
+        window.location.href = "/login";
+      }
+    }
+
+    checkIfUserIsLoggedIn();
+  </script>
+
   <style>
     main {
       background-color: #d9d9d9;

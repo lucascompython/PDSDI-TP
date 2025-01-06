@@ -1,5 +1,6 @@
 use std::sync::Arc;
 
+use actix_cors::Cors;
 use actix_session::{storage::CookieSessionStore, Session, SessionMiddleware};
 use mimalloc::MiMalloc;
 
@@ -47,26 +48,6 @@ fn validate_session(session: &Session) -> Result<i32, HttpResponse> {
 
 #[get("/")]
 async fn index(session: Session) -> impl Responder {
-    // let Json(data): Json<MyObj> = Json::from_bytes(data).unwrap();
-    // println!("data.name: {}", data.name);
-    // println!("data.age: {}", data.age);
-
-    // let data2 = MyObj {
-    //     name: "Rust".to_string(),
-    //     age: 8,
-    // };
-
-    // json_response(&data2)
-    // if let Some(user_id) = session.get::<String>("user_id").unwrap() {
-    //     HttpResponse::Ok().body(format!(
-    //         "User logged in with id: {}; is_admin? {}",
-    //         user_id,
-    //         session.get::<bool>("is_admin").unwrap().unwrap()
-    //     ))
-    // } else {
-    //     HttpResponse::Unauthorized().body("User not logged in")
-    // }
-
     let user_id = match validate_session(&session) {
         Ok(id) => id,
         Err(response) => return response,
@@ -152,6 +133,12 @@ async fn main() -> std::io::Result<()> {
         env_logger::init_from_env(env_logger::Env::new().default_filter_or("info"));
         HttpServer::new(move || {
             App::new()
+                .wrap(
+                    Cors::default()
+                        .allow_any_origin()
+                        .allow_any_method()
+                        .allow_any_header(),
+                )
                 .wrap(actix_web::middleware::Logger::default())
                 .wrap(SessionMiddleware::new(
                     CookieSessionStore::default(),
@@ -170,6 +157,12 @@ async fn main() -> std::io::Result<()> {
     } else {
         HttpServer::new(move || {
             App::new()
+                .wrap(
+                    Cors::default()
+                        .allow_any_origin()
+                        .allow_any_method()
+                        .allow_any_header(),
+                )
                 .wrap(
                     SessionMiddleware::builder(CookieSessionStore::default(), Key::generate())
                         .cookie_secure(false)

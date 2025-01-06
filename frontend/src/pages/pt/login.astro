@@ -1,7 +1,6 @@
 ---
 import Layout from "@layouts/Layout.astro";
 import NavBar from "@components/NavBarLogin.astro";
-import Avatar from "@components/Icons/GenericAvatarIcon.astro";
 import Footer from "@components/Footer.astro";
 import InputLogin from "@components/InputLogin.svelte";
 import Stats from "@components/Stats.svelte";
@@ -15,7 +14,6 @@ const t = useTranslations(getLangFromUrl(Astro.url));
   <main>
     <NavBar />
     <div>
-      <Avatar />
       <InputLogin client:load windowLocation={Astro.url} />
       <Stats client:load windowLocation={Astro.url} />
     </div>
