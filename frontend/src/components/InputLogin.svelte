@@ -1,6 +1,7 @@
 <script lang="ts">
   import EmailIcon from "./Icons/EmailIcon.svelte";
   import PasswordLoginIcon from "./Icons/PasswordLoginIcon.svelte";
+  import ErrorAlert from "./ErrorAlert.svelte"; // Cannot remove this for some reason
   import GenericAvatarIcon from "./Icons/GenericAvatarIcon.svelte";
   import { isErrorVisible } from "./stores";
   import {
@@ -53,6 +54,7 @@
       headers: {
         "Content-Type": "application/json",
       },
+
       body: data,
     });
 
