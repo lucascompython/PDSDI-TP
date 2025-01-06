@@ -43,6 +43,7 @@ VALUES ('Red'),
     ('Brown'),
     ('Black'),
     ('White'),
+    ('Gold'),
     ('Gray') ON CONFLICT DO NOTHING;
 -- TODO: Remove socks and gloves
 INSERT INTO categories (category_name)
