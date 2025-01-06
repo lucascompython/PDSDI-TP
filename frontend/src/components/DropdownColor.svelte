@@ -225,8 +225,8 @@
     </div>
   </div>
 {/if}
-<div style="display: flex; justify-content: center; margin-top: 2rem;">
-  <button class="btn btn-xs sm:btn-sm md:btn-md lg:btn-lg"
+<div class="center-button">
+  <button class="btn btn-xs md:btn-md btn-wide lg:btn-lg"
     >{t("outfit.button")}</button
   >
 </div>
@@ -247,11 +247,14 @@
     margin-top: 2rem;
   }
   label {
+    align-items: center;
+    display: flex;
     min-width: 110px;
     color: var(--text-color);
   }
   button {
-    margin-top: 2rem;
+    margin-top: 5rem;
+    max-width: 200px;
     background-color: var(--text-color);
     color: var(--bg-color);
   }
@@ -261,14 +264,25 @@
   }
   input {
     border-color: var(--text-color);
+    margin-right: 0.5rem;
+  }
+  .center-button {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
   }
   @media only screen and (max-width: 600px) {
     div div {
-      margin-top: 0.1rem;
+      margin-top: 1rem;
     }
     label {
       min-width: 80px;
-      font-size: 0.5rem;
+      font-size: 0.7rem;
+    }
+    button {
+      margin-top: 2rem;
+      min-height: 3rem;
     }
   }
 </style>
