@@ -1,7 +1,18 @@
-# Tauri + Vanilla TS
+# Instructions
 
-This template should help get you started developing with Tauri in vanilla HTML, CSS and Typescript.
+Install the rust std for nightly compiler by running:
 
-## Recommended IDE Setup
+```bash
+rustup component add rust-std --toolchain nightly
+```
 
-- [VS Code](https://code.visualstudio.com/) + [Tauri](https://marketplace.visualstudio.com/items?itemName=tauri-apps.tauri-vscode) + [rust-analyzer](https://marketplace.visualstudio.com/items?itemName=rust-lang.rust-analyzer)
+## Android
+
+Install the android rust toolchain and the nightly version by running:
+
+```bash
+rustup target add aarch64-linux-android 
+rustup target add aaarch64-linux-android --toolchain nightly
+```
+
+Then follow the following the [tauri android setup](https://tauri.app/start/prerequisites/#android)
