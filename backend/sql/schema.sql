@@ -45,7 +45,6 @@ VALUES ('Red'),
     ('White'),
     ('Gold'),
     ('Gray') ON CONFLICT DO NOTHING;
--- TODO: Remove socks and gloves
 INSERT INTO categories (category_name)
 VALUES ('Shirt'),
     ('Pants'),
@@ -57,5 +56,4 @@ VALUES ('Shirt'),
     ('Shoes'),
     ('Hat'),
     ('Gloves'),
-    ('Scarf'),
-    ('Socks') ON CONFLICT DO NOTHING;
+    ('Scarf') ON CONFLICT DO NOTHING;
