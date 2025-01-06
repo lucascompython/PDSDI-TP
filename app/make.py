@@ -182,6 +182,9 @@ def main(args: Args) -> None:
         args.nightly = True
         args.dev = False
 
+    if args.keys:
+        _create_keys()
+
     if args.clean:
         _clean()
 
@@ -198,9 +201,6 @@ def main(args: Args) -> None:
         frontend_make.main(frontend_args)
 
     if args.release:
-        # TODO: Change this to not be in release
-        if args.keys:
-            _create_keys()
         _release(args)
 
     if args.run:
