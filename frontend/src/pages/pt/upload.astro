@@ -13,7 +13,7 @@ const t = useTranslations(getLangFromUrl(Astro.url));
   <main>
     <NavBar />
     <div>
-      <UploadButton client:load />
+      <UploadButton client:load windowLocation={Astro.url} />
     </div>
     <Footer />
   </main>

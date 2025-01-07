@@ -48,6 +48,8 @@ export const translations = {
     "profile.change_email": "Change Email",
     "profile.Nemail": "New Email",
     "profile.Oemail": "Old Email",
+    "upload.drag_drop": "Drag & Drop your images here or",
+    "upload.browse": "Browse Files",
   },
   pt: {
     "nav.home": "Início",
@@ -91,5 +93,7 @@ export const translations = {
     "profile.change_email": "Alterar Email",
     "profile.Nemail": "Novo Email",
     "profile.Oemail": "Email Antigo",
+    "upload.drag_drop": "Arraste e solte as suas imagens aqui ou",
+    "upload.browse": "Procurar Ficheiros",
   },
 } as const;
