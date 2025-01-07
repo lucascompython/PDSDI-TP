@@ -2,10 +2,8 @@
   import { getLangFromUrl, useTranslations } from "src/i18n/utils";
 
   let { windowLocation }: { windowLocation: URL } = $props();
-  const lang = getLangFromUrl(windowLocation);
-  console.log("lang", lang);
 
-  const t = useTranslations(lang);
+  const t = useTranslations(getLangFromUrl(windowLocation));
 
   let dragOver = $state(false);
 
