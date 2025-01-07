@@ -12,5 +12,4 @@ export default defineConfig({
     tailwind(),
     (await import("@playform/compress")).default(),
   ],
-  output: "server",
 });

@@ -1,6 +1,7 @@
 <script lang="ts">
   import SettingsIcon from "./Icons/SettingsIcon.svelte";
   import { logoutUser } from "src/api/utils";
+  import { isAdmin as isAdminStore } from "./stores";
 
   import {
     getLangFromUrl,
@@ -8,11 +9,16 @@
     useTranslations,
   } from "src/i18n/utils";
 
-  let { windowLocation, isAdmin }: { windowLocation: URL; isAdmin: boolean } =
-    $props();
+  let { windowLocation }: { windowLocation: URL } = $props();
   const lang = getLangFromUrl(windowLocation);
   const t = useTranslations(lang);
   const translatePath = useTranslatedPath(lang);
+
+  let isAdmin = $state(false);
+  isAdminStore.subscribe((value) => {
+    // we must do this because the client-side middleware can finish after the component is mounted
+    isAdmin = value;
+  });
 </script>
 
 <div class="dropdown dropdown-end">

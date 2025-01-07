@@ -44,13 +44,10 @@ interface checkUserResponse {
   is_admin: boolean;
 }
 
-export async function checkUser(sessionId: string): Promise<checkUserResponse> {
+export async function checkUser(): Promise<checkUserResponse> {
   const response = await fetch(`${API_BASE_URL}/check`, {
     method: "GET",
     credentials: "include",
-    headers: {
-      Cookie: sessionId,
-    },
   });
 
   if (!response.ok) {

@@ -1,7 +1,12 @@
 import { translations, defaultLang } from "./translations";
 
-export function getLangFromUrl(url: URL) {
-  const [, lang] = url.pathname.split("/");
+export function getLangFromUrl(url: URL | string) {
+  let lang: string;
+  if (typeof url === "string") {
+    lang = url.split("/")[1];
+  } else {
+    lang = url.pathname.split("/")[1];
+  }
   if (lang in translations) return lang as keyof typeof translations;
   return defaultLang;
 }
