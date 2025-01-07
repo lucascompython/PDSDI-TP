@@ -53,6 +53,16 @@ fn validate_session(session: &Session) -> Result<i32, HttpResponse> {
     }
 }
 
+fn admin_only(session: &Session) -> Result<(), HttpResponse> {
+    let is_admin = session.get::<bool>("is_admin").unwrap().unwrap();
+
+    if !is_admin {
+        return Err(HttpResponse::Forbidden().finish());
+    }
+
+    Ok(())
+}
+
 #[get("/check")]
 async fn check(session: Session) -> impl Responder {
     let user_id = match validate_session(&session) {
@@ -116,10 +126,8 @@ async fn protected(session: Session) -> impl Responder {
         Err(response) => return response,
     };
 
-    let is_admin = session.get::<bool>("is_admin").unwrap().unwrap();
-
-    if !is_admin {
-        return HttpResponse::Forbidden().finish();
+    if let Err(response) = admin_only(&session) {
+        return response;
     }
 
     HttpResponse::Ok().body(format!(
