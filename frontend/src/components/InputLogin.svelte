@@ -38,7 +38,8 @@
     }
   }
 
-  async function handleLogin() {
+  async function handleLogin(event: SubmitEvent) {
+    event.preventDefault();
     if (email === "" || password === "") {
       showErrorAlert();
       return;
@@ -65,7 +66,7 @@
 
 <!-- TODO: Add input validation errors -->
 
-<div class="container mx-auto p-4 max-w-lg">
+<form class="container mx-auto p-4 max-w-lg" onsubmit={handleLogin}>
   <label class="input input-bordered flex items-center gap-2 mb-4">
     <EmailIcon />
     <input
@@ -88,10 +89,8 @@
 
   <a class="link link-hover mb-4">{t("login.forgot.password")}</a>
 
-  <button class="btn btn-primary w-full" onclick={handleLogin}
-    >{t("login.login")}</button
-  >
-</div>
+  <button class="btn btn-primary w-full">{t("login.login")}</button>
+</form>
 
 <style>
   div {
@@ -100,6 +99,11 @@
 
     align-items: center;
     justify-content: center;
+  }
+
+  input {
+    background-color: var(--bg-color);
+    color: var(--text-color);
   }
 
   label {
