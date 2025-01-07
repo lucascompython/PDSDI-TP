@@ -138,8 +138,9 @@ async fn main() -> std::io::Result<()> {
                 .wrap(actix_web::middleware::Logger::default())
                 .wrap(
                     SessionMiddleware::builder(CookieSessionStore::default(), key.clone())
-                        .cookie_secure(false)
+                        .cookie_secure(false) // Change to true in production
                         .cookie_http_only(false)
+                        .cookie_same_site(actix_web::cookie::SameSite::Strict)
                         .build(),
                 )
                 .app_data(web::Data::new(client.clone()))
@@ -160,7 +161,7 @@ async fn main() -> std::io::Result<()> {
                 )
                 .wrap(
                     SessionMiddleware::builder(CookieSessionStore::default(), key.clone())
-                        .cookie_secure(false)
+                        .cookie_secure(false) // Change to true in production
                         .cookie_http_only(true)
                         .cookie_same_site(actix_web::cookie::SameSite::Strict)
                         .build(),

@@ -32,15 +32,16 @@ const t = useTranslations(getLangFromUrl(Astro.url));
   <script>
     // TODO: make this before the page is rendered
     async function checkIfUserIsLoggedIn() {
-      const response = await fetch("http://0.0.0.0:1234/", {
+      const response = await fetch("http://localhost:1234/", {
         credentials: "include",
       });
+
       // if (!response.ok) {
       //   window.location.href = "/login";
-      // }
+      //
 
       const data = await response.json();
-      console.log(data);
+      console.log("data", data);
     }
 
     checkIfUserIsLoggedIn();
