@@ -1,7 +1,9 @@
 use std::sync::Arc;
 
 use actix_cors::Cors;
-use actix_session::{storage::CookieSessionStore, Session, SessionMiddleware};
+use actix_session::{
+    config::PersistentSession, storage::CookieSessionStore, Session, SessionMiddleware,
+};
 use mimalloc::MiMalloc;
 
 #[global_allocator]
@@ -10,10 +12,15 @@ static GLOBAL: MiMalloc = MiMalloc;
 mod db;
 mod json_utils;
 
-use actix_web::{cookie::Key, get, post, web, App, HttpResponse, HttpServer, Responder};
+use actix_web::{
+    cookie::{time::Duration, Key},
+    get, post, web, App, HttpResponse, HttpServer, Responder,
+};
 use db::{DbClient, RegistrationError};
 use json_utils::{json_response, Json};
 use serde::{Deserialize, Serialize};
+
+const SECS_IN_WEEK: i64 = 60 * 60 * 24 * 7;
 
 #[derive(Serialize, Deserialize)]
 struct LoggedIn {
@@ -46,8 +53,8 @@ fn validate_session(session: &Session) -> Result<i32, HttpResponse> {
     }
 }
 
-#[get("/")]
-async fn index(session: Session) -> impl Responder {
+#[get("/check")]
+async fn check(session: Session) -> impl Responder {
     let user_id = match validate_session(&session) {
         Ok(id) => id,
         Err(response) => return response,
@@ -95,9 +102,10 @@ async fn login(
     }
 }
 
-#[get("/logout")]
+#[post("/logout")]
 async fn logout(session: Session) -> impl Responder {
     session.clear();
+    println!("User logged out");
     HttpResponse::Ok().finish()
 }
 
@@ -141,10 +149,14 @@ async fn main() -> std::io::Result<()> {
                         .cookie_secure(false) // Change to true in production
                         .cookie_http_only(false)
                         .cookie_same_site(actix_web::cookie::SameSite::Strict)
+                        .session_lifecycle(
+                            PersistentSession::default()
+                                .session_ttl(Duration::seconds(SECS_IN_WEEK)),
+                        )
                         .build(),
                 )
                 .app_data(web::Data::new(client.clone()))
-                .service(index)
+                .service(check)
                 .service(register)
                 .service(login)
                 .service(logout)
@@ -162,12 +174,16 @@ async fn main() -> std::io::Result<()> {
                 .wrap(
                     SessionMiddleware::builder(CookieSessionStore::default(), key.clone())
                         .cookie_secure(false) // Change to true in production
-                        .cookie_http_only(true)
+                        .cookie_http_only(false)
                         .cookie_same_site(actix_web::cookie::SameSite::Strict)
+                        .session_lifecycle(
+                            PersistentSession::default()
+                                .session_ttl(Duration::seconds(SECS_IN_WEEK)),
+                        )
                         .build(),
                 )
                 .app_data(web::Data::new(client.clone()))
-                .service(index)
+                .service(check)
                 .service(register)
                 .service(login)
                 .service(logout)

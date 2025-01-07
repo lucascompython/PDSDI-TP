@@ -10,17 +10,12 @@
     useTranslations,
   } from "src/i18n/utils";
 
+  import { loginUser } from "src/api/utils";
+
   let { windowLocation }: { windowLocation: URL } = $props();
   const lang = getLangFromUrl(windowLocation);
   const t = useTranslations(lang);
   const translatePath = useTranslatedPath(lang);
-
-  let isAdmin = "false";
-  try {
-    isAdmin = localStorage.getItem("isAdmin")!;
-  } catch (e) {
-    isAdmin = "false";
-  }
 
   let email = $state("");
   let password = $state("");
@@ -45,19 +40,12 @@
       return;
     }
 
-    const data = JSON.stringify({
-      email: email,
-      password: password,
-    });
+    const resp = await loginUser(email, password);
 
-    const response = await fetch("http://localhost:1234/login", {
-      method: "POST",
-      credentials: "include",
-      body: data,
-    });
-
-    if (!response.ok) {
+    if (!resp) {
       showErrorAlert();
+    } else {
+      window.location.href = translatePath("/");
     }
   }
 </script>

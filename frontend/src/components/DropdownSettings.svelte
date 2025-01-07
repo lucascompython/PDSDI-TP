@@ -1,5 +1,6 @@
 <script lang="ts">
   import SettingsIcon from "./Icons/SettingsIcon.svelte";
+  import { logoutUser } from "src/api/utils";
 
   import {
     getLangFromUrl,
@@ -7,16 +8,11 @@
     useTranslations,
   } from "src/i18n/utils";
 
-  let { windowLocation }: { windowLocation: URL } = $props();
+  let { windowLocation, isAdmin }: { windowLocation: URL; isAdmin: boolean } =
+    $props();
   const lang = getLangFromUrl(windowLocation);
   const t = useTranslations(lang);
   const translatePath = useTranslatedPath(lang);
-  let isAdmin = $state("false");
-  try {
-    isAdmin = localStorage.getItem("isAdmin")!;
-  } catch (e) {
-    isAdmin = "false";
-  }
 </script>
 
 <div class="dropdown dropdown-end">
@@ -48,7 +44,7 @@
         >{t("settings.profile")}</button
       >
     </li>
-    {#if isAdmin === "true"}
+    {#if isAdmin}
       <li>
         <button
           class="btn"
@@ -62,8 +58,9 @@
       <button
         class="btn btn-error"
         onclick={() => {
-          localStorage.setItem("isAdmin", "false");
-          window.location.href = translatePath("/login");
+          logoutUser().then(() => {
+            window.location.href = translatePath("/login");
+          });
         }}>{t("settings.logout")}</button
       >
     </li>
