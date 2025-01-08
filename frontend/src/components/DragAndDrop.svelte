@@ -1,5 +1,7 @@
 <script lang="ts">
   import { getLangFromUrl, useTranslations } from "src/i18n/utils";
+  import { fileName } from "./stores";
+  import Carousel from "./Carousel.svelte";
 
   let { windowLocation }: { windowLocation: URL } = $props();
 
@@ -7,46 +9,87 @@
 
   let dragOver = $state(false);
 
+  let selectedImages: File[] = $state([]);
+
   function handleDrop(event: DragEvent) {
     event.preventDefault();
     dragOver = false;
     const files = event.dataTransfer?.files;
-    // Handle the files
+
+    if (files) {
+      processFiles(files);
+    }
   }
 
-  function handleDragOver(event: DragEvent) {
-    event.preventDefault();
-    dragOver = true;
-  }
+  function processFiles(files: FileList) {
+    const maxFileSize = 10 * 1024 * 1024; // 10MB
 
-  function handleDragLeave() {
-    dragOver = false;
-  }
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
 
-  function openFileExplorer() {
-    (document.getElementById("fileInput") as HTMLInputElement).click();
+      if (!file.type.startsWith("image/")) {
+        console.error("File is not an image");
+        continue;
+      }
+
+      if (file.size > maxFileSize) {
+        console.error("File is too large");
+        continue;
+      }
+      selectedImages.push(file);
+      (
+        document.getElementById("previewModal") as HTMLDialogElement
+      )?.showModal();
+    }
   }
 
   function handleFileChange(event: Event) {
     const input = event.target as HTMLInputElement;
     const files = input.files;
-    // Handle the files
+    if (files) {
+      processFiles(files);
+    }
   }
 </script>
 
 <div
   class="drag-area {dragOver ? 'drag-over' : ''}"
   ondrop={handleDrop}
-  ondragover={handleDragOver}
-  ondragleave={handleDragLeave}
   aria-roledescription="Upload files"
   role="button"
   tabindex="0"
 >
   <p>{t("upload.drag_drop")}</p>
-  <button type="button" onclick={openFileExplorer}>{t("upload.browse")}</button>
-  <input id="fileInput" type="file" onchange={handleFileChange} hidden />
+  <button
+    type="button"
+    onclick={() =>
+      (document.getElementById("fileInput") as HTMLInputElement).click()}
+    >{t("upload.browse")}</button
+  >
+  <input
+    id="fileInput"
+    type="file"
+    accept="image/*"
+    multiple
+    onchange={handleFileChange}
+    hidden
+  />
 </div>
+<dialog id="previewModal" class="modal">
+  <div class="modal-box">
+    <h3 class="text-lg font-bold">{t("upload.preview")}</h3>
+    <p class="py-4">{$fileName}</p>
+
+    <Carousel images={selectedImages} />
+
+    <div class="modal-action">
+      <form method="dialog">
+        <!-- if there is a button in form, it will close the modal -->
+        <button class="btn">Close</button>
+      </form>
+    </div>
+  </div>
+</dialog>
 
 <style>
   .drag-area {

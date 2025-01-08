@@ -1,0 +1,37 @@
+<script lang="ts">
+  import { fileName } from "./stores";
+  const { images }: { images: File[] } = $props();
+  if (images.length !== 0) {
+    fileName.set(images[0].name);
+  }
+</script>
+
+<div class="carousel w-full">
+  {#each images as image, index}
+    <div id="slide{index + 1}" class="carousel-item relative w-full">
+      <img src={URL.createObjectURL(image)} class="w-full" alt="image{index}" />
+      <div
+        class="absolute left-5 right-5 top-1/2 flex -translate-y-1/2 transform justify-between"
+      >
+        {#if images.length > 1}
+          <a
+            href="#slide{index === 0 ? images.length : index}"
+            onclick={() =>
+              fileName.set(
+                images[index === 0 ? images.length - 1 : index - 1].name,
+              )}
+            class="btn btn-circle">❮</a
+          >
+          <a
+            href="#slide{index === images.length - 1 ? 1 : index + 2}"
+            onclick={() =>
+              fileName.set(
+                images[index === images.length - 1 ? 0 : index + 1].name,
+              )}
+            class="btn btn-circle">❯</a
+          >
+        {/if}
+      </div>
+    </div>
+  {/each}
+</div>
