@@ -6,7 +6,11 @@
 <div class="carousel w-full">
   {#each images as image, index}
     <div id="slide{index + 1}" class="carousel-item relative w-full">
-      <img src={URL.createObjectURL(image)} class="w-full" alt="image{index}" />
+      <img
+        src={URL.createObjectURL(image)}
+        class="w-full object-cover"
+        alt="image{index}"
+      />
       <div
         class="absolute left-5 right-5 top-1/2 flex -translate-y-1/2 transform justify-between"
       >
