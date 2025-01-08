@@ -1,5 +1,6 @@
 <script lang="ts">
   // TODO: see why cant compile to prod with windowLocation
+  // TODO: Optimise the svgs
 
   import { getLangFromUrl, useTranslations } from "src/i18n/utils";
   import { fileName, clothes, t as tStore } from "./stores";
