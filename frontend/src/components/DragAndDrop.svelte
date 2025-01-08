@@ -37,6 +37,9 @@
         continue;
       }
       selectedImages.push(file);
+
+      fileName.set(selectedImages[0].name);
+
       (
         document.getElementById("previewModal") as HTMLDialogElement
       )?.showModal();
@@ -83,9 +86,14 @@
     <Carousel images={selectedImages} />
 
     <div class="modal-action">
-      <form method="dialog">
+      <form
+        method="dialog"
+        onsubmit={() => {
+          selectedImages.length = 0;
+        }}
+      >
         <!-- if there is a button in form, it will close the modal -->
-        <button class="btn">Close</button>
+        <button class="btn">{t("upload.cancel")}</button>
       </form>
     </div>
   </div>

@@ -51,6 +51,7 @@ export const translations = {
     "upload.drag_drop": "Drag & Drop your images here or",
     "upload.browse": "Browse Files",
     "upload.preview": "Preview",
+    "upload.cancel": "Cancel",
   },
   pt: {
     "nav.home": "Início",
@@ -97,5 +98,6 @@ export const translations = {
     "upload.drag_drop": "Arraste e solte as suas imagens aqui ou",
     "upload.browse": "Procurar Ficheiros",
     "upload.preview": "Pré-visualização",
+    "upload.cancel": "Cancelar",
   },
 } as const;

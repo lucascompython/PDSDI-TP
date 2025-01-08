@@ -1,9 +1,6 @@
 <script lang="ts">
   import { fileName } from "./stores";
   const { images }: { images: File[] } = $props();
-  if (images.length !== 0) {
-    fileName.set(images[0].name);
-  }
 </script>
 
 <div class="carousel w-full">
