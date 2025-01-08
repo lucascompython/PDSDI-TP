@@ -52,6 +52,8 @@ export const translations = {
     "upload.browse": "Browse Files",
     "upload.preview": "Preview",
     "upload.cancel": "Cancel",
+    "upload.name": "Name",
+    "upload.category": "Category",
   },
   pt: {
     "nav.home": "Início",
@@ -99,5 +101,7 @@ export const translations = {
     "upload.browse": "Procurar Ficheiros",
     "upload.preview": "Pré-visualização",
     "upload.cancel": "Cancelar",
+    "upload.name": "Nome",
+    "upload.category": "Categoria",
   },
 } as const;

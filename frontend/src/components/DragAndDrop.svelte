@@ -1,11 +1,14 @@
 <script lang="ts">
+  // TODO: see why cant compile to prod with windowLocation
+
   import { getLangFromUrl, useTranslations } from "src/i18n/utils";
-  import { fileName } from "./stores";
+  import { fileName, clothes, t as tStore } from "./stores";
   import Carousel from "./Carousel.svelte";
 
   let { windowLocation }: { windowLocation: URL } = $props();
 
   const t = useTranslations(getLangFromUrl(windowLocation));
+  tStore.set(t);
 
   let dragOver = $state(false);
 

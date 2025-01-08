@@ -1,9 +1,8 @@
 <script lang="ts">
   import { getLangFromUrl, useTranslations } from "src/i18n/utils";
-
   let { windowLocation }: { windowLocation: URL } = $props();
-  const lang = getLangFromUrl(windowLocation);
-  const t = useTranslations(lang);
+
+  const t = useTranslations(getLangFromUrl(windowLocation));
 </script>
 
 <div class="stats shadow div-margin">

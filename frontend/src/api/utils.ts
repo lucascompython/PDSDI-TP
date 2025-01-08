@@ -1,5 +1,42 @@
 const API_BASE_URL = "http://localhost:1234";
 
+// Max index -> 10
+export enum Color {
+  Red,
+  Orange,
+  Yellow,
+  Green,
+  Blue,
+  Purple,
+  Pink,
+  Brown,
+  White,
+  Black,
+  Gray,
+}
+// Max index -> 10
+export enum ClotheCategory {
+  Shirt,
+  Pants,
+  Shorts,
+  Dress,
+  Skirt,
+  Jacket,
+  Sweater,
+  Shoes,
+  Hat,
+  Gloves,
+  Scarf,
+}
+
+export interface Clothe {
+  name: string;
+  color: Color;
+  category: ClotheCategory;
+  isForHotWeather: boolean;
+  image: File;
+}
+
 export async function registerUser(
   email: string,
   password: string
