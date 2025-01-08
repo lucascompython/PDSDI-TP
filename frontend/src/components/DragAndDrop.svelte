@@ -11,6 +11,8 @@
 
   let selectedImages: File[] = $state([]);
 
+  const maxFileSize = 10 * 1024 * 1024; // 10MB
+
   function handleDrop(event: DragEvent) {
     event.preventDefault();
     dragOver = false;
@@ -22,8 +24,6 @@
   }
 
   function processFiles(files: FileList) {
-    const maxFileSize = 10 * 1024 * 1024; // 10MB
-
     for (let i = 0; i < files.length; i++) {
       const file = files[i];
 
