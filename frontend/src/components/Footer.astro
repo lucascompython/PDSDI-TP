@@ -1,18 +1,18 @@
 ---
-import HashtagIcon from "./Icons/HashtagIcon.astro";
-import GitHub from "./Icons/GitHub.astro";
+import HashtagIcon from "./Icons/HashtagIcon.svg?raw";
+import GithubIcon from "./Icons/Github.svg?raw";
 ---
 
 <footer class="footer bg-neutral text-neutral-content items-center p-2">
   <aside class="grid-flow-col items-center">
-    <HashtagIcon />
+    <Fragment set:html={HashtagIcon} />
     <p>Copyleft © {new Date().getFullYear()} - Fully Open Source</p>
     <nav class="grid-flow-col gap-4 md:place-self-center md:justify-self-end">
       <!-- TODO: fazer isto abrir no browser em mobile -->
       <a
         href="https://github.com/lucascompython/PDSDI-TP"
         target="_blank"
-        rel="noopener noreferrer"><GitHub /></a
+        rel="noopener noreferrer"><Fragment set:html={GithubIcon} /></a
       >
     </nav>
   </aside>

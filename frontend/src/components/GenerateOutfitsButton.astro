@@ -1,11 +1,11 @@
 ---
 import { getLangFromUrl, useTranslatedPath } from "src/i18n/utils";
-import GenerateOutfitButton from "./Icons/Generate_Outfit_Icon.astro";
+import GenerateOutfitIcon from "./Icons/GenerateOutfitIcon.svg?raw";
 const translatePath = useTranslatedPath(getLangFromUrl(Astro.url));
 ---
 
 <a href={translatePath("/outfit")}>
-  <GenerateOutfitButton />
+  <Fragment set:html={GenerateOutfitIcon} />
 </a>
 
 <style>

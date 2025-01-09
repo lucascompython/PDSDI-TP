@@ -3,11 +3,9 @@ import { getLangFromUrl, useTranslatedPath } from "src/i18n/utils";
 import LanguagePicker from "./LanguagePicker.astro";
 import ThemeIcon from "./Icons/ThemeIcon.astro";
 import DropdownSettings from "./DropdownSettings.svelte";
-import EyeIcon from "./Icons/EyeIcon.astro";
-const lang = getLangFromUrl(Astro.url);
-const translatePath = useTranslatedPath(lang);
+import EyeIcon from "./Icons/EyeIcon.svg?raw";
 
-const isAdmin = Astro.locals.isAdmin;
+const translatePath = useTranslatedPath(getLangFromUrl(Astro.url));
 ---
 
 <nav>
@@ -20,14 +18,14 @@ const isAdmin = Astro.locals.isAdmin;
       </a>
       <a href={translatePath("/clothes")} class="ml-5">
         <div class="center-img size-eye">
-          <EyeIcon />
+          <Fragment set:html={EyeIcon} />
         </div>
       </a>
     </div>
     <div class="nav_div2">
       <LanguagePicker />
       <ThemeIcon />
-      <DropdownSettings client:load windowLocation={Astro.url} {isAdmin} />
+      <DropdownSettings client:load windowLocation={Astro.url} />
     </div>
   </div>
 

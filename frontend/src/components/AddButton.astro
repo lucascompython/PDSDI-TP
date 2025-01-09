@@ -1,9 +1,10 @@
 ---
 import { getLangFromUrl, useTranslatedPath } from "src/i18n/utils";
-import AddButtonIcon from "./Icons/AddButtonIcon.astro";
+import AddButtonIcon from "./Icons/AddButtonIcon.svg?raw";
+
 const translatePath = useTranslatedPath(getLangFromUrl(Astro.url));
 ---
 
 <a href={translatePath("/upload")}>
-  <AddButtonIcon />
+  <Fragment set:html={AddButtonIcon} />
 </a>
