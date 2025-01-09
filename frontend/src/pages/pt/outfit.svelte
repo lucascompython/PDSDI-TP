@@ -2,7 +2,7 @@
   import Layout from "@layouts/Layout.astro";
   import NavBar from "@components/NavBar.astro";
   import DropdownTemperature from "@components/DropdownTemperature.svelte";
-  import DropdownColor from "@components/DropdownColor.svelte";
+  import DropdownColor from "@components/ColorsCheckbox.svelte";
   import Footer from "@components/Footer.astro";
 
   import { getLangFromUrl, useTranslations } from "src/i18n/utils";

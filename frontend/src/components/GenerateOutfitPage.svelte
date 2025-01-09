@@ -2,11 +2,10 @@
   import { getLangFromUrl, useTranslations } from "../i18n/utils";
 
   import DropdownTemperature from "./DropdownTemperature.svelte";
-  import DropdownColor from "./DropdownColor.svelte";
+  import ColorsCheckbox from "./ColorsCheckbox.svelte";
 
-  let { windowLocation }: { windowLocation: URL } = $props();
-  const lang = getLangFromUrl(windowLocation);
-  const t = useTranslations(lang);
+  const { windowLocation }: { windowLocation: URL } = $props();
+  const t = useTranslations(getLangFromUrl(windowLocation));
 </script>
 
 {#if window.innerWidth < 600}
@@ -14,7 +13,7 @@
     <div class="left">
       <DropdownTemperature {windowLocation} />
       <div class="margin-top">
-        <DropdownColor {windowLocation} />
+        <ColorsCheckbox {windowLocation} />
       </div>
     </div>
   </div>
@@ -47,7 +46,7 @@
       <div class="margin-left">
         <DropdownTemperature {windowLocation} />
         <div class="margin-top">
-          <DropdownColor {windowLocation} />
+          <ColorsCheckbox {windowLocation} />
         </div>
       </div>
       <div class="line-horizontal"></div>
