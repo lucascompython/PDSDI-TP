@@ -11,19 +11,19 @@
 <div class="container mx-auto p-4 max-w-lg">
   <label class="input input-bordered flex items-center gap-2 mb-4">
     <EmailIcon />
-    <input type="email" class="grow p-2" placeholder={t("profile.Oemail")} />
+    <input
+      type="email"
+      class="grow p-2"
+      placeholder={t("profile.new_email")}
+      value="lucas@gmail.com"
+    />
   </label>
-  <label class="input input-bordered flex items-center gap-2 mb-4">
-    <EmailIcon />
-    <input type="email" class="grow p-2" placeholder={t("profile.Nemail")} />
-  </label>
-  <button class="btn btn-primary w-full">{t("profile.change_email")}</button>
   <label class="input input-bordered flex items-center gap-2 mb-4">
     <PasswordLoginIcon />
     <input
       type="password"
       class="grow p-2"
-      placeholder={t("profile.Opassword")}
+      placeholder={t("profile.new_password")}
       id="passwordInput"
     />
   </label>
@@ -32,12 +32,12 @@
     <input
       type="password"
       class="grow p-2"
-      placeholder={t("profile.Npassword")}
+      placeholder={t("profile.repeat_password")}
       id="passwordInput"
     />
   </label>
 
-  <button class="btn btn-primary w-full">{t("profile.change_password")}</button>
+  <button class="btn btn-primary w-full">{t("profile.confirm_changes")}</button>
 </div>
 
 <style>
@@ -48,20 +48,10 @@
   label {
     display: flex;
     background-color: var(--bg-color);
-    margin-top: 1rem;
-  }
-  a {
-    display: flex;
-    color: var(--text-color);
-    position: relative;
-    margin-top: 1rem;
   }
   button {
     background-color: var(--bg-color);
     color: var(--text-color);
     margin-top: 1rem;
-  }
-  button a {
-    margin: auto;
   }
 </style>
