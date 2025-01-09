@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { fileName } from "./stores";
+  import { fileName, currentIndex } from "./stores";
   const { images }: { images: File[] } = $props();
 </script>
 
@@ -17,18 +17,20 @@
         >
           <a
             href="#slide{index === 0 ? images.length : index}"
-            onclick={() =>
-              fileName.set(
-                images[index === 0 ? images.length - 1 : index - 1].name,
-              )}
+            onclick={() => {
+              const i = index === 0 ? images.length - 1 : index - 1;
+              currentIndex.set(i);
+              fileName.set(images[i].name);
+            }}
             class="btn btn-circle">❮</a
           >
           <a
             href="#slide{index === images.length - 1 ? 1 : index + 2}"
-            onclick={() =>
-              fileName.set(
-                images[index === images.length - 1 ? 0 : index + 1].name,
-              )}
+            onclick={() => {
+              const i = index === images.length - 1 ? 0 : index + 1;
+              currentIndex.set(i);
+              fileName.set(images[i].name);
+            }}
             class="btn btn-circle">❯</a
           >
         </div>

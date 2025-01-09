@@ -1,23 +1,28 @@
 <script lang="ts">
   // TODO: see why cant compile to prod with windowLocation
   // TODO: Optimise the svgs
+  // TODO: optimize the t function using stores
 
   import { getLangFromUrl, useTranslations } from "src/i18n/utils";
-  import { fileName, clothes, t as tStore } from "./stores";
+  import { fileName, currentIndex } from "./stores";
   import Hanger from "./Icons/Hanger.svg?raw";
-  import { ClotheCategory, Color } from "src/api/utils";
+  import { ClotheCategory, Color, type Clothe } from "src/api/utils";
   import Carousel from "./Carousel.svelte";
 
   let { windowLocation }: { windowLocation: URL } = $props();
 
   const t = useTranslations(getLangFromUrl(windowLocation));
-  tStore.set(t);
 
   let dragOver = $state(false);
 
-  let selectedImages: File[] = $state([]);
+  const selectedImages: File[] = $state([]);
+  const Clothes: Clothe[] = $state([]);
 
   const maxFileSize = 10 * 1024 * 1024; // 10MB
+
+  currentIndex.subscribe((value) => {
+    console.log("current index:", value);
+  });
 
   function handleDrop(event: DragEvent) {
     event.preventDefault();
