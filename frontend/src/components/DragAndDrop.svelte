@@ -2,6 +2,7 @@
   // TODO: see why cant compile to prod with windowLocation
   // TODO: Optimise the svgs
   // TODO: optimize the t function using stores
+  // TODO: See context api
 
   import { getLangFromUrl, useTranslations } from "src/i18n/utils";
   import { fileName, currentIndex } from "./stores";
