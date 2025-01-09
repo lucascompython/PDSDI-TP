@@ -55,7 +55,6 @@ export const translations = {
     "upload.upload": "Upload",
     "upload.color": "Color",
     "upload.remove": "Remove",
-    "upload.next": "Next",
     "upload.is_for_hot_weather": "Is for hot weather",
   },
   pt: {
@@ -107,7 +106,6 @@ export const translations = {
     "upload.upload": "Enviar",
     "upload.color": "Cor",
     "upload.remove": "Remover",
-    "upload.next": "Seguinte",
     "upload.is_for_hot_weather": "É para tempo quente",
   },
 } as const;

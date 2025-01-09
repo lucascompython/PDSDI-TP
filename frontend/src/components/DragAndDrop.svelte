@@ -9,6 +9,8 @@
   import Hanger from "./Icons/Hanger.svg?raw";
   import { ClotheCategory, Color, type Clothe } from "src/api/utils";
   import Carousel from "./Carousel.svelte";
+  import { get } from "svelte/store";
+  import { onMount } from "svelte";
 
   let { windowLocation }: { windowLocation: URL } = $props();
 
@@ -65,6 +67,23 @@
       processFiles(files);
     }
   }
+
+  onMount(() => {
+    const clotheName = document.getElementById(
+      "clotheName",
+    ) as HTMLInputElement;
+    const clotheCategory = document.getElementById(
+      "clotheCategory",
+    ) as HTMLSelectElement;
+    const clotheColor = document.getElementById(
+      "clotheColor",
+    ) as HTMLSelectElement;
+    const clotheIsForHotWeather = document.getElementById(
+      "clotheIsForHotWeather",
+    ) as HTMLInputElement;
+  });
+
+  function handleUpload(event: MouseEvent) {}
 </script>
 
 <div
@@ -101,17 +120,28 @@
       <div class="form-container">
         <label class="m-2 input input-bordered flex items-center gap-2">
           {@html Hanger}
-          <input type="text" class="grow" placeholder={t("upload.name")} />
+          <input
+            id="clotheName"
+            type="text"
+            class="grow"
+            placeholder={t("upload.name")}
+          />
         </label>
         <div class="flex">
-          <select class="m-2 select select-bordered w-full max-w-xs">
+          <select
+            id="clotheCategory"
+            class="m-2 select select-bordered w-full max-w-xs"
+          >
             <option>{t("upload.category")}</option>
             {#each Object.keys(ClotheCategory) as category}
               <option value={category}>{category}</option>
             {/each}
           </select>
 
-          <select class="m-2 select select-bordered w-full max-w-xs">
+          <select
+            id="clotheColor"
+            class="m-2 select select-bordered w-full max-w-xs"
+          >
             <option>{t("upload.color")}</option>
             {#each Object.keys(Color) as color}
               <option value={color}>{color}</option>
@@ -120,7 +150,7 @@
         </div>
         <label class="label cursor-pointer m-2">
           <span class="label-text">{t("upload.is_for_hot_weather")}</span>
-          <input type="checkbox" class="checkbox" />
+          <input id="clotheIsForHotWeather" type="checkbox" class="checkbox" />
         </label>
         <div class="button-container">
           <form
@@ -134,7 +164,9 @@
           </form>
           <div class="right-buttons">
             <button class="btn btn-error w-full">{t("upload.remove")}</button>
-            <button class="btn btn-accent w-full">{t("upload.upload")}</button>
+            <button class="btn btn-accent w-full" onclick={handleUpload}
+              >{t("upload.upload")}</button
+            >
           </div>
         </div>
       </div>
