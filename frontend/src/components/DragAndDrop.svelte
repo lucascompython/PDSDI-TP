@@ -4,6 +4,8 @@
 
   import { getLangFromUrl, useTranslations } from "src/i18n/utils";
   import { fileName, clothes, t as tStore } from "./stores";
+  import Hanger from "./Icons/Hanger.svg?raw";
+  import { ClotheCategory, Color } from "src/api/utils";
   import Carousel from "./Carousel.svelte";
 
   let { windowLocation }: { windowLocation: URL } = $props();
@@ -90,20 +92,74 @@
     <Carousel images={selectedImages} />
 
     <div class="modal-action">
-      <form
-        method="dialog"
-        onsubmit={() => {
-          selectedImages.length = 0;
-        }}
-      >
-        <!-- if there is a button in form, it will close the modal -->
-        <button class="btn">{t("upload.cancel")}</button>
-      </form>
+      <div class="form-container">
+        <label class="m-2 input input-bordered flex items-center gap-2">
+          {@html Hanger}
+          <input type="text" class="grow" placeholder={t("upload.name")} />
+        </label>
+        <div class="flex">
+          <select class="m-2 select select-bordered w-full max-w-xs">
+            <option>{t("upload.category")}</option>
+            {#each Object.keys(ClotheCategory) as category}
+              <option value={category}>{category}</option>
+            {/each}
+          </select>
+
+          <select class="m-2 select select-bordered w-full max-w-xs">
+            <option>{t("upload.color")}</option>
+            {#each Object.keys(Color) as color}
+              <option value={color}>{color}</option>
+            {/each}
+          </select>
+        </div>
+        <label class="label cursor-pointer m-2">
+          <span class="label-text">{t("upload.is_for_hot_weather")}</span>
+          <input type="checkbox" class="checkbox" />
+        </label>
+        <div class="button-container">
+          <form
+            method="dialog"
+            onsubmit={() => {
+              selectedImages.length = 0;
+            }}
+          >
+            <!-- if there is a button in form, it will close the modal -->
+            <button class="btn">{t("upload.cancel")}</button>
+          </form>
+          <div class="right-buttons">
+            <button class="btn btn-error w-full">{t("upload.remove")}</button>
+            <button class="btn btn-accent w-full">{t("upload.upload")}</button>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </dialog>
 
 <style>
+  .form-container {
+    margin-top: 1rem;
+    flex-direction: column;
+  }
+  .modal-action {
+    display: block;
+  }
+
+  .button-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
+
+  .right-buttons {
+    display: flex;
+    gap: 1rem;
+  }
+  .btn {
+    flex: 1;
+  }
+
   .drag-area {
     display: flex;
     flex-direction: column;
@@ -172,7 +228,7 @@
     text-decoration: underline;
   }
 
-  input {
+  #fileInput {
     display: none;
   }
 

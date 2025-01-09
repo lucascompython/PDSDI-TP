@@ -54,6 +54,11 @@ export const translations = {
     "upload.cancel": "Cancel",
     "upload.name": "Name",
     "upload.category": "Category",
+    "upload.upload": "Upload",
+    "upload.color": "Color",
+    "upload.remove": "Remove",
+    "upload.next": "Next",
+    "upload.is_for_hot_weather": "Is for hot weather",
   },
   pt: {
     "nav.home": "Início",
@@ -103,5 +108,10 @@ export const translations = {
     "upload.cancel": "Cancelar",
     "upload.name": "Nome",
     "upload.category": "Categoria",
+    "upload.upload": "Enviar",
+    "upload.color": "Cor",
+    "upload.remove": "Remover",
+    "upload.next": "Seguinte",
+    "upload.is_for_hot_weather": "É para tempo quente",
   },
 } as const;
