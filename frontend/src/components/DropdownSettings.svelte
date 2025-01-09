@@ -19,6 +19,7 @@
     // we must do this because the client-side middleware can finish after the component is mounted
     isAdmin = value;
   });
+  let isRotated = false;
 </script>
 
 <div class="dropdown dropdown-end">
@@ -28,6 +29,16 @@
     class="m-1"
     onmousedown={(event) => {
       event.preventDefault();
+      const settingsIcon = document.getElementById("dropdown-settings")!;
+
+      if (isRotated) {
+        settingsIcon.style.transform = "rotate(0deg)";
+        isRotated = false;
+      } else {
+        settingsIcon.style.transform = "rotate(90deg)";
+        isRotated = true;
+      }
+
       const element = event.currentTarget;
       if (document.activeElement === element) {
         element.blur();

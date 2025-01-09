@@ -8,10 +8,6 @@ export default {
       backgroundColor: false,
     },
   },
-  daisyui: {
-    // Remove DaisyUI themes
-    themes: [],
-  },
 
   plugins: [daisyui],
   corePlugins: {
