@@ -1,6 +1,9 @@
 <script lang="ts">
   import { fileName, currentIndex } from "./stores";
-  const { images }: { images: File[] } = $props();
+  const {
+    images,
+    setData,
+  }: { images: File[]; setData: (index: number) => void } = $props();
 </script>
 
 <div class="carousel w-full">
@@ -19,8 +22,10 @@
             href="#slide{index === 0 ? images.length : index}"
             onclick={() => {
               const i = index === 0 ? images.length - 1 : index - 1;
+
               currentIndex.set(i);
               fileName.set(images[i].name);
+              setData(i);
             }}
             class="btn btn-circle">❮</a
           >
@@ -30,6 +35,7 @@
               const i = index === images.length - 1 ? 0 : index + 1;
               currentIndex.set(i);
               fileName.set(images[i].name);
+              setData(i);
             }}
             class="btn btn-circle">❯</a
           >

@@ -6,7 +6,7 @@
   const t = useTranslations(lang);
 </script>
 
-<span class="text-lg">{t("colorO.label")}</span>
+<span class="text-lg">{t("label")}</span>
 
 {#if window.innerWidth < 600}
   <div>
@@ -17,7 +17,7 @@
           checked={false}
           class="checkbox [--chkbg:#FF0000] [--chkfg:black]"
         />
-        {t("colorO.red")}
+        {t("red")}
       </label>
       <label class="fieldset-label">
         <input
@@ -25,7 +25,7 @@
           checked={false}
           class="checkbox [--chkbg:#FFFFFF] [--chkfg:black]"
         />
-        {t("colorO.white")}
+        {t("white")}
       </label>
       <label class="fieldset-label">
         <input
@@ -33,7 +33,7 @@
           checked={false}
           class="checkbox [--chkbg:#000000] [--chkfg:white]"
         />
-        {t("colorO.black")}
+        {t("black")}
       </label>
     </div>
     <div>
@@ -43,7 +43,7 @@
           checked={false}
           class="checkbox [--chkbg:#FFC0CB] [--chkfg:black]"
         />
-        {t("colorO.pink")}
+        {t("pink")}
       </label>
 
       <label class="fieldset-label">
@@ -52,7 +52,7 @@
           checked={false}
           class="checkbox [--chkbg:#800080] [--chkfg:black]"
         />
-        {t("colorO.purple")}
+        {t("purple")}
       </label>
 
       <label class="fieldset-label">
@@ -61,7 +61,7 @@
           checked={false}
           class="checkbox [--chkbg:#FFFF00] [--chkfg:black]"
         />
-        {t("colorO.yellow")}
+        {t("yellow")}
       </label>
     </div>
     <div>
@@ -71,7 +71,7 @@
           checked={false}
           class="checkbox [--chkbg:#FFA500] [--chkfg:black]"
         />
-        {t("colorO.orange")}
+        {t("orange")}
       </label>
       <label class="fieldset-label">
         <input
@@ -79,7 +79,7 @@
           checked={false}
           class="checkbox [--chkbg:#808080] [--chkfg:black]"
         />
-        {t("colorO.grey")}
+        {t("grey")}
       </label>
 
       <label class="fieldset-label">
@@ -88,7 +88,7 @@
           checked={false}
           class="checkbox [--chkbg:#008000] [--chkfg:black]"
         />
-        {t("colorO.green")}
+        {t("green")}
       </label>
     </div>
     <div>
@@ -98,7 +98,7 @@
           checked={false}
           class="checkbox [--chkbg:#0000FF] [--chkfg:black]"
         />
-        {t("colorO.blue")}
+        {t("blue")}
       </label>
       <label class="fieldset-label">
         <input
@@ -106,7 +106,7 @@
           checked={false}
           class="checkbox [--chkbg:#A52A2A] [--chkfg:black]"
         />
-        {t("colorO.brown")}
+        {t("brown")}
       </label>
       <label class="fieldset-label">
         <input
@@ -114,7 +114,7 @@
           checked={false}
           class="checkbox [--chkbg:#FFD700] [--chkfg:black]"
         />
-        {t("colorO.gold")}
+        {t("gold")}
       </label>
     </div>
   </div>
@@ -127,7 +127,7 @@
           checked={false}
           class="checkbox [--chkbg:#FF0000] [--chkfg:black]"
         />
-        {t("colorO.red")}
+        {t("red")}
       </label>
       <label class="fieldset-label">
         <input
@@ -135,7 +135,7 @@
           checked={false}
           class="checkbox [--chkbg:#FFFFFF] [--chkfg:black]"
         />
-        {t("colorO.white")}
+        {t("white")}
       </label>
       <label class="fieldset-label">
         <input
@@ -143,7 +143,7 @@
           checked={false}
           class="checkbox [--chkbg:#000000] [--chkfg:white]"
         />
-        {t("colorO.black")}
+        {t("black")}
       </label>
       <label class="fieldset-label">
         <input
@@ -151,7 +151,7 @@
           checked={false}
           class="checkbox [--chkbg:#FFC0CB] [--chkfg:black]"
         />
-        {t("colorO.pink")}
+        {t("pink")}
       </label>
     </div>
     <div>
@@ -161,7 +161,7 @@
           checked={false}
           class="checkbox [--chkbg:#800080] [--chkfg:black]"
         />
-        {t("colorO.purple")}
+        {t("purple")}
       </label>
 
       <label class="fieldset-label">
@@ -170,7 +170,7 @@
           checked={false}
           class="checkbox [--chkbg:#FFFF00] [--chkfg:black]"
         />
-        {t("colorO.yellow")}
+        {t("yellow")}
       </label>
       <label class="fieldset-label">
         <input
@@ -178,7 +178,7 @@
           checked={false}
           class="checkbox [--chkbg:#FFA500] [--chkfg:black]"
         />
-        {t("colorO.orange")}
+        {t("orange")}
       </label>
       <label class="fieldset-label">
         <input
@@ -186,7 +186,7 @@
           checked={false}
           class="checkbox [--chkbg:#808080] [--chkfg:black]"
         />
-        {t("colorO.grey")}
+        {t("grey")}
       </label>
     </div>
     <div>
@@ -196,7 +196,7 @@
           checked={false}
           class="checkbox [--chkbg:#008000] [--chkfg:black]"
         />
-        {t("colorO.green")}
+        {t("green")}
       </label>
       <label class="fieldset-label">
         <input
@@ -204,7 +204,7 @@
           checked={false}
           class="checkbox [--chkbg:#0000FF] [--chkfg:black]"
         />
-        {t("colorO.blue")}
+        {t("blue")}
       </label>
       <label class="fieldset-label">
         <input
@@ -212,7 +212,7 @@
           checked={false}
           class="checkbox [--chkbg:#A52A2A] [--chkfg:black]"
         />
-        {t("colorO.brown")}
+        {t("brown")}
       </label>
       <label class="fieldset-label">
         <input
@@ -220,7 +220,7 @@
           checked={false}
           class="checkbox [--chkbg:#FFD700] [--chkfg:black]"
         />
-        {t("colorO.gold")}
+        {t("gold")}
       </label>
     </div>
   </div>

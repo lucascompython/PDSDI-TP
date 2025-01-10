@@ -2,31 +2,31 @@ const API_BASE_URL = "http://localhost:1234";
 
 // Max index -> 10
 export enum Color {
-  Red = "Gray",
-  Orange = "Black",
-  Yellow = "White",
-  Green = "Brown",
-  Blue = "Pink",
-  Purple = "Purple",
-  Pink = "Blue",
-  Brown = "Green",
-  White = "Yellow",
-  Black = "Orange",
-  Gray = "Red",
+  Red = "gray",
+  Orange = "black",
+  Yellow = "white",
+  Green = "brown",
+  Blue = "pink",
+  Purple = "purple",
+  Pink = "blue",
+  Brown = "green",
+  White = "yellow",
+  Black = "orange",
+  Gray = "red",
 }
 // Max index -> 10
 export enum ClotheCategory {
-  Shirt = "Shirt",
-  Pants = "Pants",
-  Shorts = "Shorts",
-  Dress = "Dress",
-  Skirt = "Skirt",
-  Jacket = "Jacket",
-  Sweater = "Sweater",
-  Shoes = "Shoes",
-  Hat = "Hat",
-  Gloves = "Gloves",
-  Scarf = "Scarf",
+  Shirt = "shirt",
+  Pants = "pants",
+  Shorts = "shorts",
+  Dress = "dress",
+  Skirt = "skirt",
+  Jacket = "jacket",
+  Sweater = "sweater",
+  Shoes = "shoes",
+  Hat = "hat",
+  Gloves = "gloves",
+  Scarf = "scarf",
 }
 
 export interface Clothe {

@@ -23,10 +23,6 @@
 
   const maxFileSize = 10 * 1024 * 1024; // 10MB
 
-  currentIndex.subscribe((value) => {
-    console.log("current index:", value);
-  });
-
   let clotheName: HTMLInputElement;
   let clotheCategory: HTMLSelectElement;
   let clotheColor: HTMLSelectElement;
@@ -47,6 +43,44 @@
     previewModal = document.getElementById("previewModal") as HTMLDialogElement;
     fileInput = document.getElementById("fileInput") as HTMLInputElement;
   });
+
+  currentIndex.subscribe((index) => {
+    console.log("current index:", index);
+
+    if (!shouldUpdateValues(index)) {
+      return;
+    }
+
+    fillData(index);
+  });
+
+  function shouldUpdateValues(index: number): boolean {
+    if (Clothes[index] === undefined) {
+      return false;
+    }
+
+    return (
+      clotheName.value !== Clothes[index].name ||
+      clotheCategory.value !== Clothes[index].category ||
+      clotheColor.value !== Clothes[index].color ||
+      clotheIsForHotWeather.checked !== Clothes[index].isForHotWeather
+    );
+  }
+
+  /* function that checks if all the Clothes items properties are filled returns the index of the first item that is not filled */
+  function checkClothes(): number {
+    for (let i = 0; i < Clothes.length; i++) {
+      if (
+        !Clothes[i].name ||
+        !Clothes[i].category ||
+        !Clothes[i].color ||
+        Clothes[i].isForHotWeather === undefined
+      ) {
+        return i;
+      }
+    }
+    return -1;
+  }
 
   function handleDrop(event: DragEvent) {
     event.preventDefault();
@@ -87,7 +121,59 @@
     }
   }
 
-  function handleUpload(event: MouseEvent) {}
+  function fillData(index: number) {
+    if (!shouldUpdateValues(index)) {
+      return;
+    }
+
+    console.log("Clothes[index]:", Clothes[index]);
+
+    clotheName.value = Clothes[index].name;
+    clotheCategory.value = Clothes[index].category;
+    clotheColor.value = Clothes[index].color;
+    clotheIsForHotWeather.checked = Clothes[index].isForHotWeather;
+  }
+
+  function setData(index: number) {
+    Clothes[index] = {
+      name: clotheName.value,
+      category: clotheCategory.value as ClotheCategory,
+      color: clotheColor.value as Color,
+      isForHotWeather: clotheIsForHotWeather.checked,
+      image: selectedImages[index],
+    };
+  }
+
+  function handleUpload(event?: MouseEvent) {
+    if (event) {
+      event.preventDefault();
+    }
+
+    console.log("CurrentIndex in handleUpload:", get(currentIndex));
+
+    const index = checkClothes();
+    if (index !== -1) {
+      fillData(get(currentIndex));
+      // Clothes[index] = {
+      //   name: clotheName.value,
+      //   category: clotheCategory.value as ClotheCategory,
+      //   color: clotheColor.value as Color,
+      //   isForHotWeather: clotheIsForHotWeather.checked,
+      //   image: selectedImages[0],
+      // };
+      console.log("Clothes:", Clothes);
+    } else {
+      Clothes.push({
+        name: clotheName.value,
+        category: clotheCategory.value as ClotheCategory,
+        color: clotheColor.value as Color,
+        isForHotWeather: clotheIsForHotWeather.checked,
+        image: selectedImages[0],
+      });
+    }
+
+    // previewModal.close();
+  }
 </script>
 
 <div
@@ -115,7 +201,7 @@
     <h3 class="text-lg font-bold">{t("upload.preview")}</h3>
     <p class="py-4">{$fileName}</p>
 
-    <Carousel images={selectedImages} />
+    <Carousel images={selectedImages} {setData} />
 
     <div class="modal-action">
       <div class="form-container">
@@ -134,8 +220,8 @@
             class="m-2 select select-bordered w-full max-w-xs"
           >
             <option>{t("upload.category")}</option>
-            {#each Object.keys(ClotheCategory) as category}
-              <option value={category}>{category}</option>
+            {#each Object.values(ClotheCategory) as category}
+              <option value={category}>{t(category as any)}</option>
             {/each}
           </select>
 
@@ -144,8 +230,8 @@
             class="m-2 select select-bordered w-full max-w-xs"
           >
             <option>{t("upload.color")}</option>
-            {#each Object.keys(Color) as color}
-              <option value={color}>{color}</option>
+            {#each Object.values(Color) as color}
+              <option value={color}>{t(color as any)}</option>
             {/each}
           </select>
         </div>
