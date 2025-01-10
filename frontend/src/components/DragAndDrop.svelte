@@ -27,6 +27,27 @@
     console.log("current index:", value);
   });
 
+  let clotheName: HTMLInputElement;
+  let clotheCategory: HTMLSelectElement;
+  let clotheColor: HTMLSelectElement;
+  let clotheIsForHotWeather: HTMLInputElement;
+  let previewModal: HTMLDialogElement;
+  let fileInput: HTMLInputElement;
+
+  onMount(() => {
+    clotheName = document.getElementById("clotheName") as HTMLInputElement;
+    clotheCategory = document.getElementById(
+      "clotheCategory",
+    ) as HTMLSelectElement;
+    clotheColor = document.getElementById("clotheColor") as HTMLSelectElement;
+    clotheIsForHotWeather = document.getElementById(
+      "clotheIsForHotWeather",
+    ) as HTMLInputElement;
+
+    previewModal = document.getElementById("previewModal") as HTMLDialogElement;
+    fileInput = document.getElementById("fileInput") as HTMLInputElement;
+  });
+
   function handleDrop(event: DragEvent) {
     event.preventDefault();
     dragOver = false;
@@ -54,9 +75,7 @@
 
       fileName.set(selectedImages[0].name);
 
-      (
-        document.getElementById("previewModal") as HTMLDialogElement
-      )?.showModal();
+      previewModal.showModal();
     }
   }
 
@@ -67,21 +86,6 @@
       processFiles(files);
     }
   }
-
-  onMount(() => {
-    const clotheName = document.getElementById(
-      "clotheName",
-    ) as HTMLInputElement;
-    const clotheCategory = document.getElementById(
-      "clotheCategory",
-    ) as HTMLSelectElement;
-    const clotheColor = document.getElementById(
-      "clotheColor",
-    ) as HTMLSelectElement;
-    const clotheIsForHotWeather = document.getElementById(
-      "clotheIsForHotWeather",
-    ) as HTMLInputElement;
-  });
 
   function handleUpload(event: MouseEvent) {}
 </script>
@@ -94,10 +98,7 @@
   tabindex="0"
 >
   <p>{t("upload.drag_drop")}</p>
-  <button
-    type="button"
-    onclick={() =>
-      (document.getElementById("fileInput") as HTMLInputElement).click()}
+  <button type="button" onclick={() => fileInput.click()}
     >{t("upload.browse")}</button
   >
   <input
