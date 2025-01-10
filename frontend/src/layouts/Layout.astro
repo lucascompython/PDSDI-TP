@@ -19,6 +19,8 @@ const { title } = Astro.props;
 
     <script>
       import onRequest from "src/api/middleware";
+      const loading = document.getElementById("loading")!;
+      const screen = document.getElementById("screen")!;
 
       onRequest(window.location.href, window.location.pathname).then(
         (location) => {
@@ -26,9 +28,7 @@ const { title } = Astro.props;
             // avoid redirecting to the same page
             window.location.href = location;
           } else {
-            (document.querySelector(".loading") as HTMLElement).style.display =
-              "none";
-            const screen = document.getElementById("screen")!;
+            loading.style.display = "none";
             screen.style.display = "none";
           }
         }
@@ -36,7 +36,7 @@ const { title } = Astro.props;
     </script>
   </head>
   <body>
-    <div class="loading loading-ring loading-lg"></div>
+    <div id="loading" class="loading loading-ring loading-lg"></div>
     <div id="screen"></div>
     <!-- Screen overlay -->
     <slot />

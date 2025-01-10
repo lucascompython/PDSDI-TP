@@ -8,10 +8,17 @@
 
 <script lang="ts">
   import { isErrorVisible } from "./stores";
+  import { onMount } from "svelte";
   let { message }: { message: string } = $props();
+
+  let alertContainer: HTMLElement;
+
+  onMount(() => {
+    alertContainer = document.getElementById("alert") as HTMLElement;
+  });
 </script>
 
-<div class="alert-container">
+<div class="alert-container" id="alert">
   <div role="alert" class="alert alert-error">
     <!-- svelte-ignore a11y_no_static_element_interactions -->
     <!-- svelte-ignore a11y_click_events_have_key_events -->
@@ -21,7 +28,7 @@
       fill="none"
       viewBox="0 0 24 24"
       onclick={() => {
-        document.querySelector(".alert-container")?.remove();
+        alertContainer.remove();
         $isErrorVisible = false;
       }}
     >

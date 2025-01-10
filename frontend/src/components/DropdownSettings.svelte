@@ -36,7 +36,6 @@
     class="m-1"
     onmousedown={(event) => {
       event.preventDefault();
-      const settingsIcon = document.getElementById("dropdown-settings")!;
 
       if (isRotated) {
         settingsIcon.style.transform = "rotate(0deg)";
