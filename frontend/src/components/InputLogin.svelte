@@ -53,6 +53,7 @@
 <GenericAvatarIcon />
 
 <!-- TODO: Add input validation errors -->
+<!-- TODO: Optimize this by removing bind:value -->
 
 <form class="container mx-auto p-4 max-w-lg" onsubmit={handleLogin}>
   <label class="input input-bordered flex items-center gap-2 mb-4">

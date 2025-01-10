@@ -2,6 +2,7 @@
   import SettingsIcon from "./Icons/SettingsIcon.svelte";
   import { logoutUser } from "src/api/utils";
   import { isAdmin as isAdminStore } from "./stores";
+  import { onMount } from "svelte";
 
   import {
     getLangFromUrl,
@@ -20,6 +21,12 @@
     isAdmin = value;
   });
   let isRotated = false;
+
+  let settingsIcon: HTMLElement;
+
+  onMount(() => {
+    settingsIcon = document.getElementById("dropdown-settings")!;
+  });
 </script>
 
 <div class="dropdown dropdown-end">

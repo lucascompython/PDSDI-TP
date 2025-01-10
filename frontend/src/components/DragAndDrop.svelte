@@ -1,5 +1,5 @@
 <script lang="ts">
-  // TODO: see why cant compile to prod with windowLocation
+  // TODO: see why cant compile to prod with windowLocation SEE ON MOUNT
   // TODO: Optimise the svgs
   // TODO: optimize the t function using stores
   // TODO: See context api
