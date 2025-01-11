@@ -1,5 +1,6 @@
 <script lang="ts">
   import { fileName, currentIndex } from "./stores";
+  import { get } from "svelte/store";
   const {
     images,
     setData,
@@ -23,9 +24,9 @@
             onclick={() => {
               const i = index === 0 ? images.length - 1 : index - 1;
 
+              setData(get(currentIndex));
               currentIndex.set(i);
               fileName.set(images[i].name);
-              setData(i);
             }}
             class="btn btn-circle">❮</a
           >
@@ -33,9 +34,9 @@
             href="#slide{index === images.length - 1 ? 1 : index + 2}"
             onclick={() => {
               const i = index === images.length - 1 ? 0 : index + 1;
+              setData(get(currentIndex));
               currentIndex.set(i);
               fileName.set(images[i].name);
-              setData(i);
             }}
             class="btn btn-circle">❯</a
           >

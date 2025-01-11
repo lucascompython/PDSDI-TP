@@ -1,9 +1,7 @@
 <script lang="ts">
   import EmailIcon from "./Icons/EmailIcon.svelte";
   import PasswordLoginIcon from "./Icons/PasswordLoginIcon.svelte";
-  import ErrorAlert from "./ErrorAlert.svelte"; // Cannot remove this for some reason
   import GenericAvatarIcon from "./Icons/GenericAvatarIcon.svelte";
-  import { isErrorVisible } from "./stores";
   import {
     getLangFromUrl,
     useTranslatedPath,
@@ -11,6 +9,7 @@
   } from "src/i18n/utils";
 
   import { loginUser } from "src/api/utils";
+  import { showAlert, AlertType } from "./Alert/Alert";
 
   let { windowLocation }: { windowLocation: URL } = $props();
   const lang = getLangFromUrl(windowLocation);
@@ -20,30 +19,17 @@
   let email = $state("");
   let password = $state("");
 
-  function showErrorAlert() {
-    if (!$isErrorVisible) {
-      $isErrorVisible = true;
-      const errorAlert = document.createElement("error-alert");
-      errorAlert.setAttribute("message", t("login.error"));
-      document.body.appendChild(errorAlert);
-      setTimeout(() => {
-        $isErrorVisible = false;
-        errorAlert.remove();
-      }, 5000);
-    }
-  }
-
   async function handleLogin(event: SubmitEvent) {
     event.preventDefault();
     if (email === "" || password === "") {
-      showErrorAlert();
+      showAlert(t("login.error"), AlertType.ERROR);
       return;
     }
 
     const resp = await loginUser(email, password);
 
     if (!resp) {
-      showErrorAlert();
+      showAlert(t("login.error"), AlertType.ERROR);
     } else {
       window.location.href = translatePath("/");
     }

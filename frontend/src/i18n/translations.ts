@@ -67,6 +67,10 @@ export const translations = {
     "upload.color": "Color",
     "upload.remove": "Remove",
     "upload.is_for_hot_weather": "Is for hot weather",
+    "upload.file_too_large": "is too large",
+    "upload.file_not_image": "is not an image",
+    "upload.fill_all_fields": "Fill all fields",
+    "upload.success": "Upload successful",
   },
   pt: {
     "nav.home": "Início",
@@ -129,5 +133,9 @@ export const translations = {
     "upload.color": "Cor",
     "upload.remove": "Remover",
     "upload.is_for_hot_weather": "É para tempo quente",
+    "upload.file_too_large": "é demasiado grande",
+    "upload.file_not_image": "não é uma imagem",
+    "upload.fill_all_fields": "Preencha todos os campos",
+    "upload.success": "Envio bem sucedido",
   },
 } as const;

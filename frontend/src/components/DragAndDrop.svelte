@@ -11,6 +11,7 @@
   import Carousel from "./Carousel.svelte";
   import { get } from "svelte/store";
   import { onMount } from "svelte";
+  import { showAlert, AlertType } from "./Alert/Alert";
 
   let { windowLocation }: { windowLocation: URL } = $props();
 
@@ -42,39 +43,29 @@
 
     previewModal = document.getElementById("previewModal") as HTMLDialogElement;
     fileInput = document.getElementById("fileInput") as HTMLInputElement;
+
+    currentIndex.subscribe((index) => {
+      if (Clothes[index] === undefined) {
+        clotheName.value = "";
+        clotheCategory.value = t("upload.category");
+        clotheColor.value = t("upload.color");
+        clotheIsForHotWeather.checked = false;
+        return;
+      }
+
+      fillData(index);
+    });
   });
 
-  currentIndex.subscribe((index) => {
-    console.log("current index:", index);
-
-    if (!shouldUpdateValues(index)) {
-      return;
-    }
-
-    fillData(index);
-  });
-
-  function shouldUpdateValues(index: number): boolean {
-    if (Clothes[index] === undefined) {
-      return false;
-    }
-
-    return (
-      clotheName.value !== Clothes[index].name ||
-      clotheCategory.value !== Clothes[index].category ||
-      clotheColor.value !== Clothes[index].color ||
-      clotheIsForHotWeather.checked !== Clothes[index].isForHotWeather
-    );
-  }
-
-  /* function that checks if all the Clothes items properties are filled returns the index of the first item that is not filled */
   function checkClothes(): number {
+    if (Clothes.length === 0) {
+      return 0;
+    }
     for (let i = 0; i < Clothes.length; i++) {
       if (
         !Clothes[i].name ||
-        !Clothes[i].category ||
-        !Clothes[i].color ||
-        Clothes[i].isForHotWeather === undefined
+        Clothes[i].category === (t("upload.category") as ClotheCategory) ||
+        Clothes[i].color === (t("upload.color") as Color)
       ) {
         return i;
       }
@@ -97,18 +88,39 @@
       const file = files[i];
 
       if (!file.type.startsWith("image/")) {
-        console.error("File is not an image");
+        showAlert(
+          `"${file.name}" ${t("upload.file_not_image")}`,
+          AlertType.ERROR,
+          files.length > 1 ? previewModal : undefined,
+        );
+        if (files.length === 1) {
+          return;
+        }
         continue;
       }
 
       if (file.size > maxFileSize) {
-        console.error("File is too large");
+        showAlert(
+          `"${file.name}" ${t("upload.file_too_large")}`,
+          AlertType.ERROR,
+          files.length > 1 ? previewModal : undefined,
+        );
+        if (files.length === 1) {
+          return;
+        }
         continue;
       }
+
       selectedImages.push(file);
+      Clothes.push({
+        name: "",
+        category: t("upload.category") as ClotheCategory,
+        color: t("upload.color") as Color,
+        isForHotWeather: false,
+        image: file,
+      });
 
       fileName.set(selectedImages[0].name);
-
       previewModal.showModal();
     }
   }
@@ -122,12 +134,6 @@
   }
 
   function fillData(index: number) {
-    if (!shouldUpdateValues(index)) {
-      return;
-    }
-
-    console.log("Clothes[index]:", Clothes[index]);
-
     clotheName.value = Clothes[index].name;
     clotheCategory.value = Clothes[index].category;
     clotheColor.value = Clothes[index].color;
@@ -149,27 +155,15 @@
       event.preventDefault();
     }
 
-    console.log("CurrentIndex in handleUpload:", get(currentIndex));
+    setData(get(currentIndex));
 
     const index = checkClothes();
-    if (index !== -1) {
-      fillData(get(currentIndex));
-      // Clothes[index] = {
-      //   name: clotheName.value,
-      //   category: clotheCategory.value as ClotheCategory,
-      //   color: clotheColor.value as Color,
-      //   isForHotWeather: clotheIsForHotWeather.checked,
-      //   image: selectedImages[0],
-      // };
-      console.log("Clothes:", Clothes);
+    if (index === -1) {
+      showAlert(t("upload.success"), AlertType.SUCCESS, previewModal);
     } else {
-      Clothes.push({
-        name: clotheName.value,
-        category: clotheCategory.value as ClotheCategory,
-        color: clotheColor.value as Color,
-        isForHotWeather: clotheIsForHotWeather.checked,
-        image: selectedImages[0],
-      });
+      showAlert(t("upload.fill_all_fields"), AlertType.WARNING, previewModal);
+      currentIndex.set(index);
+      window.location.href = `#slide${index + 1}`;
     }
 
     // previewModal.close();
@@ -196,6 +190,7 @@
     hidden
   />
 </div>
+
 <dialog id="previewModal" class="modal">
   <div class="modal-box">
     <h3 class="text-lg font-bold">{t("upload.preview")}</h3>
@@ -244,13 +239,37 @@
             method="dialog"
             onsubmit={() => {
               selectedImages.length = 0;
+              Clothes.length = 0;
             }}
           >
             <!-- if there is a button in form, it will close the modal -->
             <button class="btn">{t("upload.cancel")}</button>
           </form>
           <div class="right-buttons">
-            <button class="btn btn-error w-full">{t("upload.remove")}</button>
+            <button
+              class="btn btn-error w-full"
+              onclick={() => {
+                let index = get(currentIndex);
+                Clothes.splice(index, 1);
+                selectedImages.splice(index, 1);
+
+                if (selectedImages.length === 0) {
+                  previewModal.close();
+                } else {
+                  currentIndex.update((n) => {
+                    // if we're on the last image then go back one otherwise go the right (current index since we removed the current image)
+                    if (n === selectedImages.length) {
+                      index = n - 1;
+                      return index;
+                    }
+                    index = n;
+                    return n;
+                  });
+
+                  fileName.set(selectedImages[index].name);
+                }
+              }}>{t("upload.remove")}</button
+            >
             <button class="btn btn-accent w-full" onclick={handleUpload}
               >{t("upload.upload")}</button
             >
@@ -262,6 +281,12 @@
 </dialog>
 
 <style>
+  .modal {
+    /* Change this display because daisyui defines it as grid and it breaks with the alert popup */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
   .form-container {
     margin-top: 1rem;
     flex-direction: column;
