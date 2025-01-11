@@ -1,6 +1,6 @@
 const API_BASE_URL = "http://localhost:1234";
 
-// Max index -> 10
+// Max index -> 11
 export enum Color {
   Red = "gray",
   Orange = "black",
@@ -13,6 +13,7 @@ export enum Color {
   White = "yellow",
   Black = "orange",
   Gray = "red",
+  Gold = "gold",
 }
 // Max index -> 10
 export enum ClotheCategory {
