@@ -1,3 +1,6 @@
+// TODO: Restructure the backend
+// TODO: See compression middleware
+
 use std::sync::Arc;
 
 use actix_cors::Cors;
