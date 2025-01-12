@@ -127,7 +127,7 @@ impl DbClient {
             client.prepare("SELECT user_id FROM users WHERE email = $1")
         )?;
 
-        println!("Database schema applied!");
+        println!("Database schema applied and statements prepared!");
 
         let statements = DbStatements {
             insert_user,

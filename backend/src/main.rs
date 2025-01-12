@@ -147,7 +147,7 @@ async fn main() -> std::io::Result<()> {
 
     if cfg!(debug_assertions) {
         #[cfg(feature = "log")]
-        env_logger::init_from_env(env_logger::Env::new().default_filter_or("info"));
+        env_logger::init_from_env(env_logger::Env::new().default_filter_or("debug"));
         HttpServer::new(move || {
             App::new()
                 .wrap(Cors::permissive()) // TODO: Change this to a more secure configuration
