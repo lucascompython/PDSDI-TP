@@ -1,8 +1,6 @@
 // TODO: Restructure the backend
 // TODO: See compression middleware
 
-use std::sync::Arc;
-
 use actix_cors::Cors;
 use actix_session::{
     config::PersistentSession, storage::CookieSessionStore, Session, SessionMiddleware,
@@ -80,7 +78,7 @@ async fn check(session: Session) -> impl Responder {
 }
 
 #[post("/register")]
-async fn register(db: web::Data<Arc<DbClient>>, request_data: web::Bytes) -> impl Responder {
+async fn register(db: web::Data<DbClient>, request_data: web::Bytes) -> impl Responder {
     let Json(request_data): Json<RegisterRequest> = Json::from_bytes(request_data).unwrap();
 
     match db
@@ -99,7 +97,7 @@ async fn register(db: web::Data<Arc<DbClient>>, request_data: web::Bytes) -> imp
 
 #[post("/login")]
 async fn login(
-    db: web::Data<Arc<DbClient>>,
+    db: web::Data<DbClient>,
     login_data: web::Bytes,
     session: Session,
 ) -> impl Responder {
@@ -142,7 +140,7 @@ async fn protected(session: Session) -> impl Responder {
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-    let client = Arc::new(DbClient::new().await.unwrap());
+    let client = web::Data::new(DbClient::new().await.unwrap());
 
     println!("Server running at http://127.0.0.1:1234");
 
@@ -166,7 +164,7 @@ async fn main() -> std::io::Result<()> {
                         )
                         .build(),
                 )
-                .app_data(web::Data::new(client.clone()))
+                .app_data(client.clone())
                 .service(check)
                 .service(register)
                 .service(login)
@@ -193,7 +191,7 @@ async fn main() -> std::io::Result<()> {
                         )
                         .build(),
                 )
-                .app_data(web::Data::new(client.clone()))
+                .app_data(client.clone())
                 .service(check)
                 .service(register)
                 .service(login)
