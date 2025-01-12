@@ -1,5 +1,6 @@
 // TODO: Restructure the backend
 // TODO: See compression middleware
+// TODO: If check isn't successfull, then redirect directly from the backend
 
 use actix_cors::Cors;
 use actix_session::{
