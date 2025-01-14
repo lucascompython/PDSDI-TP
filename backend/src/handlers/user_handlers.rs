@@ -35,10 +35,24 @@ struct RegisterRequest {
     username: String,
     email: String,
     password: String,
+    admin: bool,
 }
 
-pub async fn register(db: web::Data<Db>, request_data: web::Bytes) -> impl Responder {
+pub async fn register(
+    db: web::Data<Db>,
+    session: Session,
+    request_data: web::Bytes,
+) -> impl Responder {
     let Json(user): Json<RegisterRequest> = Json::from_bytes(request_data).unwrap();
+
+    let user_id = match validate_session(&session) {
+        Ok(id) => id,
+        Err(response) => return response,
+    };
+
+    if let Err(response) = admin_only(&session) {
+        return response;
+    }
 
     match db
         .client
@@ -59,7 +73,12 @@ pub async fn register(db: web::Data<Db>, request_data: web::Bytes) -> impl Respo
         .client
         .query(
             &db.statements.insert_user,
-            &[&user.username, &user.email, &&password_bytes[..], &false],
+            &[
+                &user.username,
+                &user.email,
+                &&password_bytes[..],
+                &user.admin,
+            ],
         )
         .await
     {
