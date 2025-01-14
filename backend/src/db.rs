@@ -1,5 +1,7 @@
 use tokio_postgres::{Client, Statement};
 
+use crate::utils::hashing_utils::hash;
+
 const DB_SCHEMA: &str = include_str!("../sql/schema.sql");
 
 pub struct DbStatements {
@@ -46,6 +48,8 @@ impl Db {
 
         println!("Database schema applied and statements prepared!");
 
+        // add default admin user
+
         let statements = DbStatements {
             insert_user,
             get_user_by_email,
@@ -54,6 +58,16 @@ impl Db {
             get_category_id_by_name,
             insert_clothe,
         };
+
+        let password_bytes = hash("1234");
+
+        client
+            .execute(
+                "INSERT INTO users (username, email, password, is_admin) VALUES ($1, $2, $3, $4) ON CONFLICT DO NOTHING",
+                &[&"admin", &"admin@gmail.com", &&password_bytes[..], &true],
+            )
+            .await
+            .unwrap();
 
         Ok(Self { client, statements })
     }

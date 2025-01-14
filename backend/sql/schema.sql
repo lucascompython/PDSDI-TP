@@ -57,5 +57,3 @@ VALUES ('Shirt'),
     ('Hat'),
     ('Gloves'),
     ('Scarf') ON CONFLICT DO NOTHING;
-INSERT INTO users (username, email, password, is_admin)
-VALUES ('admin', 'admin@gmail.com', '1234', TRUE) ON CONFLICT DO NOTHING;
