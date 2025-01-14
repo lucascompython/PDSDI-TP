@@ -1,83 +1,13 @@
----
-import Layout from "@layouts/Layout.astro";
+--- 
+import Layout from "@layouts/Layout.astro"; 
 import NavBar from "@components/NavBar.astro";
-import Footer from "@components/Footer.astro";
-import EyeCard from "@components/EyeCard.svelte";
+import Footer from "@components/Footer.astro"; 
+import CardLoader from "@components/CardLoader.svelte";
 import Search from "@components/Icons/SearchIcon.svg?raw";
-
-import { getLangFromUrl, useTranslations } from "src/i18n/utils";
-
-const t = useTranslations(getLangFromUrl(Astro.url));
----
-
-<Layout title="Clothe Match">
-  <main>
-    <NavBar />
-    <label class="input input-bordered flex items-center gap-2">
-      <input type="text" class="grow" placeholder="Search" />
-      <Fragment set:html={Search} />
-    </label>
-    <div class="grid-container">
-      <EyeCard client:load />
-      <EyeCard client:load />
-      <EyeCard client:load />
-      <EyeCard client:load />
-      <EyeCard client:load />
-      <EyeCard client:load />
-      <EyeCard client:load />
-      <EyeCard client:load />
-      <EyeCard client:load />
-      <EyeCard client:load />
-    </div>
-    <Footer />
-  </main>
-</Layout>
-
-<style>
-  main {
-    background-color: #d9d9d9;
-    color: white;
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-  }
-  :global(.dark) main {
-    background-color: #0d1117;
-  }
-  div {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    flex: 1;
-  }
-  label {
-    background-color: var(--bg-color);
-    color: var(--text-color);
-    width: 90%;
-    display: flex;
-    margin: 0 auto;
-    margin-top: 1rem;
-  }
-  .grid-container {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1rem;
-    width: 100%;
-    padding: 1rem;
-    justify-items: center;
-  }
-  @media only screen and (max-width: 600px) {
-    .grid-container {
-      grid-template-columns: repeat(1, 1fr);
-    }
-  }
-</style>
---- import Layout from "@layouts/Layout.astro"; import NavBar from "@components/NavBar.astro";
-import Footer from "@components/Footer.astro"; import CardLoader from "@components/CardLoader.svelte";
-import Search from "@components/Icons/SearchIcon.svg?raw"; import {
+ import {
   (getLangFromUrl, useTranslations)
-} from "src/i18n/utils"; const t = useTranslations(getLangFromUrl(Astro.url)); ---
+} from "src/i18n/utils"; const t = useTranslations(getLangFromUrl(Astro.url)); 
+---
 
 <Layout title="Clothe Match">
   <main>
