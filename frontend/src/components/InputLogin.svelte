@@ -62,10 +62,39 @@
     />
   </label>
 
-  <a class="link link-hover mb-4">{t("login.forgot.password")}</a>
-
+  <div class="relative">
+    <a class="link link-hover mb-4" href="#forgot_password_modal"
+      >{t("login.forgot.password")}</a
+    >
+    <a class="link link-hover mb-4 absolute" href="#cookies_modal"
+      >{t("login.cookies.label")}</a
+    >
+  </div>
   <button class="btn btn-primary w-full">{t("login.login")}</button>
 </form>
+
+<div class="modal" role="dialog" id="forgot_password_modal">
+  <div class="modal-box bg-color">
+    <label class="input input-bordered flex items-center gap-2 mb-4">
+      <EmailIcon />
+      <input type="email" class="grow p-2" placeholder={t("login.email")} />
+    </label>
+    <div class="modal-action">
+      <!-- svelte-ignore a11y_invalid_attribute -->
+      <a href="" class="btn modalButton">{t("login.forgot.submit")}</a>
+    </div>
+  </div>
+</div>
+
+<div class="modal bg-color" role="dialog" id="cookies_modal">
+  <div class="modal-box bg-color">
+    <p>{t("login.cookies")}</p>
+    <div class="modal-action">
+      <!-- svelte-ignore a11y_invalid_attribute -->
+      <a href="" class="btn modalButton">Ok</a>
+    </div>
+  </div>
+</div>
 
 <style>
   div {
@@ -74,6 +103,10 @@
 
     align-items: center;
     justify-content: center;
+  }
+
+  .bg-color {
+    background-color: var(--bg-color);
   }
 
   input {
@@ -93,12 +126,16 @@
     position: relative;
     margin-top: 1rem;
   }
+  p {
+    color: var(--text-color);
+  }
+  .modalButton {
+    color: var(--text-color);
+    background-color: var(--bg-color);
+  }
   button {
     background-color: var(--bg-color);
     color: var(--text-color);
     margin-top: 1rem;
-  }
-  button a {
-    margin: auto;
   }
 </style>
