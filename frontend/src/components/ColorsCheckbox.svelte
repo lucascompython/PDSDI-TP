@@ -79,7 +79,7 @@
           checked={false}
           class="checkbox [--chkbg:#808080] [--chkfg:black]"
         />
-        {t("grey")}
+        {t("gray")}
       </label>
 
       <label class="fieldset-label">
@@ -186,7 +186,7 @@
           checked={false}
           class="checkbox [--chkbg:#808080] [--chkfg:black]"
         />
-        {t("grey")}
+        {t("gray")}
       </label>
     </div>
     <div>

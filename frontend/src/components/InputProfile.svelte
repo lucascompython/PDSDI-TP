@@ -1,5 +1,5 @@
 <script lang="ts">
-  import EmailIcon from "./Icons/EmailIcon.svelte";
+  import EmailIcon from "./Icons/EmailIcon.svg";
   import PasswordLoginIcon from "./Icons/PasswordLoginIcon.svelte";
   import { getLangFromUrl, useTranslations } from "src/i18n/utils";
 
@@ -53,5 +53,8 @@
     background-color: var(--bg-color);
     color: var(--text-color);
     margin-top: 1rem;
+  }
+  input {
+    color: var(--text-color);
   }
 </style>

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import EmailIcon from "./Icons/EmailIcon.svelte";
+  import EmailIcon from "./Icons/EmailIcon.svg?raw";
   import PasswordLoginIcon from "./Icons/PasswordLoginIcon.svelte";
   import GenericAvatarIcon from "./Icons/GenericAvatarIcon.svelte";
   import {
@@ -43,7 +43,7 @@
 
 <form class="container mx-auto p-4 max-w-lg" onsubmit={handleLogin}>
   <label class="input input-bordered flex items-center gap-2 mb-4">
-    <EmailIcon />
+    {@html EmailIcon}
     <input
       bind:value={email}
       type="email"
@@ -76,7 +76,7 @@
 <div class="modal" role="dialog" id="forgot_password_modal">
   <div class="modal-box bg-color">
     <label class="input input-bordered flex items-center gap-2 mb-4">
-      <EmailIcon />
+      {@html EmailIcon}
       <input type="email" class="grow p-2" placeholder={t("login.email")} />
     </label>
     <div class="modal-action">
