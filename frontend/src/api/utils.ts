@@ -42,7 +42,7 @@ export async function registerUser(
   email: string,
   password: string
 ): Promise<boolean> {
-  const response = await fetch(`${API_BASE_URL}/register`, {
+  const response = await fetch(`${API_BASE_URL}/user/register`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -57,7 +57,7 @@ export async function loginUser(
   email: string,
   password: string
 ): Promise<boolean> {
-  const response = await fetch(`${API_BASE_URL}/login`, {
+  const response = await fetch(`${API_BASE_URL}/user/login`, {
     method: "POST",
     credentials: "include",
     headers: {
@@ -70,7 +70,7 @@ export async function loginUser(
 }
 
 export async function logoutUser(): Promise<boolean> {
-  const response = await fetch(`${API_BASE_URL}/logout`, {
+  const response = await fetch(`${API_BASE_URL}/user/logout`, {
     method: "POST",
     credentials: "include",
   });
@@ -83,7 +83,7 @@ interface checkUserResponse {
 }
 
 export async function checkUser(): Promise<checkUserResponse> {
-  const response = await fetch(`${API_BASE_URL}/check`, {
+  const response = await fetch(`${API_BASE_URL}/user/check`, {
     method: "GET",
     credentials: "include",
   });

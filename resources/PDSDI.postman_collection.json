@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "8fccc6ec-011a-46d0-ba11-8c38c5242d11",
+		"_postman_id": "122b3b81-322c-44d6-bcd7-6ff44ff3f693",
 		"name": "PDSDI",
 		"description": "Postman Collection for this project",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
@@ -8,7 +8,7 @@
 	},
 	"item": [
 		{
-			"name": "home",
+			"name": "check",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
 			},
@@ -25,12 +25,12 @@
 					}
 				},
 				"url": {
-					"raw": "{{host}}/",
+					"raw": "{{host}}/check",
 					"host": [
 						"{{host}}"
 					],
 					"path": [
-						""
+						"check"
 					]
 				}
 			},
@@ -43,7 +43,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"username\": \"lucas\",\n    \"email\": \"lucasdelinhares@gmail.com\",\n    \"password\": \"1234\"\n}",
+					"raw": "{\n    \"username\": \"joao\",\n    \"email\": \"joao@gmail.com\",\n    \"password\": \"1234\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -51,11 +51,12 @@
 					}
 				},
 				"url": {
-					"raw": "{{host}}/register",
+					"raw": "{{host}}/user/register",
 					"host": [
 						"{{host}}"
 					],
 					"path": [
+						"user",
 						"register"
 					]
 				},
@@ -70,7 +71,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"email\": \"lucasdelinhares@gmail.com\",\n    \"password\": \"1234\"\n}",
+					"raw": "{\n    \"email\": \"joao@gmail.com\",\n    \"password\": \"1234\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -78,15 +79,51 @@
 					}
 				},
 				"url": {
-					"raw": "{{host}}/login",
+					"raw": "{{host}}/user/login",
 					"host": [
 						"{{host}}"
 					],
 					"path": [
+						"user",
 						"login"
 					]
 				},
 				"description": "Returns 200 OK if the user was logged in successfully  \nReturns 401 Unauthorized if user did not login successfully"
+			},
+			"response": []
+		},
+		{
+			"name": "logout",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/logout",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"logout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "protected",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/user/protected",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"user",
+						"protected"
+					]
+				}
 			},
 			"response": []
 		}
