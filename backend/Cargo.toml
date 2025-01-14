@@ -8,7 +8,7 @@ authors = [
 
 [dependencies]
 chrono = { version = "0.4.39", default-features = false }
-actix-web = "4"
+actix-web = { version = "4", features = ["openssl"] }
 mimalloc = "0.1.43"
 serde = { version = "1", default-features = true }
 sonic-rs = "0.3.17"
@@ -22,6 +22,7 @@ thiserror = "2.0.11"
 actix-session = { version = "0.10.1", features = ["cookie-session"] }
 env_logger = { version = "0.11.6", optional = true }
 actix-cors = "0.7.0"
+openssl = "0.10"
 
 [features]
 default = []
