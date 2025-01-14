@@ -36,7 +36,8 @@ try:
     os.environ["ANDROID_HOME"] = android_home
     os.environ["NDK_HOME"] = ndk_home
     os.environ["JAVA_HOME"] = (
-        "~/.local/share/JetBrains/Toolbox/apps/android-studio/jbr"  # Change this to your Android Studio JBR path
+        # "~/.local/share/JetBrains/Toolbox/apps/android-studio/jbr"  # Change this to your Android Studio JBR path
+        "/home/lucas/.local/share/JetBrains/Toolbox/apps/android-studio/jbr"
         # "/mnt/Roubado/ToolboxApps/android-studio/jbr"
     )
 except FileNotFoundError:
