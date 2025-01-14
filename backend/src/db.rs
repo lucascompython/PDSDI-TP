@@ -48,8 +48,6 @@ impl Db {
 
         println!("Database schema applied and statements prepared!");
 
-        // add default admin user
-
         let statements = DbStatements {
             insert_user,
             get_user_by_email,
