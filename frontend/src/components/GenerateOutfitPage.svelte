@@ -54,9 +54,9 @@
     </div>
     <div class="right">
       <div class="eye-cards-column">
+        <!-- <EyeCard />
         <EyeCard />
-        <EyeCard />
-        <EyeCard />
+        <EyeCard /> -->
       </div>
     </div>
     <div class="line-horizontal"></div>

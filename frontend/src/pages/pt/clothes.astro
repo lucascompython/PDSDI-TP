@@ -1,12 +1,13 @@
---- 
-import Layout from "@layouts/Layout.astro"; 
+---
+import Layout from "@layouts/Layout.astro";
 import NavBar from "@components/NavBar.astro";
-import Footer from "@components/Footer.astro"; 
+import Footer from "@components/Footer.astro";
 import CardLoader from "@components/CardLoader.svelte";
 import Search from "@components/Icons/SearchIcon.svg?raw";
- import {
-  (getLangFromUrl, useTranslations)
-} from "src/i18n/utils"; const t = useTranslations(getLangFromUrl(Astro.url)); 
+
+import { getLangFromUrl, useTranslations } from "src/i18n/utils";
+
+const t = useTranslations(getLangFromUrl(Astro.url));
 ---
 
 <Layout title="Clothe Match">

@@ -16,7 +16,7 @@
 
 <div class="card bg-base-100 w-96 shadow-xl">
   <figure>
-    <img src={imageUrl} alt={clothe.name} />
+    <img src={imageUrl} alt={image.filename} />
   </figure>
   <div class="card-body">
     <h2 class="card-title">Shoes!</h2>
