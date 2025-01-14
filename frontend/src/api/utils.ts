@@ -1,4 +1,4 @@
-const API_BASE_URL = "https://pauloministro.com:6969";
+const API_BASE_URL = "http://localhost:1234";
 
 // Max index -> 11
 export enum Color {
@@ -111,4 +111,72 @@ export async function uploadClothes(clothes: Clothe[]): Promise<boolean> {
   });
 
   return response.ok;
+}
+
+export interface ClotheResponse {
+  id: number;
+  name: string;
+  color: string;
+  category: string;
+  user_id: number;
+  is_hot_weather: boolean;
+  image?: File;
+}
+
+export async function getClothes(): Promise<{
+  clothes: ClotheResponse[];
+  images: { [key: string]: Blob };
+}> {
+  console.log("ola");
+  const response = await fetch(`${API_BASE_URL}/clothes/get`, {
+    method: "GET",
+    credentials: "include",
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch clothes");
+  }
+
+  const contentType = response.headers.get("Content-Type");
+  if (!contentType || !contentType.includes("multipart/form-data")) {
+    throw new Error("Invalid response format");
+  }
+
+  const boundary = contentType.split("boundary=")[1].trim();
+  const arrayBuffer = await response.arrayBuffer();
+  // const text = await response.text();
+  const text = new TextDecoder().decode(arrayBuffer);
+  const parts = text.split(`--${boundary}`);
+
+  const clothes: ClotheResponse[] = [];
+  const images: { [key: string]: Blob } = {};
+
+  let offset = 0;
+
+  for (const part of parts) {
+    if (part.includes('Content-Disposition: form-data; name="clothe"')) {
+      const json = part.split("\r\n\r\n")[1].split("\r\n")[0];
+      const clothe = JSON.parse(json);
+      clothes.push(clothe);
+    } else if (part.includes('Content-Disposition: form-data; name="file"')) {
+      const headers = part.split("\r\n\r\n")[0];
+      const match = headers.match(/filename="(.+?)"/);
+      if (!match) {
+        throw new Error("Filename not found in headers");
+      }
+      const filename = match[1];
+      const fileContentIndex = part.indexOf("\r\n\r\n") + 4;
+      const fileContentStart = offset + fileContentIndex;
+      const fileContentEnd =
+        fileContentStart + part.split("\r\n\r\n")[1].length;
+      const fileContent = arrayBuffer.slice(fileContentStart, fileContentEnd);
+      const blob = new Blob([fileContent], {
+        type: "application/octet-stream",
+      });
+      images[filename] = blob;
+    }
+    offset += part.length + boundary.length + 4; // 4 for the "--" and "\r\n"
+  }
+
+  return { clothes, images };
 }

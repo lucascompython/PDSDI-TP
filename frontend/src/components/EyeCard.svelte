@@ -1,9 +1,22 @@
+<script lang="ts">
+  import { type ClotheResponse } from "../api/utils";
+
+  const {
+    clothe,
+    image,
+  }: { clothe: ClotheResponse; image: { filename: string; data: Blob } } =
+    $props();
+
+  let imageUrl: string;
+  if (image && image.filename) {
+    imageUrl = URL.createObjectURL(image.data);
+    console.log("imageUrl", imageUrl);
+  }
+</script>
+
 <div class="card bg-base-100 w-96 shadow-xl">
   <figure>
-    <img
-      src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
-      alt="Shoes"
-    />
+    <img src={imageUrl} alt={clothe.name} />
   </figure>
   <div class="card-body">
     <h2 class="card-title">Shoes!</h2>
