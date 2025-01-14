@@ -26,45 +26,7 @@ const t = useTranslations(getLangFromUrl(Astro.url));
       </div>
       <div class="right">
         <div class="eye-cards-column">
-          <div class="card bg-base-100 w-96 shadow-xl">
-            <figure>
-              <img
-                src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
-                alt="Shoes"
-              />
-            </figure>
-            <div class="card-body">
-              <h2 class="card-title">
-                Shoes!
-                <div class="badge badge-secondary">NEW</div>
-              </h2>
-              <p>If a dog chews shoes whose shoes does he choose?</p>
-              <div class="card-actions justify-end">
-                <div class="badge badge-outline">Fashion</div>
-                <div class="badge badge-outline">Products</div>
-              </div>
-            </div>
-          </div>
-          <div class="card bg-base-100 w-96 shadow-xl">
-            <figure>
-              <img
-                src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
-                alt="Shoes"
-              />
-            </figure>
-            <div class="card-body">
-              <h2 class="card-title">
-                Shoes!
-                <div class="badge badge-secondary">NEW</div>
-              </h2>
-              <p>If a dog chews shoes whose shoes does he choose?</p>
-              <div class="card-actions justify-end">
-                <div class="badge badge-outline">Fashion</div>
-                <div class="badge badge-outline">Products</div>
-              </div>
-            </div>
-          </div>
-          <div class="card bg-base-100 w-96 shadow-xl">
+          <div class="card bg-base-100 w-44 shadow-xl">
             <figure>
               <img
                 src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
@@ -115,8 +77,6 @@ const t = useTranslations(getLangFromUrl(Astro.url));
       flex-basis: 50%;
       display: flex;
       flex-direction: column;
-      position: sticky;
-      top: 0;
       justify-content: space-between;
     }
     .buttons {
@@ -132,8 +92,6 @@ const t = useTranslations(getLangFromUrl(Astro.url));
     .right {
       border-left: 3px solid #b3b1b1;
       flex-basis: 50%;
-      overflow-y: auto;
-      /* height: 100vh; */
       display: flex;
       flex-direction: column;
     }

@@ -4,17 +4,58 @@
   import DropdownTemperature from "./DropdownTemperature.svelte";
   import ColorsCheckbox from "./ColorsCheckbox.svelte";
   import EyeCard from "@components/EyeCard.svelte";
+  import { fileExtension } from "node_modules/astro/dist/core/path";
 
   const { windowLocation }: { windowLocation: URL } = $props();
   const t = useTranslations(getLangFromUrl(windowLocation));
 </script>
 
-{#if window.innerWidth < 600}
+{#if window.innerWidth < 940}
   <div class="split-screen">
-    <div class="left">
+    <div>
       <DropdownTemperature {windowLocation} />
       <div class="margin-top">
         <ColorsCheckbox {windowLocation} />
+      </div>
+      <div class="margin-top centers">
+        <div class="card bg-base-100 w-64 shadow-xl">
+          <figure>
+            <img
+              src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
+              alt="Shoes"
+            />
+          </figure>
+          <div class="card-body">
+            <h2 class="card-title">
+              Shoes!
+              <div class="badge badge-secondary">NEW</div>
+            </h2>
+            <p>If a dog chews shoes whose shoes does he choose?</p>
+            <div class="card-actions justify-end">
+              <div class="badge badge-outline">Fashion</div>
+              <div class="badge badge-outline">Products</div>
+            </div>
+          </div>
+        </div>
+        <div class="card bg-base-100 w-64 shadow-xl">
+          <figure>
+            <img
+              src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
+              alt="Shoes"
+            />
+          </figure>
+          <div class="card-body">
+            <h2 class="card-title">
+              Shoes!
+              <div class="badge badge-secondary">NEW</div>
+            </h2>
+            <p>If a dog chews shoes whose shoes does he choose?</p>
+            <div class="card-actions justify-end">
+              <div class="badge badge-outline">Fashion</div>
+              <div class="badge badge-outline">Products</div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -40,6 +81,12 @@
     .margin-top {
       margin-top: 1rem;
     }
+    .centers {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
   </style>
 {:else}
   <div class="split-screen">
@@ -57,6 +104,63 @@
         <!-- <EyeCard />
         <EyeCard />
         <EyeCard /> -->
+        <div class="card bg-base-100 w-96 shadow-xl">
+          <figure>
+            <img
+              src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
+              alt="Shoes"
+            />
+          </figure>
+          <div class="card-body">
+            <h2 class="card-title">
+              Shoes!
+              <div class="badge badge-secondary">NEW</div>
+            </h2>
+            <p>If a dog chews shoes whose shoes does he choose?</p>
+            <div class="card-actions justify-end">
+              <div class="badge badge-outline">Fashion</div>
+              <div class="badge badge-outline">Products</div>
+            </div>
+          </div>
+        </div>
+        <div class="card bg-base-100 w-96 shadow-xl">
+          <figure>
+            <img
+              src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
+              alt="Shoes"
+            />
+          </figure>
+          <div class="card-body">
+            <h2 class="card-title">
+              Shoes!
+              <div class="badge badge-secondary">NEW</div>
+            </h2>
+            <p>If a dog chews shoes whose shoes does he choose?</p>
+            <div class="card-actions justify-end">
+              <div class="badge badge-outline">Fashion</div>
+              <div class="badge badge-outline">Products</div>
+            </div>
+          </div>
+        </div>
+        <div class="card bg-base-100 w-96 shadow-xl">
+          <figure>
+            <img
+              src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
+              alt="Shoes"
+            />
+          </figure>
+          <div class="card-body">
+            <h2 class="card-title">
+              Shoes!
+              <div class="badge badge-secondary">NEW</div>
+            </h2>
+            <p>If a dog chews shoes whose shoes does he choose?</p>
+            <div class="card-actions justify-end">
+              <div class="badge badge-outline">Fashion</div>
+              <div class="badge badge-outline">Products</div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     <div class="line-horizontal"></div>

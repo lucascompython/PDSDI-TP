@@ -8,7 +8,7 @@
 
 <span class="text-lg">{t("label")}</span>
 
-{#if window.innerWidth < 600}
+{#if window.innerWidth < 940}
   <div>
     <div>
       <label class="fieldset-label">
@@ -272,7 +272,7 @@
     justify-content: center;
     align-items: center;
   }
-  @media only screen and (max-width: 600px) {
+  @media only screen and (max-width: 940px) {
     div div {
       margin-top: 1rem;
     }
