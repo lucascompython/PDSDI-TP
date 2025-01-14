@@ -1,4 +1,3 @@
-// TODO: Restructure the backend
 // TODO: See compression middleware
 // TODO: If check isn't successfull, then redirect directly from the backend
 // TODO: Later remove the check api route because we won't need it since every page will call the
