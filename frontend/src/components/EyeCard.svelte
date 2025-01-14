@@ -22,9 +22,9 @@
     <h2 class="card-title">Shoes!</h2>
     <div class="card-actions">
       <div class="badge-container center-badge">
-        <div class="badge badge-outline">Fashion</div>
-        <div class="badge badge-outline">Products</div>
-        <div class="badge badge-outline">A tua mae</div>
+        <div class="badge badge-outline">{clothe.category}</div>
+        <div class="badge badge-outline">{clothe.color}</div>
+        <div class="badge badge-outline">{clothe.is_hot_weather}</div>
       </div>
     </div>
   </div>

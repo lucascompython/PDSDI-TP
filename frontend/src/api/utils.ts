@@ -154,6 +154,15 @@ export async function getClothes(): Promise<{
   let offset = 0;
 
   for (const part of parts) {
+    // if (part === "") {
+    //   continue;
+    // }
+
+    if (part === "") {
+      continue;
+    }
+    // console.log(part);
+
     if (part.includes('Content-Disposition: form-data; name="clothe"')) {
       const json = part.split("\r\n\r\n")[1].split("\r\n")[0];
       const clothe = JSON.parse(json);
@@ -166,10 +175,12 @@ export async function getClothes(): Promise<{
       }
       const filename = match[1];
       const fileContentIndex = part.indexOf("\r\n\r\n") + 4;
-      const fileContentStart = offset + fileContentIndex;
+      const fileContentStart = offset + fileContentIndex + 2;
+
       const fileContentEnd =
         fileContentStart + part.split("\r\n\r\n")[1].length;
       const fileContent = arrayBuffer.slice(fileContentStart, fileContentEnd);
+      console.log(fileContent);
       const blob = new Blob([fileContent], {
         type: "application/octet-stream",
       });

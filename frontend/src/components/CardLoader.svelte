@@ -30,6 +30,5 @@
 </script>
 
 {#each clothes as clothe, i}
-  <p>{clothe.name}</p>
   <EyeCard {clothe} image={getImageForClothe(clothe)!} />
 {/each}
