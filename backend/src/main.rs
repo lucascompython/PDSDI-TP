@@ -21,6 +21,7 @@ use actix_web::{
     web, App, HttpServer,
 };
 use db::Db;
+use openssl::ssl::{SslAcceptor, SslFiletype, SslMethod};
 
 const SECS_IN_WEEK: i64 = 60 * 60 * 24 * 7;
 
@@ -57,6 +58,13 @@ async fn main() -> std::io::Result<()> {
         .run()
         .await
     } else {
+        let mut builder = SslAcceptor::mozilla_intermediate(SslMethod::tls()).unwrap();
+        builder
+            .set_private_key_file("certs/key.pem", SslFiletype::PEM)
+            .unwrap();
+        builder
+            .set_certificate_chain_file("certs/cert.pem")
+            .unwrap();
         HttpServer::new(move || {
             App::new()
                 .configure(routes::init)
@@ -65,9 +73,9 @@ async fn main() -> std::io::Result<()> {
                 )
                 .wrap(
                     SessionMiddleware::builder(CookieSessionStore::default(), key.clone())
-                        .cookie_secure(false) // Change to true in production
+                        .cookie_secure(true) // Change to true in production
                         .cookie_http_only(false)
-                        .cookie_same_site(actix_web::cookie::SameSite::Strict)
+                        .cookie_same_site(actix_web::cookie::SameSite::Lax)
                         .session_lifecycle(
                             PersistentSession::default()
                                 .session_ttl(Duration::seconds(SECS_IN_WEEK)),
@@ -76,7 +84,7 @@ async fn main() -> std::io::Result<()> {
                 )
                 .app_data(client.clone())
         })
-        .bind(("127.0.0.1", 1234))?
+        .bind_openssl("0.0.0.0:6969", builder)?
         .run()
         .await
     }
