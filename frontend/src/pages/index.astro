@@ -4,6 +4,7 @@ import NavBar from "@components/NavBar.astro";
 import AddButton from "@components/AddButton.astro";
 import Generate_Outfit from "@components/GenerateOutfitsButton.astro";
 import Footer from "@components/Footer.astro";
+import EyeCard from "@components/EyeCard.svelte";
 
 import { getLangFromUrl, useTranslations } from "src/i18n/utils";
 const t = useTranslations(getLangFromUrl(Astro.url));
@@ -22,11 +23,16 @@ const t = useTranslations(getLangFromUrl(Astro.url));
           <Generate_Outfit />
           <span class="subtitle">{t("nav.generate")}</span>
         </div>
+        <Footer />
       </div>
-      <div class="right">Right content</div>
+      <div class="right">
+        <div class="eye-cards-column">
+          <EyeCard />
+          <EyeCard />
+        </div>
+      </div>
       <div class="line-horizontal"></div>
     </div>
-    <Footer />
   </main>
 
   <style>
@@ -35,6 +41,12 @@ const t = useTranslations(getLangFromUrl(Astro.url));
       color: white;
       display: flex;
       flex-direction: column;
+      flex: 1;
+    }
+    .eye-cards-column {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
       flex: 1;
     }
     .split-screen {
@@ -48,6 +60,9 @@ const t = useTranslations(getLangFromUrl(Astro.url));
       flex-basis: 50%;
       display: flex;
       flex-direction: column;
+      position: sticky;
+      top: 0;
+      justify-content: space-between;
     }
     .buttons {
       align-items: center;
@@ -62,6 +77,10 @@ const t = useTranslations(getLangFromUrl(Astro.url));
     .right {
       border-left: 3px solid #b3b1b1;
       flex-basis: 50%;
+      overflow-y: auto;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
     }
     .subtitle {
       display: block;

@@ -3,6 +3,7 @@
 
   import DropdownTemperature from "./DropdownTemperature.svelte";
   import ColorsCheckbox from "./ColorsCheckbox.svelte";
+  import EyeCard from "@components/EyeCard.svelte";
 
   const { windowLocation }: { windowLocation: URL } = $props();
   const t = useTranslations(getLangFromUrl(windowLocation));
@@ -51,7 +52,13 @@
       </div>
       <div class="line-horizontal"></div>
     </div>
-    <div class="right">Right content</div>
+    <div class="right">
+      <div class="eye-cards-column">
+        <EyeCard />
+        <EyeCard />
+        <EyeCard />
+      </div>
+    </div>
     <div class="line-horizontal"></div>
   </div>
 
@@ -68,6 +75,11 @@
       display: flex;
       width: 100%;
       position: relative;
+    }
+    .eye-cards-column {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
     .left {
       flex-basis: 50%;

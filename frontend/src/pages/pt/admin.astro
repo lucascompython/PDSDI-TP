@@ -1,0 +1,72 @@
+---
+import Layout from "@layouts/Layout.astro";
+import NavBar from "@components/NavBar.astro";
+import Footer from "@components/Footer.astro";
+import Search from "@components/Icons/SearchIcon.svg?raw";
+import TableAdmin from "@components/TableAdmin.svelte";
+
+import { getLangFromUrl, useTranslations } from "src/i18n/utils";
+
+const t = useTranslations(getLangFromUrl(Astro.url));
+---
+
+<Layout title="Clothe Match">
+  <main>
+    <NavBar />
+    <div class="div-mf">
+      <label class="input input-bordered flex items-center gap">
+        <input type="text" class="grow" placeholder="Search" />
+        <Fragment set:html={Search} />
+      </label>
+      <button class="btn btn-success responsive-btn">Success</button>
+    </div>
+
+    <div class="flex-1">
+      <TableAdmin windowLocation={Astro.url} client:only />
+    </div>
+    <Footer />
+  </main>
+</Layout>
+
+<style>
+  main {
+    background-color: #d9d9d9;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+  :global(.dark) main {
+    background-color: #0d1117;
+  }
+  .div-mf {
+    display: flex;
+    width: 100%;
+    margin-top: 1rem;
+  }
+  .flex-1 {
+    margin-top: 1rem;
+    flex: 1;
+  }
+  label {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    width: 70%;
+    display: flex;
+
+    margin-left: 5%;
+  }
+  button {
+    margin-left: 2rem;
+  }
+
+  @media only screen and (max-width: 600px) {
+    button {
+      margin-left: 1rem;
+      max-width: 4rem;
+    }
+    input {
+      width: 20%;
+    }
+  }
+</style>
