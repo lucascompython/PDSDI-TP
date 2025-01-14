@@ -1,5 +1,5 @@
 <script lang="ts">
-  import EmailIcon from "./Icons/EmailIcon.svg";
+  import EmailIcon from "./Icons/EmailIcon.svg?raw";
   import PasswordLoginIcon from "./Icons/PasswordLoginIcon.svelte";
   import { getLangFromUrl, useTranslations } from "src/i18n/utils";
 
@@ -10,7 +10,8 @@
 
 <div class="container mx-auto p-4 max-w-lg">
   <label class="input input-bordered flex items-center gap-2 mb-4">
-    <EmailIcon />
+    <!-- <EmailIcon /> -->
+    {@html EmailIcon}
     <input
       type="email"
       class="grow p-2"

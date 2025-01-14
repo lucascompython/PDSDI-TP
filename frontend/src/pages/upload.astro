@@ -13,7 +13,7 @@ const t = useTranslations(getLangFromUrl(Astro.url));
   <main>
     <NavBar />
     <div>
-      <DragAndDrop client:load windowLocation={Astro.url} />
+      <DragAndDrop client:only="svelte" windowLocation={Astro.url} />
     </div>
     <Footer />
   </main>
