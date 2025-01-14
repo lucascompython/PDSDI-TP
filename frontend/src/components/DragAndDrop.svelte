@@ -7,7 +7,12 @@
   import { getLangFromUrl, useTranslations } from "src/i18n/utils";
   import { fileName, currentIndex } from "./stores";
   import Hanger from "./Icons/Hanger.svg?raw";
-  import { ClotheCategory, Color, type Clothe } from "src/api/utils";
+  import {
+    ClotheCategory,
+    Color,
+    uploadClothes,
+    type Clothe,
+  } from "src/api/utils";
   import Carousel from "./Carousel.svelte";
   import { get } from "svelte/store";
   import { onMount } from "svelte";
@@ -159,14 +164,19 @@
 
     const index = checkClothes();
     if (index === -1) {
-      showAlert(t("upload.success"), AlertType.SUCCESS, previewModal);
+      uploadClothes(Clothes).then((ok) => {
+        if (ok) {
+          previewModal.close();
+          showAlert(t("upload.success"), AlertType.SUCCESS);
+        } else {
+          showAlert(t("upload.error"), AlertType.ERROR);
+        }
+      });
     } else {
       showAlert(t("upload.fill_all_fields"), AlertType.WARNING, previewModal);
       currentIndex.set(index);
       window.location.href = `#slide${index + 1}`;
     }
-
-    // previewModal.close();
   }
 </script>
 
@@ -215,8 +225,10 @@
             class="m-2 select select-bordered w-full max-w-xs"
           >
             <option>{t("upload.category")}</option>
-            {#each Object.values(ClotheCategory) as category}
-              <option value={category}>{t(category as any)}</option>
+            {#each Object.keys(ClotheCategory) as category}
+              <option value={category}
+                >{t(category.toLowerCase() as any)}</option
+              >
             {/each}
           </select>
 
@@ -226,7 +238,7 @@
           >
             <option>{t("upload.color")}</option>
             {#each Object.values(Color) as color}
-              <option value={color}>{t(color as any)}</option>
+              <option value={color}>{t(color.toLowerCase() as any)}</option>
             {/each}
           </select>
         </div>

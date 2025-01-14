@@ -6,6 +6,9 @@ pub struct DbStatements {
     pub insert_user: Statement,
     pub get_user_by_email: Statement,
     pub check_user_exists: Statement,
+    pub get_color_id_by_name: Statement,
+    pub get_category_id_by_name: Statement,
+    pub insert_clothe: Statement,
 }
 
 pub struct Db {
@@ -27,7 +30,7 @@ impl Db {
             }
         });
 
-        let (_, insert_user, get_user_by_email, check_user_exists) = tokio::try_join!(
+        let (_, insert_user, get_user_by_email, check_user_exists, get_color_id_by_name, get_category_id_by_name, insert_clothe) = tokio::try_join!(
             client.batch_execute(DB_SCHEMA),
             client.prepare(
                 "INSERT INTO users (username, email, password, is_admin) VALUES ($1, $2, $3, $4)"
@@ -35,7 +38,10 @@ impl Db {
             client.prepare(
                 "SELECT user_id, username, email, password, is_admin FROM users WHERE email = $1"
             ),
-            client.prepare("SELECT user_id FROM users WHERE email = $1")
+            client.prepare("SELECT user_id FROM users WHERE email = $1"),
+            client.prepare("SELECT color_id FROM colors WHERE color_name = $1"),
+            client.prepare("SELECT category_id FROM categories WHERE category_name = $1"),
+            client.prepare("INSERT INTO clothing_items (name, color_id, category_id, user_id, is_hot_weather) VALUES ($1, $2, $3, $4, $5)")
         )?;
 
         println!("Database schema applied and statements prepared!");
@@ -44,6 +50,9 @@ impl Db {
             insert_user,
             get_user_by_email,
             check_user_exists,
+            get_color_id_by_name,
+            get_category_id_by_name,
+            insert_clothe,
         };
 
         Ok(Self { client, statements })

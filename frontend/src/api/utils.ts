@@ -2,32 +2,32 @@ const API_BASE_URL = "http://pauloministro.com:6969";
 
 // Max index -> 11
 export enum Color {
-  Red = "gray",
-  Orange = "black",
-  Yellow = "white",
-  Green = "brown",
-  Blue = "pink",
-  Purple = "purple",
-  Pink = "blue",
-  Brown = "green",
-  White = "yellow",
-  Black = "orange",
-  Gray = "red",
-  Gold = "gold",
+  Red = "Gray",
+  Orange = "Black",
+  Yellow = "White",
+  Green = "Brown",
+  Blue = "Pink",
+  Purple = "Purple",
+  Pink = "Blue",
+  Brown = "Green",
+  White = "Yellow",
+  Black = "Orange",
+  Gray = "Red",
+  Gold = "Gold",
 }
 // Max index -> 10
 export enum ClotheCategory {
-  Shirt = "shirt",
-  Pants = "pants",
-  Shorts = "shorts",
-  Dress = "dress",
-  Skirt = "skirt",
-  Jacket = "jacket",
-  Sweater = "sweater",
-  Shoes = "shoes",
-  Hat = "hat",
-  Gloves = "gloves",
-  Scarf = "scarf",
+  Shirt = "Shirt",
+  Pants = "Pants",
+  Shorts = "Shorts",
+  Dress = "Dress",
+  Skirt = "Skirt",
+  Jacket = "Jacket",
+  Sweater = "Sweater",
+  Shoes = "Shoes",
+  Hat = "Hat",
+  Gloves = "Gloves",
+  Scarf = "Scarf",
 }
 
 export interface Clothe {
@@ -94,4 +94,21 @@ export async function checkUser(): Promise<checkUserResponse> {
 
   const json = await response.json();
   return { is_ok: true, is_admin: json.is_admin };
+}
+
+export async function uploadClothes(clothes: Clothe[]): Promise<boolean> {
+  const formData = new FormData();
+
+  for (let i = 0; i < clothes.length; i++) {
+    formData.append("clothe", JSON.stringify(clothes[i]));
+    formData.append("image", clothes[i].image);
+  }
+
+  const response = await fetch(`${API_BASE_URL}/clothes/upload`, {
+    method: "POST",
+    credentials: "include",
+    body: formData,
+  });
+
+  return response.ok;
 }

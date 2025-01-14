@@ -74,6 +74,7 @@ export const translations = {
     "upload.file_not_image": "is not an image",
     "upload.fill_all_fields": "Fill all fields",
     "upload.success": "Upload successful",
+    "upload.error": "Upload failed",
   },
   pt: {
     "nav.home": "Início",
@@ -143,5 +144,6 @@ export const translations = {
     "upload.file_not_image": "não é uma imagem",
     "upload.fill_all_fields": "Preencha todos os campos",
     "upload.success": "Envio bem sucedido",
+    "upload.error": "Envio falhou",
   },
 } as const;
