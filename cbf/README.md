@@ -1,4 +1,4 @@
-# Custom Binary Format for Clothes because it's lowkey easier then Multipart Form Data
+# Custom Binary Format for Clothes because it's lowkey easier than Multipart Form Data
 
 ## Why?
 
