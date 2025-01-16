@@ -23,12 +23,15 @@ pub struct Db {
 
 impl Db {
     pub async fn new() -> Result<Self, tokio_postgres::Error> {
-        let (client, connection) = tokio_postgres::connect(
-            "host=localhost user=pdsdi dbname=clothe_match password=pdsdi",
-            tokio_postgres::NoTls,
-        )
-        .await
-        .unwrap();
+        let connection_str = if cfg!(feature = "docker") {
+            "host=postgres_db user=pdsdi dbname=clothe_match password=pdsdi"
+        } else {
+            "host=localhost user=pdsdi dbname=clothe_match password=pdsdi"
+        };
+
+        let (client, connection) = tokio_postgres::connect(connection_str, tokio_postgres::NoTls)
+            .await
+            .unwrap();
         tokio::spawn(async move {
             if let Err(e) = connection.await {
                 eprintln!("connection error: {}", e);

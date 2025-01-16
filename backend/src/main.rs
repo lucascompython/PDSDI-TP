@@ -92,9 +92,9 @@ async fn main() -> std::io::Result<()> {
                 )
                 .wrap(
                     SessionMiddleware::builder(CookieSessionStore::default(), key.clone())
-                        .cookie_secure(true) // Change to true in production
-                        .cookie_http_only(false)
-                        .cookie_same_site(actix_web::cookie::SameSite::Lax)
+                        .cookie_secure(true)
+                        .cookie_http_only(true)
+                        .cookie_same_site(actix_web::cookie::SameSite::None)
                         .session_lifecycle(
                             PersistentSession::default()
                                 .session_ttl(Duration::seconds(SECS_IN_WEEK)),
