@@ -8,124 +8,154 @@
 	},
 	"item": [
 		{
-			"name": "check",
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
-			"request": {
-				"method": "GET",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"name\": \"lucas\",\n    \"age\": 19\n}",
-					"options": {
-						"raw": {
-							"language": "json"
+			"name": "users",
+			"item": [
+				{
+					"name": "check",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"lucas\",\n    \"age\": 19\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/user/check",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"user",
+								"check"
+							]
 						}
-					}
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "{{host}}/check",
-					"host": [
-						"{{host}}"
-					],
-					"path": [
-						"check"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "register",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"username\": \"joao\",\n    \"email\": \"joao@gmail.com\",\n    \"password\": \"1234\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
+				{
+					"name": "register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"gui\",\n    \"email\": \"gui@gmail.com\",\n    \"password\": \"1234\",\n    \"admin\": true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/user/register",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"user",
+								"register"
+							]
+						},
+						"description": "Returns 200 OK if the user was registered successfully  \nReturns 400 Bad Request if user already exists  \nReturns 500 Internal Server Error if something unexpected happend"
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"joao@gmail.com\",\n    \"password\": \"1234\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/user/login",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"user",
+								"login"
+							]
+						},
+						"description": "Returns 200 OK if the user was logged in successfully  \nReturns 401 Unauthorized if user did not login successfully"
+					},
+					"response": []
+				},
+				{
+					"name": "logout",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/user/logout",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"user",
+								"logout"
+							]
 						}
-					}
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "{{host}}/user/register",
-					"host": [
-						"{{host}}"
-					],
-					"path": [
-						"user",
-						"register"
-					]
-				},
-				"description": "Returns 200 OK if the user was registered successfully  \nReturns 400 Bad Request if user already exists  \nReturns 500 Internal Server Error if something unexpected happend"
-			},
-			"response": []
-		},
-		{
-			"name": "login",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"email\": \"joao@gmail.com\",\n    \"password\": \"1234\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
+				{
+					"name": "protected",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/user/protected",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"user",
+								"protected"
+							]
 						}
-					}
-				},
-				"url": {
-					"raw": "{{host}}/user/login",
-					"host": [
-						"{{host}}"
-					],
-					"path": [
-						"user",
-						"login"
-					]
-				},
-				"description": "Returns 200 OK if the user was logged in successfully  \nReturns 401 Unauthorized if user did not login successfully"
-			},
-			"response": []
+					},
+					"response": []
+				}
+			]
 		},
 		{
-			"name": "logout",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"url": {
-					"raw": "{{host}}/logout",
-					"host": [
-						"{{host}}"
-					],
-					"path": [
-						"logout"
-					]
+			"name": "clothes",
+			"item": [
+				{
+					"name": "get_clothe",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/clothes/get",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"clothes",
+								"get"
+							]
+						}
+					},
+					"response": []
 				}
-			},
-			"response": []
-		},
-		{
-			"name": "protected",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{host}}/user/protected",
-					"host": [
-						"{{host}}"
-					],
-					"path": [
-						"user",
-						"protected"
-					]
-				}
-			},
-			"response": []
+			]
 		}
 	],
 	"event": [
