@@ -8,7 +8,7 @@ authors = [
 
 [dependencies]
 chrono = { version = "0.4.39", default-features = false }
-actix-web = { version = "4", features = ["openssl"] }
+actix-web = { version = "4", features = ["rustls-0_23"] }
 mimalloc = "0.1.43"
 serde = { version = "1", default-features = true }
 sonic-rs = "0.3.17"
@@ -22,11 +22,12 @@ thiserror = "2.0.11"
 actix-session = { version = "0.10.1", features = ["cookie-session"] }
 env_logger = { version = "0.11.6", optional = true }
 actix-cors = "0.7.0"
-openssl = "0.10"
 actix-multipart = "0.7.2"
 futures = "0.3.31"
 
 cbf = { path = "../cbf" }
+rustls = "0.23.21"
+rustls-pemfile = "2.2.0"
 
 [features]
 default = []

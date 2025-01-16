@@ -3,6 +3,8 @@
 // TODO: Later remove the check api route because we won't need it since every page will call the
 // api
 
+use std::io::BufReader;
+
 use actix_cors::Cors;
 use actix_session::{config::PersistentSession, storage::CookieSessionStore, SessionMiddleware};
 use mimalloc::MiMalloc;
@@ -21,7 +23,8 @@ use actix_web::{
     web, App, HttpServer,
 };
 use db::Db;
-use openssl::ssl::{SslAcceptor, SslFiletype, SslMethod};
+use rustls::{pki_types::PrivateKeyDer, ServerConfig};
+use rustls_pemfile::{certs, pkcs8_private_keys};
 
 const SECS_IN_WEEK: i64 = 60 * 60 * 24 * 7;
 
@@ -58,13 +61,29 @@ async fn main() -> std::io::Result<()> {
         .run()
         .await
     } else {
-        let mut builder = SslAcceptor::mozilla_intermediate(SslMethod::tls()).unwrap();
-        builder
-            .set_private_key_file("certs/key.pem", SslFiletype::PEM)
+        rustls::crypto::aws_lc_rs::default_provider()
+            .install_default()
             .unwrap();
-        builder
-            .set_certificate_chain_file("certs/cert.pem")
+
+        let config = ServerConfig::builder().with_no_client_auth();
+
+        let cert_file = &mut BufReader::new(include_bytes!("../certs/cert.pem") as &[u8]);
+        let key_file = &mut BufReader::new(include_bytes!("../certs/key.pem") as &[u8]);
+
+        let cert_chain = certs(cert_file).collect::<Result<Vec<_>, _>>().unwrap();
+
+        let mut keys = pkcs8_private_keys(key_file)
+            .map(|key| key.map(PrivateKeyDer::Pkcs8))
+            .collect::<Result<Vec<_>, _>>()
             .unwrap();
+
+        if keys.is_empty() {
+            eprintln!("No keys found in key file");
+            std::process::exit(1);
+        }
+
+        let config = config.with_single_cert(cert_chain, keys.remove(0)).unwrap();
+
         HttpServer::new(move || {
             App::new()
                 .configure(routes::init)
@@ -84,7 +103,7 @@ async fn main() -> std::io::Result<()> {
                 )
                 .app_data(client.clone())
         })
-        .bind_openssl("0.0.0.0:6969", builder)?
+        .bind_rustls_0_23("0.0.0.0:1234", config)?
         .run()
         .await
     }
