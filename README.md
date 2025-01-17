@@ -62,7 +62,7 @@ docker compose -f docker-compose-dev.yml up
 
 ## Test the API Routes
 
-The API can be tested using tools like Postman. All routes and request details are documented in the [API.md](API.md) file. Additionally, you can import the [Postman collection file](resources/PDSDI.postman_collection.json) included in the repository to facilitate testing.
+The API can be tested using tools like Postman. All routes and request details are documented in the [API.md](resources/API.md) file. Additionally, you can import the [Postman collection file](resources/PDSDI.postman_collection.json) included in the repository to facilitate testing.
 
 ---
 
@@ -78,7 +78,7 @@ docker pull l33tlsl/clothe_match_backend
 
 ## Project Structure
 
-- [API.md](API.md): Detailed documentation of the API routes.
+- [API.md](resources/API.md): Detailed documentation of the API routes.
 - [docker-compose.yml](docker-compose.yml) / [docker-compose-dev.yml](docker-compose-dev.yml): Configuration to run the application in Docker containers.
 - [Resources/](resources/): Additional resources for the project:
   - Reports
