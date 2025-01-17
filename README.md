@@ -1,7 +1,7 @@
 # Clothe Match
 
-This is a platform where users upload their clothes and the system suggests outfits based on the user's preferences.
-We provide a web interface and native mobile and desktops apps.
+This is a platform where users upload their clothes and the system suggests outfits based on the user's preferences.  
+We provide a web interface and native mobile and desktops apps.  
 
 ---
 
@@ -78,21 +78,21 @@ docker pull l33tlsl/clothe_match_backend
 
 ## Project Structure
 
-- API.md: Detailed documentation of the API routes.
-- docker-compose.yml: Configuration to run the application in Docker containers.
-- Resources/*: Additional resources for the project:
+- [API.md](API.md): Detailed documentation of the API routes.
+- [docker-compose.yml](docker-compose.yml) / [docker-compose-dev.yml](docker-compose-dev.yml): Configuration to run the application in Docker containers.
+- [Resources/](resources/): Additional resources for the project:
   - Reports
   - Presentations
   - Postman Collection
   - Test Data  
   - Database Model
   - Mockups
-- app/: Source code of the application.
-- frontend/: Source code of the frontend.
-- backend/: Source code of the backend.
-- models/: Source code of the machine learning model.
-- cbf/: Source code of the CBF (Custom Binary Format) algorithm.
-- make.py: Main script of the custom build system for the project.
+- [app/](app/): Source code of the application.
+- [frontend/](frontend/): Source code of the frontend.
+- [backend/](backend/): Source code of the backend.
+- [model/](model/): Source code of the machine learning model.
+- [cbf/](cbf/): Source code of the CBF (Custom Binary Format) algorithm.
+- [make.py](make.py): Main script of the custom build system for the project.
 
 ---
 
@@ -112,8 +112,8 @@ This project is under the GNU General Public License v3.0. See the [LICENSE](LIC
 
 ### Academic Information
 
-- **Curricular Unit**: Serviços Distribuídos
-- **Professor**: Wenderson Wanzeller
+- **Curricular Units**: Serviços Distribuídos, Projeto de Sistemas de Informação
+- **Professor**: Wenderson Wanzeller, Estrela Cruz
 - **Authors**: Lucas de Linahres; Guilherme Sousa
 - **Ano Letivo**: 2024/2025
 - **University**: Instituto Politécnico de Viana do Castelo
