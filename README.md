@@ -114,6 +114,6 @@ This project is under the GNU General Public License v3.0. See the [LICENSE](LIC
 
 - **Curricular Units**: Serviços Distribuídos, Projeto de Sistemas de Informação
 - **Professor**: Wenderson Wanzeller, Estrela Cruz
-- **Authors**: Lucas de Linahres; Guilherme Sousa
+- **Authors**: Lucas de Linhares; Guilherme Sousa
 - **Ano Letivo**: 2024/2025
 - **University**: Instituto Politécnico de Viana do Castelo
