@@ -17,17 +17,17 @@ We provide a web interface and native mobile and desktops apps.
 
 You will need the following items installed run this project:
 
-- [Docker](https://v2.tauri.app/reference/cli/) (optional, to run the application in containers)
-- [Git](https://upx.github.io/)
-- [Postman](https://crates.io/crates/cargo-watch) (optional, to conduct API tests)  
-- [Python](https://github.com/astral-sh/uv) - to run the build system and the machine learning model
-- [Rust](https://www.postgresql.org/) - to build the backend
+- [Docker](https://www.docker.com/) (optional, to run the application in containers)
+- [Git](https://git-scm.com/)
+- [Postman](https://www.postman.com/) (optional, to conduct API tests)  
+- [Python](https://www.python.org/) - to run the build system and the machine learning model
+- [Rust](https://www.rust-lang.org/) - to build the backend
 - [bun](https://bun.sh/) - Fast JS runtime/bundler
-- [PostgreSQL](https://www.rust-lang.org/tools/install) - Database
-- [uv](https://www.python.org/downloads/) - Modern Python package manager
-- [cargo](https://v2.tauri.app/reference/cli/)-watch - Reload backend dev server on changes
-- [upx](https://v2.tauri.app/reference/cli/) - Compress the app binary
-- [tauri](https://v2.tauri.app/reference/cli/)-cli - Build the multiplatform native app
+- [PostgreSQL](https://www.postgresql.org/) - Database
+- [uv](https://github.com/astral-sh/uv) - Modern Python package manager
+- [cargo-watch](https://crates.io/crates/cargo-watch)- Reload backend dev server on changes
+- [upx](https://upx.github.io/) - Compress the app binary
+- [tauri-cli](https://tauri.app/)- Build the multiplatform native app
 
 ---
 
