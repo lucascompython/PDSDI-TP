@@ -32,7 +32,11 @@ const SECS_IN_WEEK: i64 = 60 * 60 * 24 * 7;
 async fn main() -> std::io::Result<()> {
     let client = web::Data::new(Db::new().await.unwrap());
 
-    println!("Server running at http://127.0.0.1:1234");
+    if cfg!(debug_assertions) {
+        println!("Development Server running at http://127.0.0.1:1234");
+    } else {
+        println!("Production Server running at https://0.0.0.0:1234");
+    }
 
     let key = Key::generate();
 
@@ -57,7 +61,7 @@ async fn main() -> std::io::Result<()> {
                 )
                 .app_data(client.clone())
         })
-        .bind(("127.0.0.1", 1234))?
+        .bind(("0.0.0.0", 1234))?
         .run()
         .await
     } else {

@@ -1,7 +1,7 @@
 services:
-  db:
+  dev-db:
     image: postgres:alpine
-    container_name: postgres_db_dev
+    container_name: postgres_db
     environment:
       POSTGRES_USER: pdsdi
       POSTGRES_PASSWORD: pdsdi
@@ -21,12 +21,16 @@ services:
       timeout: 5s
       retries: 5
 
-  backend:
+  dev-backend:
     build:
-      dockerfile: ./backend/Dockerfile
-    container_name: backend
+      dockerfile: ./backend/Dockerfile.dev
+    container_name: dev-backend
+    volumes:
+      - ./backend:/app/backend
+    command:
+      ["cargo", "watch", "-C", "backend", "-x", "run", "--features", "docker"]
     depends_on:
-      db:
+      dev-db:
         condition: service_healthy
     ports:
       - "1234:1234"

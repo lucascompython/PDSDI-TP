@@ -1,0 +1,9 @@
+FROM rust:alpine 
+WORKDIR /app
+
+COPY . /app
+
+RUN apk update --no-cache && apk upgrade --no-cache && apk add --no-cache build-base && apk add --no-cache clang19-libclang && cargo install cargo-watch
+
+ENV RUSTFLAGS="-C target-feature=-crt-static"
+CMD ["cargo", "watch", "-C", "backend", "-x", "run", "--features", "docker"]
