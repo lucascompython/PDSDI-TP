@@ -1,0 +1,45 @@
+services:
+  dev-db:
+    image: postgres:alpine
+    container_name: postgres_db_dev
+    environment:
+      POSTGRES_USER: pdsdi
+      POSTGRES_PASSWORD: pdsdi
+      POSTGRES_DB: clothe_match
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./backend/sql/schema.sql:/docker-entrypoint-initdb.d/schema.sql
+      - ./backend/sql:/docker-entrypoint-initdb.d
+    ports:
+      - "5432:5432"
+    networks:
+      - backend_network
+
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U pdsdi -d clothe_match"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  dev-backend:
+    build:
+      dockerfile: ./backend/Dockerfile.dev
+    container_name: dev-backend
+    volumes:
+      - ./backend:/app/backend
+    command:
+      ["cargo", "watch", "-C", "backend", "-x", "run", "--features", "docker"]
+    depends_on:
+      dev-db:
+        condition: service_healthy
+    ports:
+      - "1234:1234"
+    networks:
+      - backend_network
+
+networks:
+  backend_network:
+    driver: bridge
+
+volumes:
+  pgdata:

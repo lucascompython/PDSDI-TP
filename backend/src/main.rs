@@ -32,7 +32,11 @@ const SECS_IN_WEEK: i64 = 60 * 60 * 24 * 7;
 async fn main() -> std::io::Result<()> {
     let client = web::Data::new(Db::new().await.unwrap());
 
-    println!("Server running at http://127.0.0.1:1234");
+    if cfg!(debug_assertions) {
+        println!("Development Server running at http://127.0.0.1:1234");
+    } else {
+        println!("Production Server running at https://0.0.0.0:1234");
+    }
 
     let key = Key::generate();
 
@@ -57,7 +61,7 @@ async fn main() -> std::io::Result<()> {
                 )
                 .app_data(client.clone())
         })
-        .bind(("127.0.0.1", 1234))?
+        .bind(("0.0.0.0", 1234))?
         .run()
         .await
     } else {
@@ -92,9 +96,9 @@ async fn main() -> std::io::Result<()> {
                 )
                 .wrap(
                     SessionMiddleware::builder(CookieSessionStore::default(), key.clone())
-                        .cookie_secure(true) // Change to true in production
-                        .cookie_http_only(false)
-                        .cookie_same_site(actix_web::cookie::SameSite::Lax)
+                        .cookie_secure(true)
+                        .cookie_http_only(true)
+                        .cookie_same_site(actix_web::cookie::SameSite::None)
                         .session_lifecycle(
                             PersistentSession::default()
                                 .session_ttl(Duration::seconds(SECS_IN_WEEK)),
