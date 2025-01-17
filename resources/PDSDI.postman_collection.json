@@ -36,7 +36,8 @@
 								"user",
 								"check"
 							]
-						}
+						},
+						"description": "Route for checking user authentication"
 					},
 					"response": []
 				},
@@ -64,7 +65,7 @@
 								"register"
 							]
 						},
-						"description": "Returns 200 OK if the user was registered successfully  \nReturns 400 Bad Request if user already exists  \nReturns 500 Internal Server Error if something unexpected happend"
+						"description": "Route for registering a new user\n\n  \nReturns 200 OK if the user was registered successfully  \nReturns 400 Bad Request if user already exists  \nReturns 500 Internal Server Error if something unexpected happend"
 					},
 					"response": []
 				},
@@ -92,7 +93,7 @@
 								"login"
 							]
 						},
-						"description": "Returns 200 OK if the user was logged in successfully  \nReturns 401 Unauthorized if user did not login successfully"
+						"description": "Route for user to login\n\n  \nReturns 200 OK if the user was logged in successfully  \nReturns 401 Unauthorized if user did not login successfully"
 					},
 					"response": []
 				},
@@ -110,7 +111,8 @@
 								"user",
 								"logout"
 							]
-						}
+						},
+						"description": "Route for user to logout, deletes the cookie"
 					},
 					"response": []
 				},
@@ -128,7 +130,8 @@
 								"user",
 								"protected"
 							]
-						}
+						},
+						"description": "Test route that only admins have access to"
 					},
 					"response": []
 				}
@@ -151,7 +154,8 @@
 								"clothes",
 								"get"
 							]
-						}
+						},
+						"description": "Route to get all the clothes from a givern user"
 					},
 					"response": []
 				}
