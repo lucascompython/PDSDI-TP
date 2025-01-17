@@ -1,7 +1,7 @@
 services:
   db:
     image: postgres:alpine
-    container_name: postgres_db_dev
+    container_name: postgres_db
     environment:
       POSTGRES_USER: pdsdi
       POSTGRES_PASSWORD: pdsdi
@@ -22,8 +22,7 @@ services:
       retries: 5
 
   backend:
-    build:
-      dockerfile: ./backend/Dockerfile
+    image: l33tlsl/clothe_match_backend:latest
     container_name: backend
     depends_on:
       db:
