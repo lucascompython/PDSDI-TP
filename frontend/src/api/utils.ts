@@ -1,4 +1,4 @@
-const API_BASE_URL = "http://localhost:1234";
+const API_BASE_URL = "https://127.0.0.1:1234";
 
 // Max index -> 11
 export enum Color {

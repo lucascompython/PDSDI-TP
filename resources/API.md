@@ -18,6 +18,7 @@
 **Output (Response)**:
 
 - **Success (200 OK)**
+- **Error (401 Unauthorized)**
 
 ---
 
