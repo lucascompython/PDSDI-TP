@@ -1,3 +1,5 @@
+// TODO: Make this multithreaded
+// TODO: Make this nostd
 use std::io::{self, Read, Write};
 
 #[cfg(target_arch = "wasm32")]

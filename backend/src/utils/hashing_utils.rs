@@ -26,7 +26,7 @@ pub fn verify(password: &str, combined_bytes: &[u8; 48]) -> bool {
         mem_cost_kib: 65536,
         iterations: 4,
         threads: 4,
-        salt: combined_bytes[..16].to_vec(),
+        salt: combined_bytes[..16].to_vec(), // TODO: https://github.com/lucascompython/argon2-kdf/tree/feat-arrays-instead-of-vecs
         hash: combined_bytes[16..].to_vec(),
     };
 

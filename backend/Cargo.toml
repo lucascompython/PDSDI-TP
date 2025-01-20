@@ -22,8 +22,6 @@ thiserror = "2.0.11"
 actix-session = { version = "0.10.1", features = ["cookie-session"] }
 env_logger = { version = "0.11.6", optional = true }
 actix-cors = "0.7.0"
-actix-multipart = "0.7.2"
-futures = "0.3.31"
 
 cbf = { path = "../cbf" }
 rustls = "0.23.21"

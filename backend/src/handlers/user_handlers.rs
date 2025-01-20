@@ -45,8 +45,8 @@ pub async fn register(
 ) -> impl Responder {
     let Json(user): Json<RegisterRequest> = Json::from_bytes(request_data).unwrap();
 
-    let user_id = match validate_session(&session) {
-        Ok(id) => id,
+    match validate_session(&session) {
+        Ok(_) => {}
         Err(response) => return response,
     };
 
