@@ -14,11 +14,10 @@ pub fn validate_session(session: &Session) -> Result<i32, HttpResponse> {
 }
 
 pub fn admin_only(session: &Session) -> Result<(), HttpResponse> {
-    let is_admin = session.get::<bool>("is_admin").unwrap().unwrap();
+    let is_admin = session.get::<bool>("is_admin").unwrap();
 
-    if !is_admin {
-        return Err(HttpResponse::Forbidden().finish());
+    match is_admin {
+        Some(true) => Ok(()),
+        _ => Err(HttpResponse::Forbidden().finish()),
     }
-
-    Ok(())
 }

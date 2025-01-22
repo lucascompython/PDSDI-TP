@@ -1,6 +1,6 @@
 use serde::{Deserialize, Serialize};
 
-#[derive(Serialize, Deserialize)]
+#[derive(Serialize, Deserialize, Clone)]
 pub enum Color {
     Red,
     Orange,
@@ -38,7 +38,27 @@ impl std::str::FromStr for Color {
     }
 }
 
-#[derive(Serialize, Deserialize)]
+impl From<i16> for Color {
+    fn from(value: i16) -> Self {
+        match value {
+            0 => Color::Red,
+            1 => Color::Orange,
+            2 => Color::Yellow,
+            3 => Color::Green,
+            4 => Color::Blue,
+            5 => Color::Purple,
+            6 => Color::Pink,
+            7 => Color::Brown,
+            8 => Color::Black,
+            9 => Color::White,
+            10 => Color::Gold,
+            11 => Color::Gray,
+            _ => panic!("Invalid color value"),
+        }
+    }
+}
+
+#[derive(Serialize, Deserialize, Clone)]
 pub enum Category {
     Shirt,
     Pants,
@@ -70,6 +90,25 @@ impl std::str::FromStr for Category {
             "Gloves" => Ok(Category::Gloves),
             "Scarf" => Ok(Category::Scarf),
             _ => Err(()),
+        }
+    }
+}
+
+impl From<i16> for Category {
+    fn from(value: i16) -> Self {
+        match value {
+            0 => Category::Shirt,
+            1 => Category::Pants,
+            2 => Category::Shorts,
+            3 => Category::Dress,
+            4 => Category::Skirt,
+            5 => Category::Jacket,
+            6 => Category::Sweater,
+            7 => Category::Shoes,
+            8 => Category::Hat,
+            9 => Category::Gloves,
+            10 => Category::Scarf,
+            _ => panic!("Invalid category value"),
         }
     }
 }

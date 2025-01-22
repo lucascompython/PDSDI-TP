@@ -3,13 +3,13 @@ use actix_web::{web, HttpResponse, Responder};
 use serde::{Deserialize, Serialize};
 
 use crate::{
-    db::Db,
     models::user::User,
     utils::{
         hashing_utils::{hash, verify},
         json_utils::{json_response, Json},
         session_utils::{admin_only, validate_session},
     },
+    State,
 };
 
 #[derive(Serialize, Deserialize)]
@@ -39,24 +39,20 @@ struct RegisterRequest {
 }
 
 pub async fn register(
-    db: web::Data<Db>,
+    state: web::Data<State>,
     session: Session,
     request_data: web::Bytes,
 ) -> impl Responder {
     let Json(user): Json<RegisterRequest> = Json::from_bytes(request_data).unwrap();
 
-    match validate_session(&session) {
-        Ok(_) => {}
-        Err(response) => return response,
-    };
-
     if let Err(response) = admin_only(&session) {
         return response;
     }
 
-    match db
+    match state
+        .db
         .client
-        .query(&db.statements.check_user_exists, &[&user.email])
+        .query(&state.db.statements.check_user_exists, &[&user.email])
         .await
     {
         Ok(rows) => {
@@ -69,10 +65,11 @@ pub async fn register(
 
     let password_bytes = hash(&user.password);
 
-    match db
+    match state
+        .db
         .client
         .query(
-            &db.statements.insert_user,
+            &state.db.statements.insert_user,
             &[
                 &user.username,
                 &user.email,
@@ -93,12 +90,20 @@ struct LoginRequest {
     password: String,
 }
 
-pub async fn login(db: web::Data<Db>, login_data: web::Bytes, session: Session) -> impl Responder {
+pub async fn login(
+    state: web::Data<State>,
+    login_data: web::Bytes,
+    session: Session,
+) -> impl Responder {
     let Json(user_request): Json<LoginRequest> = Json::from_bytes(login_data).unwrap();
 
-    let user = match db
+    let user = match state
+        .db
         .client
-        .query_one(&db.statements.get_user_by_email, &[&user_request.email])
+        .query_one(
+            &state.db.statements.get_user_by_email,
+            &[&user_request.email],
+        )
         .await
     {
         Ok(row) => {

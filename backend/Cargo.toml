@@ -15,6 +15,7 @@ sonic-rs = "0.3.17"
 tokio = { version = "1", default-features = false, features = [
     "rt-multi-thread",
     "macros",
+    "fs",
 ] }
 tokio-postgres = { version = "0.7.12", features = ["with-chrono-0_4"] }
 argon2-kdf = { git = "https://github.com/lucascompython/argon2-kdf", branch = "main" }
@@ -26,6 +27,8 @@ actix-cors = "0.7.0"
 cbf = { path = "../cbf" }
 rustls = "0.23.21"
 rustls-pemfile = "2.2.0"
+papaya = "0.1.8"
+ahash = "0.8.11"
 
 [features]
 default = []

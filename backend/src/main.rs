@@ -22,15 +22,21 @@ use actix_web::{
     cookie::{time::Duration, Key},
     web, App, HttpServer,
 };
-use db::Db;
+use db::{Cache, Db};
 use rustls::{pki_types::PrivateKeyDer, ServerConfig};
 use rustls_pemfile::{certs, pkcs8_private_keys};
 
 const SECS_IN_WEEK: i64 = 60 * 60 * 24 * 7;
 
+struct State {
+    db: Db,
+    cache: Cache,
+}
+
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-    let client = web::Data::new(Db::new().await.unwrap());
+    let (db, cache) = Db::new().await.unwrap();
+    let state = web::Data::new(State { db, cache });
 
     if cfg!(debug_assertions) {
         println!("Development Server running at http://127.0.0.1:1234");
@@ -59,7 +65,7 @@ async fn main() -> std::io::Result<()> {
                         )
                         .build(),
                 )
-                .app_data(client.clone())
+                .app_data(state.clone())
         })
         .bind(("0.0.0.0", 1234))?
         .run()
@@ -105,7 +111,7 @@ async fn main() -> std::io::Result<()> {
                         )
                         .build(),
                 )
-                .app_data(client.clone())
+                .app_data(state.clone())
         })
         .bind_rustls_0_23("0.0.0.0:1234", config)?
         .run()

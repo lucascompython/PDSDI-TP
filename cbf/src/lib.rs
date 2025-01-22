@@ -1,5 +1,7 @@
 // TODO: Make this multithreaded
 // TODO: Make this nostd
+// TODO: Possible remove the filename field and just make it ext
+// TODO: Fix the typescript types
 use std::io::{self, Read, Write};
 
 #[cfg(target_arch = "wasm32")]
