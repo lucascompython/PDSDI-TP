@@ -210,19 +210,19 @@
 
     <div class="modal-action">
       <div class="form-container">
-        <label class="m-2 input input-bordered flex items-center gap-2">
+        <label class="input input-bordered flex items-center gap-2 w-full">
           {@html Hanger}
           <input
             id="clotheName"
             type="text"
-            class="grow"
+            class="grow w-100"
             placeholder={t("upload.name")}
           />
         </label>
         <div class="flex">
           <select
             id="clotheCategory"
-            class="m-2 select select-bordered w-full max-w-xs"
+            class="mt-2 mr-2 select select-bordered w-full max-w-xs"
           >
             <option>{t("upload.category")}</option>
             {#each Object.keys(ClotheCategory) as category}
@@ -234,7 +234,7 @@
 
           <select
             id="clotheColor"
-            class="m-2 select select-bordered w-full max-w-xs"
+            class="mt-2 select select-bordered w-full max-w-xs"
           >
             <option>{t("upload.color")}</option>
             {#each Object.values(Color) as color}
@@ -242,8 +242,8 @@
             {/each}
           </select>
         </div>
-        <label class="label cursor-pointer m-2">
-          <span class="label-text">{t("upload.is_for_hot_weather")}</span>
+        <label class="label cursor-pointer mb-3 mt-3 flex justify-between">
+          <span>{t("upload.is_for_hot_weather")}</span>
           <input id="clotheIsForHotWeather" type="checkbox" class="checkbox" />
         </label>
         <div class="button-container">
