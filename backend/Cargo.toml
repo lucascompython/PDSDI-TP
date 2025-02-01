@@ -25,7 +25,7 @@ env_logger = { version = "0.11.6", optional = true }
 actix-cors = "0.7.0"
 
 cbf = { path = "../cbf" }
-rustls = "0.23.21"
+rustls = "0.23.22"
 rustls-pemfile = "2.2.0"
 papaya = "0.1.8"
 ahash = "0.8.11"
