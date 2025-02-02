@@ -66,6 +66,7 @@ async fn main() -> std::io::Result<()> {
                         .build(),
                 )
                 .app_data(state.clone())
+                .app_data(web::PayloadConfig::default().limit(1024 * 1024 * 5)) // 5 MB
         })
         .bind(("0.0.0.0", 1234))?
         .run()
@@ -112,6 +113,7 @@ async fn main() -> std::io::Result<()> {
                         .build(),
                 )
                 .app_data(state.clone())
+                .app_data(web::PayloadConfig::default().limit(1024 * 1024 * 5)) // 5 MB
         })
         .bind_rustls_0_23("0.0.0.0:1234", config)?
         .run()

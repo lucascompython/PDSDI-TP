@@ -4,7 +4,7 @@ import init, { Clothe as ClotheResponse } from "../../../cbf/pkg/cbf.js";
 
 export enum Color {
   Red = "Red",
-  Orange = "Black",
+  Orange = "Orange",
   Yellow = "Yellow",
   Green = "Green",
   Blue = "Blue",

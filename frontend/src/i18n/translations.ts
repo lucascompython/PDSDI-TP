@@ -14,6 +14,7 @@ export const translations = {
     "login.forgot.password": "Forgot password",
     "login.forgot.submit": "You will receive an email shortly",
     "login.cookies.label": "Information about cookies",
+    "login.cookies.title": "Cookie Policy",
     "login.cookies":
       "We only use session cookies to ensure the proper functioning of our website. Session cookies are temporary and are deleted from your device when you close your browser. They do not store any personal information and are essential for maintaining your session while you navigate our site.",
     "login.login": "Login",
@@ -85,6 +86,7 @@ export const translations = {
     "login.forgot.password": "Esqueceu-se da senha",
     "login.forgot.submit": "Receberá um e-mail em breve",
     "login.cookies.label": "Informações sobre cookies",
+    "login.cookies.title": "Política de Cookies",
     "login.cookies":
       "Usamos apenas cookies de sessão para garantir o funcionamento adequado do nosso site. Os cookies de sessão são temporários e são excluídos do seu dispositivo quando você fecha o navegador. Eles não armazenam nenhuma informação pessoal e são essenciais para manter sua sessão enquanto você navega em nosso site.",
     "login.login": "Entrar",

@@ -10,6 +10,7 @@
 
   import { loginUser } from "src/api/utils";
   import { showAlert, AlertType } from "./Alert/Alert";
+  import { onMount } from "svelte";
 
   let { windowLocation }: { windowLocation: URL } = $props();
   const lang = getLangFromUrl(windowLocation);
@@ -18,9 +19,19 @@
 
   let email = $state("");
   let password = $state("");
+  let cookieModal: HTMLDialogElement;
+
+  onMount(() => {
+    cookieModal = document.getElementById("cookie_modal") as HTMLDialogElement;
+  });
 
   async function handleLogin(event: SubmitEvent) {
     event.preventDefault();
+
+    if (cookieModal.open) {
+      return;
+    }
+
     if (email === "" || password === "") {
       showAlert(t("login.error"), AlertType.ERROR);
       return;
@@ -66,8 +77,11 @@
     <a class="link link-hover mb-4" href="#forgot_password_modal"
       >{t("login.forgot.password")}</a
     >
-    <a class="link link-hover mb-4 absolute" href="#cookies_modal"
-      >{t("login.cookies.label")}</a
+    <button
+      class="link link-hover mb-4 absolute"
+      onclick={() => cookieModal.showModal()}
+    >
+      {t("login.cookies.label")}</button
     >
   </div>
   <button class="btn btn-primary w-full">{t("login.login")}</button>
@@ -86,15 +100,17 @@
   </div>
 </div>
 
-<div class="modal bg-color" role="dialog" id="cookies_modal">
-  <div class="modal-box bg-color">
-    <p>{t("login.cookies")}</p>
+<dialog id="cookie_modal" class="modal">
+  <div class="modal-box">
+    <h3 class="text-lg font-bold">{t("login.cookies.title")}</h3>
+    <p class="py-4">{t("login.cookies")}</p>
     <div class="modal-action">
-      <!-- svelte-ignore a11y_invalid_attribute -->
-      <a href="" class="btn modalButton">Ok</a>
+      <form method="dialog">
+        <button class="btn">Ok</button>
+      </form>
     </div>
   </div>
-</div>
+</dialog>
 
 <style>
   div {
