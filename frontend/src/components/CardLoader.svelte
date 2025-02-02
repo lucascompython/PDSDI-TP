@@ -16,6 +16,6 @@
   });
 </script>
 
-{#each clothes as clothe, i}
+{#each clothes as clothe}
   <EyeCard {clothe} {t} />
 {/each}
