@@ -1,6 +1,6 @@
 use actix_session::Session;
 use actix_web::{web, HttpResponse, Responder};
-use tokio::{fs, io::AsyncReadExt};
+use tokio::{fs, io::AsyncReadExt, task::JoinSet};
 
 use tokio_postgres::types::ToSql;
 
@@ -44,7 +44,7 @@ pub async fn upload(state: web::Data<State>, session: Session, data: web::Bytes)
             &clothe.name,
             clothe.color as i16,
             clothe.category as i16,
-            clothe.user_id as i16,
+            user_id as i16,
             clothe.is_for_hot_weather,
         ));
     }
@@ -60,29 +60,44 @@ pub async fn upload(state: web::Data<State>, session: Session, data: web::Bytes)
     query.push_str(" RETURNING clothe_id");
 
     // TODO: Write the files to the disk and possibly only handle the db later
-    match state.db.client.query(&query, &params).await {
-        Ok(rows) => {
-            for (i, row) in rows.iter().enumerate() {
-                state
-                    .cache
-                    .users
-                    .pin()
-                    .get(&(user_id as i16))
-                    .unwrap()
-                    .clothes
-                    .pin()
-                    .insert(
-                        row.get(0),
-                        ClotheCache {
-                            name: values[i].0.to_string(),
-                            color: Color::from(values[i].1),
-                            category: Category::from(values[i].2),
-                            is_hot_weather: values[i].4,
-                        },
-                    );
-            }
-        }
+    let rows = match state.db.client.query(&query, &params).await {
+        Ok(rows) => rows,
         Err(_) => return HttpResponse::InternalServerError().finish(),
+    };
+
+    let mut set = JoinSet::new();
+
+    for (i, row) in rows.iter().enumerate() {
+        let clothe_id: i16 = row.get(0);
+        let file_data = clothes[i].file.clone();
+
+        set.spawn(async move {
+            fs::write(format!("uploads/{}.png", clothe_id), &file_data)
+                .await
+                .unwrap();
+        });
+    }
+
+    set.join_all().await;
+
+    for (i, row) in rows.iter().enumerate() {
+        state
+            .cache
+            .users
+            .pin()
+            .get(&(user_id as i16))
+            .unwrap()
+            .clothes
+            .pin()
+            .insert(
+                row.get(0),
+                ClotheCache {
+                    name: values[i].0.to_string(),
+                    color: Color::from(values[i].1),
+                    category: Category::from(values[i].2),
+                    is_hot_weather: values[i].4,
+                },
+            );
     }
 
     HttpResponse::Ok().finish()
@@ -108,7 +123,7 @@ pub async fn get_clothes(state: web::Data<State>, session: Session) -> impl Resp
         // There is not much difference between doing this and doing it sequentially, I would need something like io-uring but it sucks for rust right now
         // TODO: Try not to clone here
         let mut buffer = Vec::with_capacity(16384);
-        let file_name = format!("uploads/{}-.png", clothe_id);
+        let file_name = format!("uploads/{}.png", clothe_id);
         let file = fs::File::open(file_name).await.unwrap();
         let mut reader = tokio::io::BufReader::new(file);
         reader.read_to_end(&mut buffer).await.unwrap();

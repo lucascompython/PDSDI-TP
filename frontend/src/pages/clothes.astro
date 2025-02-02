@@ -18,17 +18,7 @@ const t = useTranslations(getLangFromUrl(Astro.url));
       <Fragment set:html={Search} />
     </label>
     <div class="grid-container">
-      <!-- <EyeCard client:load />
-      <EyeCard client:load />
-      <EyeCard client:load />
-      <EyeCard client:load />
-      <EyeCard client:load />
-      <EyeCard client:load />
-      <EyeCard client:load />
-      <EyeCard client:load />
-      <EyeCard client:load />
-      <EyeCard client:load /> -->
-      <CardLoader client:load />
+      <CardLoader client:load windowLocation={Astro.url} />
     </div>
     <Footer />
   </main>

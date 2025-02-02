@@ -42,9 +42,13 @@ Compiling to WebAssembly: `wasm-pack build --target web`
 ```bash
 cargo test
 
-## Testing the WebAssembly
+## Building WebAssembly
 wasm-pack build --target nodejs
-bun test ./tests.ts
+
+## Test the WebAssembly
+cd tests
+bun test # Only test WebAssembly
+bun run index.ts --help # Test server
 ```
 
 ## TODO: make.py script and the rust optimizations

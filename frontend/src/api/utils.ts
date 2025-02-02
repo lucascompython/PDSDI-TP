@@ -1,21 +1,82 @@
 const API_BASE_URL = "http://localhost:1234";
+export type { ClotheResponse }; // re-export Clothe from cbf.d.ts
+import init, { Clothe as ClotheResponse } from "../../../cbf/pkg/cbf.js";
 
-// Max index -> 11
 export enum Color {
-  Red = "Gray",
+  Red = "Red",
   Orange = "Black",
-  Yellow = "White",
-  Green = "Brown",
-  Blue = "Pink",
+  Yellow = "Yellow",
+  Green = "Green",
+  Blue = "Blue",
   Purple = "Purple",
-  Pink = "Blue",
-  Brown = "Green",
-  White = "Yellow",
-  Black = "Orange",
-  Gray = "Red",
+  Pink = "Pink",
+  Brown = "Brown",
+  Black = "Black",
+  White = "White",
   Gold = "Gold",
+  Gray = "Gray",
 }
-// Max index -> 10
+
+function colorToNumber(color: Color): number {
+  switch (color) {
+    case Color.Red:
+      return 0;
+    case Color.Orange:
+      return 1;
+    case Color.Yellow:
+      return 2;
+    case Color.Green:
+      return 3;
+    case Color.Blue:
+      return 4;
+    case Color.Purple:
+      return 5;
+    case Color.Pink:
+      return 6;
+    case Color.Brown:
+      return 7;
+    case Color.Black:
+      return 8;
+    case Color.White:
+      return 9;
+    case Color.Gold:
+      return 10;
+    case Color.Gray:
+      return 11;
+  }
+}
+
+export function numberToColor(number: number): Color {
+  switch (number) {
+    case 0:
+      return Color.Red;
+    case 1:
+      return Color.Orange;
+    case 2:
+      return Color.Yellow;
+    case 3:
+      return Color.Green;
+    case 4:
+      return Color.Blue;
+    case 5:
+      return Color.Purple;
+    case 6:
+      return Color.Pink;
+    case 7:
+      return Color.Brown;
+    case 8:
+      return Color.Black;
+    case 9:
+      return Color.White;
+    case 10:
+      return Color.Gold;
+    case 11:
+      return Color.Gray;
+    default:
+      throw new Error(`Invalid color number: ${number}`);
+  }
+}
+
 export enum ClotheCategory {
   Shirt = "Shirt",
   Pants = "Pants",
@@ -28,6 +89,62 @@ export enum ClotheCategory {
   Hat = "Hat",
   Gloves = "Gloves",
   Scarf = "Scarf",
+}
+
+function categoryToNumber(category: ClotheCategory): number {
+  switch (category) {
+    case ClotheCategory.Shirt:
+      return 0;
+    case ClotheCategory.Pants:
+      return 1;
+    case ClotheCategory.Shorts:
+      return 2;
+    case ClotheCategory.Dress:
+      return 3;
+    case ClotheCategory.Skirt:
+      return 4;
+    case ClotheCategory.Jacket:
+      return 5;
+    case ClotheCategory.Sweater:
+      return 6;
+    case ClotheCategory.Shoes:
+      return 7;
+    case ClotheCategory.Hat:
+      return 8;
+    case ClotheCategory.Gloves:
+      return 9;
+    case ClotheCategory.Scarf:
+      return 10;
+  }
+}
+
+export function numberToCategory(number: number): ClotheCategory {
+  switch (number) {
+    case 0:
+      return ClotheCategory.Shirt;
+    case 1:
+      return ClotheCategory.Pants;
+    case 2:
+      return ClotheCategory.Shorts;
+    case 3:
+      return ClotheCategory.Dress;
+    case 4:
+      return ClotheCategory.Skirt;
+    case 5:
+      return ClotheCategory.Jacket;
+    case 6:
+      return ClotheCategory.Sweater;
+    case 7:
+      return ClotheCategory.Shoes;
+    case 8:
+      return ClotheCategory.Hat;
+    case 9:
+      return ClotheCategory.Gloves;
+    case 10:
+      return ClotheCategory.Scarf;
+    default:
+      throw new Error(`Invalid category number: ${number}`);
+  }
 }
 
 export interface Clothe {
@@ -97,97 +214,58 @@ export async function checkUser(): Promise<checkUserResponse> {
 }
 
 export async function uploadClothes(clothes: Clothe[]): Promise<boolean> {
-  const formData = new FormData();
+  const { serializeClothesToBytes } = await import("../../../cbf/pkg");
+  await init();
 
-  for (let i = 0; i < clothes.length; i++) {
-    formData.append("clothe", JSON.stringify(clothes[i]));
-    formData.append("image", clothes[i].image);
+  const clotheResponses = [];
+
+  for (const clothe of clothes) {
+    const { name, color, category, isForHotWeather, image } = clothe;
+    clotheResponses.push(
+      new ClotheResponse(
+        0, // dummy value, the server will assign an id
+        name,
+        colorToNumber(color),
+        categoryToNumber(category),
+        0, // dummy value, the server will use the cookie to get the user id
+        isForHotWeather,
+        image.name,
+        new Uint8Array(await image.arrayBuffer())
+      )
+    );
   }
+  const serialized = serializeClothesToBytes(clotheResponses);
 
   const response = await fetch(`${API_BASE_URL}/clothes/upload`, {
     method: "POST",
+    headers: {
+      "Content-Type": "application/octet-stream",
+    },
     credentials: "include",
-    body: formData,
+    body: serialized,
   });
 
   return response.ok;
 }
 
-export interface ClotheResponse {
-  id: number;
-  name: string;
-  color: string;
-  category: string;
-  user_id: number;
-  is_hot_weather: boolean;
-  image?: File;
-}
+export async function getClothes(): Promise<ClotheResponse[]> {
+  const { deserializeClothesFromBytes } = await import(
+    "../../../cbf/pkg/cbf.js"
+  );
 
-export async function getClothes(): Promise<{
-  clothes: ClotheResponse[];
-  images: { [key: string]: Blob };
-}> {
-  console.log("ola");
+  await init();
+
   const response = await fetch(`${API_BASE_URL}/clothes/get`, {
     method: "GET",
     credentials: "include",
   });
 
   if (!response.ok) {
-    throw new Error("Failed to fetch clothes");
+    return []; // No clothes
   }
 
-  const contentType = response.headers.get("Content-Type");
-  if (!contentType || !contentType.includes("multipart/form-data")) {
-    throw new Error("Invalid response format");
-  }
+  const buffer = await response.arrayBuffer();
+  const clothes = deserializeClothesFromBytes(new Uint8Array(buffer));
 
-  const boundary = contentType.split("boundary=")[1].trim();
-  const arrayBuffer = await response.arrayBuffer();
-  // const text = await response.text();
-  const text = new TextDecoder().decode(arrayBuffer);
-  const parts = text.split(`--${boundary}`);
-
-  const clothes: ClotheResponse[] = [];
-  const images: { [key: string]: Blob } = {};
-
-  let offset = 0;
-
-  for (const part of parts) {
-    // if (part === "") {
-    //   continue;
-    // }
-
-    if (part === "") {
-      continue;
-    }
-    // console.log(part);
-
-    if (part.includes('Content-Disposition: form-data; name="clothe"')) {
-      const json = part.split("\r\n\r\n")[1].split("\r\n")[0];
-      const clothe = JSON.parse(json);
-      clothes.push(clothe);
-    } else if (part.includes('Content-Disposition: form-data; name="file"')) {
-      const headers = part.split("\r\n\r\n")[0];
-      const match = headers.match(/filename="(.+?)"/);
-      if (!match) {
-        throw new Error("Filename not found in headers");
-      }
-      const filename = match[1];
-      const fileContentIndex = part.indexOf("\r\n\r\n") + 4;
-      const fileContentStart = offset + fileContentIndex + 2;
-
-      const fileContentEnd =
-        fileContentStart + part.split("\r\n\r\n")[1].length;
-      const fileContent = arrayBuffer.slice(fileContentStart, fileContentEnd);
-      console.log(fileContent);
-      const blob = new Blob([fileContent], {
-        type: "application/octet-stream",
-      });
-      images[filename] = blob;
-    }
-    offset += part.length + boundary.length + 4; // 4 for the "--" and "\r\n"
-  }
-
-  return { clothes, images };
+  return clothes;
 }

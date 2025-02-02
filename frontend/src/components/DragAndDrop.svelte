@@ -169,7 +169,7 @@
           previewModal.close();
           showAlert(t("upload.success"), AlertType.SUCCESS);
         } else {
-          showAlert(t("upload.error"), AlertType.ERROR);
+          showAlert(t("upload.error"), AlertType.ERROR, previewModal);
         }
       });
     } else {

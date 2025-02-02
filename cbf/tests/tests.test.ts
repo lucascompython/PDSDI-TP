@@ -1,9 +1,9 @@
 import { expect, test } from "bun:test";
 import {
-  serialize_clothes_to_bytes,
-  deserialize_clothes_from_bytes,
+  serializeClothesToBytes,
+  deserializeClothesFromBytes,
   Clothe,
-} from "./pkg/cbf.js";
+} from "../pkg/cbf.js";
 
 test("serialize and deserialize a single Clothe", () => {
   const clothe = new Clothe(
@@ -54,8 +54,8 @@ test("serialize and deserialize multiple Clothes", () => {
     ),
   ];
 
-  const serialized = serialize_clothes_to_bytes(clothes);
-  const deserialized = deserialize_clothes_from_bytes(serialized);
+  const serialized = serializeClothesToBytes(clothes);
+  const deserialized = deserializeClothesFromBytes(serialized);
 
   expect(deserialized.length).toBe(clothes.length);
   for (let i = 0; i < clothes.length; i++) {

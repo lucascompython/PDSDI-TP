@@ -63,6 +63,7 @@ def _copy_files() -> None:
 
 def _dev() -> None:
     Colors.info("Running the development server")
+    run_command(("wasm-pack", "build", "--target", "web"), cwd="../cbf")
     run_command(("bunx", "--bun", "astro", "dev"))
 
 
@@ -71,6 +72,7 @@ def _release() -> None:
 
     start = perf_counter()
 
+    run_command(("wasm-pack", "build", "--target", "web"), cwd="../cbf")
     run_command(("bunx", "--bun", "astro", "build"))
 
     elapsed = perf_counter() - start

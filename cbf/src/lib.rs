@@ -195,8 +195,9 @@ pub fn deserialize_clothes(reader: &mut impl Read) -> io::Result<Vec<Clothe>> {
 }
 
 #[cfg(target_arch = "wasm32")]
+#[allow(non_snake_case)]
 #[wasm_bindgen]
-pub fn serialize_clothes_to_bytes(clothes: JsValue) -> Vec<u8> {
+pub fn serializeClothesToBytes(clothes: JsValue) -> Vec<u8> {
     let clothes: Vec<Clothe> = serde_wasm_bindgen::from_value(clothes).unwrap();
 
     let mut buffer = Vec::new();
@@ -205,8 +206,9 @@ pub fn serialize_clothes_to_bytes(clothes: JsValue) -> Vec<u8> {
 }
 
 #[cfg(target_arch = "wasm32")]
+#[allow(non_snake_case)]
 #[wasm_bindgen]
-pub fn deserialize_clothes_from_bytes(data: &[u8]) -> Vec<Clothe> {
+pub fn deserializeClothesFromBytes(data: &[u8]) -> Vec<Clothe> {
     let mut reader: &[u8] = data;
     deserialize_clothes(&mut reader).unwrap()
 }

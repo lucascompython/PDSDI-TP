@@ -1,30 +1,39 @@
 <script lang="ts">
-  import { type ClotheResponse } from "../api/utils";
+  import type { useTranslations } from "src/i18n/utils";
+  import {
+    numberToCategory,
+    numberToColor,
+    type ClotheResponse,
+  } from "../api/utils";
 
   const {
     clothe,
-    image,
-  }: { clothe: ClotheResponse; image: { filename: string; data: Blob } } =
+    t,
+  }: { clothe: ClotheResponse; t: ReturnType<typeof useTranslations> } =
     $props();
 
-  let imageUrl: string;
-  if (image && image.filename) {
-    imageUrl = URL.createObjectURL(image.data);
-    console.log("imageUrl", imageUrl);
+  let imageUrl: string = $state("");
+  if (clothe) {
+    const blob = new Blob([clothe.file]);
+    imageUrl = URL.createObjectURL(blob);
   }
 </script>
 
 <div class="card bg-base-100 w-96 shadow-xl">
   <figure>
-    <img src={imageUrl} alt={image.filename} />
+    <img src={imageUrl} alt={clothe.file_name} />
   </figure>
   <div class="card-body">
-    <h2 class="card-title">Shoes!</h2>
+    <h2 class="card-title">{clothe.name}</h2>
     <div class="card-actions">
       <div class="badge-container center-badge">
-        <div class="badge badge-outline">{clothe.category}</div>
-        <div class="badge badge-outline">{clothe.color}</div>
-        <div class="badge badge-outline">{clothe.is_hot_weather}</div>
+        <div class="badge badge-outline">
+          {numberToCategory(clothe.category)}
+        </div>
+        <div class="badge badge-outline">{numberToColor(clothe.color)}</div>
+        <div class="badge badge-outline">
+          {t("upload.is_for_hot_weather")}: {clothe.is_for_hot_weather}
+        </div>
       </div>
     </div>
   </div>

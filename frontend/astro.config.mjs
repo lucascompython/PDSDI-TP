@@ -12,6 +12,15 @@ export default defineConfig({
     (await import("@playform/compress")).default(),
   ],
   vite: {
-    plugins: [tailwindcss()],
+    // @ts-ignore
+    plugins: [tailwindcss()], 
+    server: {
+      fs: {
+        allow: [
+          ".",
+          "../cbf" // Allow reading from the cbf directory for loading the WebAssembly module
+        ]
+      }
+    }
   }
 });
