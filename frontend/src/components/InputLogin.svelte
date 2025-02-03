@@ -77,15 +77,13 @@
     <a class="link link-hover mb-4" href="#forgot_password_modal"
       >{t("login.forgot.password")}</a
     >
-    <button
-      class="link link-hover mb-4 absolute"
-      onclick={() => cookieModal.showModal()}
-    >
-      {t("login.cookies.label")}</button
-    >
   </div>
   <button class="btn btn-primary w-full">{t("login.login")}</button>
 </form>
+
+<button class="link link-hover mb-4" onclick={() => cookieModal.showModal()}>
+  {t("login.cookies.label")}</button
+>
 
 <div class="modal" role="dialog" id="forgot_password_modal">
   <div class="modal-box bg-color">
