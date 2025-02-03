@@ -27,7 +27,7 @@ The format is as follows:
 2. `name_size`: 1 byte
 3. `name`: `name_size` bytes
 4. `color` and `category`: 1 byte (4 bits each)
-5. `user_id` and `is_for_hot_weather`:
+5. `user_id` and `is_for_hot_weather`: 2 bytes
     - `user_id`: 15 bits
     - `is_for_hot_weather`: 1 bit
 6. `image_size`: 3 bytes
