@@ -6,11 +6,11 @@ I have the following data, that I need to share between the backend and the fron
 
 ```rust
 struct Clothe {
-    id: i32,
+    id: i16, // tokio-postgres doesn't support u16
     name: String,
     color: Color,
     category: Category,
-    user_id: i32,
+    user_id: i16, // tokio-postgres doesn't support u16
     is_for_hot_weather: bool,
     image: Vec<u8>,
     file_name: String,
