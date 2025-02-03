@@ -14,7 +14,7 @@ const t = useTranslations(getLangFromUrl(Astro.url));
   <main>
     <NavBar />
     <div class="div-mf">
-      <label class="input input-bordered flex items-center gap">
+      <label class="input input-bordered flex items-center">
         <input type="text" class="grow" placeholder="Search" />
         <Fragment set:html={Search} />
       </label>
@@ -52,12 +52,12 @@ const t = useTranslations(getLangFromUrl(Astro.url));
     background-color: var(--bg-color);
     color: var(--text-color);
     width: 70%;
-    display: flex;
-
-    margin-left: 5%;
+    margin: 0 auto;
+    margin-left: 10%;
   }
   button {
-    margin-left: 2rem;
+    max-width: 10%;
+    margin-right: 10%;
   }
 
   @media only screen and (max-width: 600px) {

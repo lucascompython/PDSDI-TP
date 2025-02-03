@@ -77,6 +77,7 @@ export const translations = {
     "upload.fill_all_fields": "Fill all fields",
     "upload.success": "Upload successful",
     "upload.error": "Upload failed",
+    "table.admin.delete.title": "Are you sure you want to delete this account?",
   },
   pt: {
     "nav.home": "Início",
@@ -149,5 +150,6 @@ export const translations = {
     "upload.fill_all_fields": "Preencha todos os campos",
     "upload.success": "Envio bem sucedido",
     "upload.error": "Envio falhou",
+    "table.admin.delete.title": "Tem a certeza que deseja apagar esta conta?",
   },
 } as const;

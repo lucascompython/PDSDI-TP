@@ -9,7 +9,7 @@
 </script>
 
 <div class="container mx-auto p-4 max-w-lg">
-  <label class="input input-bordered flex items-center gap-2 mb-4">
+  <label class="input input-bordered flex items-center gap-2 mb-4 w-full">
     <!-- <EmailIcon /> -->
     {@html EmailIcon}
     <input
@@ -19,7 +19,7 @@
       value="lucas@gmail.com"
     />
   </label>
-  <label class="input input-bordered flex items-center gap-2 mb-4">
+  <label class="input input-bordered flex items-center gap-2 mb-4 w-full">
     <PasswordLoginIcon />
     <input
       type="password"
@@ -28,7 +28,7 @@
       id="passwordInput"
     />
   </label>
-  <label class="input input-bordered flex items-center gap-2 mb-4">
+  <label class="input input-bordered flex items-center gap-2 mb-4 w-full">
     <PasswordLoginIcon />
     <input
       type="password"
