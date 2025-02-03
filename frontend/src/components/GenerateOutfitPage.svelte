@@ -3,8 +3,6 @@
 
   import DropdownTemperature from "./DropdownTemperature.svelte";
   import ColorsCheckbox from "./ColorsCheckbox.svelte";
-  import EyeCard from "@components/EyeCard.svelte";
-  import { fileExtension } from "node_modules/astro/dist/core/path";
 
   const { windowLocation }: { windowLocation: URL } = $props();
   const t = useTranslations(getLangFromUrl(windowLocation));

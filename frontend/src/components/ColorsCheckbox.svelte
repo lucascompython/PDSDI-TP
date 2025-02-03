@@ -15,7 +15,7 @@
         <input
           type="checkbox"
           checked={false}
-          class="checkbox [--chkbg:#FF0000] [--chkfg:black]"
+          class="checkbox checked:bg-red-500 bg-gray-200 checked:text-black"
         />
         {t("red")}
       </label>
@@ -23,7 +23,7 @@
         <input
           type="checkbox"
           checked={false}
-          class="checkbox [--chkbg:#FFFFFF] [--chkfg:black]"
+          class="checkbox checked:bg-white bg-gray-200 checked:text-black"
         />
         {t("white")}
       </label>
@@ -31,7 +31,7 @@
         <input
           type="checkbox"
           checked={false}
-          class="checkbox [--chkbg:#000000] [--chkfg:white]"
+          class="checkbox checked:bg-black bg-gray-200 checked:text-white"
         />
         {t("black")}
       </label>
@@ -41,7 +41,7 @@
         <input
           type="checkbox"
           checked={false}
-          class="checkbox [--chkbg:#FFC0CB] [--chkfg:black]"
+          class="checkbox checked:bg-pink-500 bg-gray-200 checked:text-black"
         />
         {t("pink")}
       </label>
@@ -50,7 +50,7 @@
         <input
           type="checkbox"
           checked={false}
-          class="checkbox [--chkbg:#800080] [--chkfg:black]"
+          class="checkbox checked:bg-purple-500 bg-gray-200 checked:text-black"
         />
         {t("purple")}
       </label>
@@ -59,7 +59,7 @@
         <input
           type="checkbox"
           checked={false}
-          class="checkbox [--chkbg:#FFFF00] [--chkfg:black]"
+          class="checkbox checked:bg-yellow-500 bg-gray-200 checked:text-black"
         />
         {t("yellow")}
       </label>
@@ -69,7 +69,7 @@
         <input
           type="checkbox"
           checked={false}
-          class="checkbox [--chkbg:#FFA500] [--chkfg:black]"
+          class="checkbox checked:bg-orange-500 bg-gray-200 checked:text-black"
         />
         {t("orange")}
       </label>
@@ -77,7 +77,7 @@
         <input
           type="checkbox"
           checked={false}
-          class="checkbox [--chkbg:#808080] [--chkfg:black]"
+          class="checkbox checked:bg-gray-500 bg-gray-200 checked:text-black"
         />
         {t("gray")}
       </label>
@@ -86,7 +86,7 @@
         <input
           type="checkbox"
           checked={false}
-          class="checkbox [--chkbg:#008000] [--chkfg:black]"
+          class="checkbox checked:bg-green-500 bg-gray-200 checked:text-black"
         />
         {t("green")}
       </label>
@@ -96,7 +96,7 @@
         <input
           type="checkbox"
           checked={false}
-          class="checkbox [--chkbg:#0000FF] [--chkfg:black]"
+          class="checkbox checked:bg-blue-500 bg-gray-200 checked:text-black"
         />
         {t("blue")}
       </label>
@@ -104,7 +104,7 @@
         <input
           type="checkbox"
           checked={false}
-          class="checkbox [--chkbg:#A52A2A] [--chkfg:black]"
+          class="checkbox checked:bg-amber-950 bg-gray-200 checked:text-black"
         />
         {t("brown")}
       </label>
@@ -112,7 +112,7 @@
         <input
           type="checkbox"
           checked={false}
-          class="checkbox [--chkbg:#FFD700] [--chkfg:black]"
+          class="checkbox checked:bg-yellow-400 bg-gray-200 checked:text-black"
         />
         {t("gold")}
       </label>
@@ -125,7 +125,7 @@
         <input
           type="checkbox"
           checked={false}
-          class="checkbox [--chkbg:#FF0000] [--chkfg:black]"
+          class="checkbox checked:bg-red-500 bg-gray-200 checked:text-black"
         />
         {t("red")}
       </label>
@@ -133,7 +133,7 @@
         <input
           type="checkbox"
           checked={false}
-          class="checkbox [--chkbg:#FFFFFF] [--chkfg:black]"
+          class="checkbox checked:bg-white bg-gray-200 checked:text-black"
         />
         {t("white")}
       </label>
@@ -141,7 +141,7 @@
         <input
           type="checkbox"
           checked={false}
-          class="checkbox [--chkbg:#000000] [--chkfg:white]"
+          class="checkbox checked:bg-black bg-gray-200 checked:text-white"
         />
         {t("black")}
       </label>
@@ -149,7 +149,7 @@
         <input
           type="checkbox"
           checked={false}
-          class="checkbox [--chkbg:#FFC0CB] [--chkfg:black]"
+          class="checkbox checked:bg-pink-500 bg-gray-200 checked:text-black"
         />
         {t("pink")}
       </label>
@@ -159,7 +159,7 @@
         <input
           type="checkbox"
           checked={false}
-          class="checkbox [--chkbg:#800080] [--chkfg:black]"
+          class="checkbox checked:bg-purple-500 bg-gray-200 checked:text-black"
         />
         {t("purple")}
       </label>
@@ -168,7 +168,7 @@
         <input
           type="checkbox"
           checked={false}
-          class="checkbox [--chkbg:#FFFF00] [--chkfg:black]"
+          class="checkbox checked:bg-yellow-500 bg-gray-200 checked:text-black"
         />
         {t("yellow")}
       </label>
@@ -176,7 +176,7 @@
         <input
           type="checkbox"
           checked={false}
-          class="checkbox [--chkbg:#FFA500] [--chkfg:black]"
+          class="checkbox checked:bg-orange-500 bg-gray-200 checked:text-black"
         />
         {t("orange")}
       </label>
@@ -184,7 +184,7 @@
         <input
           type="checkbox"
           checked={false}
-          class="checkbox [--chkbg:#808080] [--chkfg:black]"
+          class="checkbox checked:bg-gray-500 bg-gray-200 checked:text-black"
         />
         {t("gray")}
       </label>
@@ -194,7 +194,7 @@
         <input
           type="checkbox"
           checked={false}
-          class="checkbox [--chkbg:#008000] [--chkfg:black]"
+          class="checkbox checked:bg-green-500 bg-gray-200 checked:text-black"
         />
         {t("green")}
       </label>
@@ -202,7 +202,7 @@
         <input
           type="checkbox"
           checked={false}
-          class="checkbox [--chkbg:#0000FF] [--chkfg:black]"
+          class="checkbox checked:bg-blue-500 bg-gray-200 checked:text-black"
         />
         {t("blue")}
       </label>
@@ -210,7 +210,7 @@
         <input
           type="checkbox"
           checked={false}
-          class="checkbox [--chkbg:#A52A2A] [--chkfg:black]"
+          class="checkbox checked:bg-amber-950 bg-gray-200 checked:text-black"
         />
         {t("brown")}
       </label>
@@ -218,7 +218,7 @@
         <input
           type="checkbox"
           checked={false}
-          class="checkbox [--chkbg:#FFD700] [--chkfg:black]"
+          class="checkbox checked:bg-yellow-400 bg-gray-200 checked:text-black"
         />
         {t("gold")}
       </label>
