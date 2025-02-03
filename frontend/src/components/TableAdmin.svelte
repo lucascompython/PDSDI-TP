@@ -3,6 +3,7 @@
   import { onMount } from "svelte";
   import EmailIcon from "./Icons/EmailIcon.svg?raw";
   import PasswordLoginIcon from "./Icons/PasswordLoginIcon.svelte";
+  import { showAlert, AlertType } from "./Alert/Alert";
 
   let { windowLocation }: { windowLocation: URL } = $props();
   const lang = getLangFromUrl(windowLocation);
@@ -16,6 +17,18 @@
     ) as HTMLDialogElement;
     editUser = document.getElementById("editUser") as HTMLDialogElement;
   });
+
+  function handleUpdate(event: MouseEvent) {
+    event.preventDefault();
+    showAlert(t("admin.edit.success"), AlertType.SUCCESS);
+    editUser.close();
+  }
+
+  function handleDelete(event: MouseEvent) {
+    event.preventDefault();
+    showAlert(t("admin.delete.success"), AlertType.SUCCESS);
+    confirmDelete.close();
+  }
 </script>
 
 {#if window.innerWidth < 600}
@@ -24,8 +37,8 @@
       <!-- head -->
       <thead>
         <tr>
-          <th>Name</th>
-          <th>E-mail</th>
+          <th>{t("table.name")}</th>
+          <th>E-Mail</th>
           <th>Admin</th>
           <th> </th>
         </tr>
@@ -35,15 +48,16 @@
         <tr>
           <td>Guilherme</td>
           <td>admin@gmail.com</td>
-          <td>Yes</td>
+          <td>{t("table.yes")}</td>
           <th>
             <button
               class="btn btn-xs btn-info link link-hover"
-              onclick={() => editUser.showModal()}>Edit</button
+              onclick={() => editUser.showModal()}>{t("admin.edit")}</button
             >
             <button
               class="btn btn-xs btn-error link link-hover"
-              onclick={() => confirmDelete.showModal()}>Delete</button
+              onclick={() => confirmDelete.showModal()}
+              >{t("admin.delete")}</button
             >
           </th>
           <td></td>
@@ -74,8 +88,8 @@
       <thead>
         <tr>
           <th> </th>
-          <th>Name</th>
-          <th>E-mail</th>
+          <th>{t("table.name")}</th>
+          <th>E-Mail</th>
           <th>Admin</th>
           <th></th>
         </tr>
@@ -86,15 +100,16 @@
           <td>1</td>
           <td>Guilherme</td>
           <td>admin@gmail.com</td>
-          <td>Yes</td>
+          <td>{t("table.yes")}</td>
           <th class="flex flex-col space-y-1">
             <button
               class="btn btn-xs btn-info link link-hover"
-              onclick={() => editUser.showModal()}>Edit</button
+              onclick={() => editUser.showModal()}>{t("admin.edit")}</button
             >
             <button
               class="btn btn-xs btn-error link link-hover"
-              onclick={() => confirmDelete.showModal()}>Delete</button
+              onclick={() => confirmDelete.showModal()}
+              >{t("admin.delete")}</button
             >
           </th>
         </tr>
@@ -117,17 +132,25 @@
 {/if}
 <dialog id="confirmDelete" class="modal">
   <div class="modal-box bg-color">
-    <h3 class="text-lg font-bold">{t("table.admin.delete.title")}</h3>
-    <form method="dialog">
-      <button class="btn btn-success">Proceed</button>
-      <button class="btn btn-error">Cancel</button>
-    </form>
+    <h3 class="text-lg font-bold">{t("admin.delete.title")}</h3>
+    <p class="mb-4">{t("admin.delete.message")}</p>
+    <div class="flex justify-between">
+      <form method="dialog">
+        <button class="btn btn-error">{t("admin.edit.cancel")}</button>
+      </form>
+      <button onclick={handleDelete} class="btn btn-success"
+        >{t("admin.delete")}</button
+      >
+    </div>
   </div>
 </dialog>
 
 <dialog id="editUser" class="modal">
   <div class="modal-box bg-color">
-    <label class="input input-bordered flex items-center gap-2 mb-4 w-full">
+    <h3 class="text-lg font-bold">{t("admin.edit.title")}</h3>
+    <label
+      class="mt-2 input input-bordered flex items-center gap-2 mb-4 w-full"
+    >
       <input
         type="password"
         class="grow p-2"
@@ -153,14 +176,18 @@
         id="passwordInput"
       />
     </label>
-    <select class="select select-bordered w-full max-w-xs">
-      <option disabled selected>Is Admin?</option>
-      <option>Yes</option>
-      <option>No</option>
-    </select>
-    <form method="dialog">
-      <button class="btn btn-success top">Confirm</button>
-    </form>
+    <label>
+      <span class="mr-2">Admin:</span>
+      <input type="checkbox" checked={true} class="toggle toggle-info" />
+    </label>
+    <div class="flex justify-between">
+      <form method="dialog">
+        <button class="btn btn-error top">{t("admin.edit.cancel")}</button>
+      </form>
+      <button onclick={handleUpdate} class="btn btn-success top"
+        >{t("admin.edit.update")}</button
+      >
+    </div>
   </div>
 </dialog>
 
