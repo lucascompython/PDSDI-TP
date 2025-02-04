@@ -143,7 +143,7 @@
         </div>
 
         {#if $clothes.length > 0 && !$loading}
-          <h3 class="margin-top text-center text-lg underline">
+          <h3 class="margin-top text-center text-lg underline color">
             {t("outfit.save_outfit")}
           </h3>
 
@@ -239,6 +239,9 @@
       width: 100%;
       padding: 1rem;
       justify-items: center;
+    }
+    .color {
+      color: var(--text-color);
     }
   </style>
 {/if}
