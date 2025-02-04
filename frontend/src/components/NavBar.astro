@@ -28,42 +28,43 @@ const translatePath = useTranslatedPath(getLangFromUrl(Astro.url));
       <DropdownSettings client:load windowLocation={Astro.url} />
     </div>
   </div>
-
-  <style>
-    .center {
-      width: 100%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    nav {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1rem;
-      box-shadow: 0 2px 4px rgba(63, 62, 62, 0.3);
-      z-index: 1;
-    }
-
-    nav div {
-      display: flex;
-      align-items: center;
-    }
-    .nav_div2 {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
-    .center-img {
-      display: block;
-      margin: auto;
-    }
-
-    @media screen and (max-width: 600px) {
-      #logo {
-        content: url("/LogoMobile.svg");
-      }
-    }
-  </style>
 </nav>
+
+<style>
+  .center {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    box-shadow: 0 2px 4px rgba(63, 62, 62, 0.3);
+    z-index: 1;
+    max-height: 10vh;
+  }
+
+  nav div {
+    display: flex;
+    align-items: center;
+  }
+  .nav_div2 {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .center-img {
+    display: block;
+    margin: auto;
+  }
+
+  @media screen and (max-width: 600px) {
+    #logo {
+      content: url("/LogoMobile.svg");
+    }
+  }
+</style>
