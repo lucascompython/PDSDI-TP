@@ -19,13 +19,13 @@ const t = useTranslations(getLangFromUrl(Astro.url));
           <AddButton />
           <span class="subtitle">{t("nav.upload")}</span>
         </div>
-        <div class="left buttons background">
+        <div class="left buttons">
           <GenerateOutfit />
           <span class="subtitle">{t("nav.generate")}</span>
         </div>
       </div>
       <div class="right">
-        <div class="grid-container">
+        <div class="grid-container background">
           <LastOutfit client:load windowLocation={Astro.url} />
         </div>
       </div>
@@ -89,7 +89,7 @@ const t = useTranslations(getLangFromUrl(Astro.url));
       justify-items: center;
     }
 
-    @media only screen and (max-width: 1210px) {
+    @media only screen and (max-width: 1600px) {
       .grid-container {
         grid-template-columns: repeat(2, 1fr);
       }
