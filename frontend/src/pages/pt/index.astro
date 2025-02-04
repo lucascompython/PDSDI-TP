@@ -25,7 +25,7 @@ const t = useTranslations(getLangFromUrl(Astro.url));
         </div>
       </div>
       <div class="right">
-        <div class="grid-container background">
+        <div class="grid-container">
           <LastOutfit client:load windowLocation={Astro.url} />
         </div>
       </div>
@@ -41,10 +41,6 @@ const t = useTranslations(getLangFromUrl(Astro.url));
       flex-direction: column;
       height: 100vh;
       flex: 1;
-    }
-    .background {
-      background-color: var(--bg-color);
-      color: var(--text-color);
     }
     .split-screen {
       flex: 1;

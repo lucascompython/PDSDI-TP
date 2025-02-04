@@ -8,10 +8,12 @@
   const t = useTranslations(getLangFromUrl(windowLocation));
 
   let clothes: ClotheResponse[] = $state([]);
+  let loading = $state(true);
 
   onMount(() => {
     getLastOutfit().then((response) => {
       clothes = response;
+      loading = false;
     });
   });
 </script>
@@ -20,10 +22,16 @@
   <EyeCard {clothe} {t} />
 {/each}
 
-{#if clothes.length === 0}
+{#if clothes.length === 0 && !loading}
   <div class="container">
     <div class="text-center text-lg flex">
       {t("clothes.no_outfits")}...
     </div>
   </div>
 {/if}
+
+<style>
+  .text-center {
+    color: var(--text-color);
+  }
+</style>
