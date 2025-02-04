@@ -19,3 +19,11 @@
 {#each clothes as clothe}
   <EyeCard {clothe} {t} />
 {/each}
+
+{#if clothes.length === 0}
+  <div class="container">
+    <div class="text-center text-lg flex">
+      {t("clothes.no_outfits")}...
+    </div>
+  </div>
+{/if}

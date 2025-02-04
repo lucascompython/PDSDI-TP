@@ -19,21 +19,17 @@ const t = useTranslations(getLangFromUrl(Astro.url));
         <Fragment set:html={Search} />
       </label>
       <label class="checkboxInput">
-        <span id="toggle-label" class="mr-2">{t("clothes.outfits")}</span>
+        <span id="toggle-label" class="mr-2">{t("clothes.clothes")}</span>
         <input
           id="clothe-toggle"
           type="checkbox"
           checked={false}
-          class="toggle toggle-info"
+          class="toggle"
         />
       </label>
     </div>
     <div class="div-2 grid-container">
-      <ClothesOutfitsSelect
-        client:only
-        windowLocation={Astro.url}
-        checked="isChecked"
-      />
+      <ClothesOutfitsSelect client:load windowLocation={Astro.url} />
     </div>
     <Footer />
   </main>
@@ -54,6 +50,8 @@ const t = useTranslations(getLangFromUrl(Astro.url));
     display: flex;
     flex: 1;
     margin-top: 1rem;
+    max-height: 5vh;
+    padding-bottom: 1rem;
   }
   .div-2 {
     display: flex;
@@ -61,6 +59,8 @@ const t = useTranslations(getLangFromUrl(Astro.url));
     align-items: center;
     text-align: center;
     flex: 1;
+    max-height: 80vh;
+    overflow: auto;
   }
   .searchbar {
     background-color: var(--bg-color);

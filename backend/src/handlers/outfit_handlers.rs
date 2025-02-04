@@ -170,7 +170,7 @@ pub async fn get_last_outfit(state: web::Data<State>, session: Session) -> impl 
         Err(response) => return response,
     };
 
-    let outfit = state
+    let outfit = match state
         .db
         .client
         .query_one(
@@ -178,7 +178,10 @@ pub async fn get_last_outfit(state: web::Data<State>, session: Session) -> impl 
             &[&(user_id as i16)],
         )
         .await
-        .unwrap();
+    {
+        Ok(outfit) => outfit,
+        Err(_) => return HttpResponse::NotFound().finish(),
+    };
 
     let outfit_id: i16 = outfit.get(0);
 
@@ -263,7 +266,7 @@ pub async fn get_outfit_image(
     session: Session,
     outfit_id: web::Path<i16>,
 ) -> impl Responder {
-    let user_id = match validate_session(&session) {
+    let _ = match validate_session(&session) {
         Ok(id) => id,
         Err(response) => return response,
     };
