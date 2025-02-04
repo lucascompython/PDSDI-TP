@@ -11,17 +11,14 @@
     t,
   }: { clothe: ClotheResponse; t: ReturnType<typeof useTranslations> } =
     $props();
-
-  let imageUrl: string = $state("");
-  if (clothe) {
-    const blob = new Blob([clothe.file]);
-    imageUrl = URL.createObjectURL(blob);
-  }
 </script>
 
 <div class="card bg-base-100 w-96 shadow-xl">
   <figure>
-    <img src={imageUrl} alt={clothe.file_name} />
+    <img
+      src={URL.createObjectURL(new Blob([clothe.file]))}
+      alt={clothe.file_name}
+    />
   </figure>
   <div class="card-body">
     <h2 class="card-title">{clothe.name}</h2>

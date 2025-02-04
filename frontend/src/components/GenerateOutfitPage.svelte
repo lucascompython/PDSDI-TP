@@ -5,9 +5,64 @@
   import ColorsCheckbox from "./ColorsCheckbox.svelte";
   import EyeCard from "./EyeCard.svelte";
   import { clothes, loading } from "./stores";
+  import Hanger from "./Icons/Hanger.svg?raw";
+  import { onMount } from "svelte";
+  import { OutfitType } from "src/api/bool_pack";
+  import { showAlert, AlertType } from "./Alert/Alert";
+  import { get } from "svelte/store";
+  import { saveOutfit } from "src/api/utils";
 
   const { windowLocation }: { windowLocation: URL } = $props();
   const t = useTranslations(getLangFromUrl(windowLocation));
+
+  let checkboxes: NodeListOf<HTMLInputElement>;
+  let outfitTypeSelect: HTMLSelectElement;
+
+  onMount(() => {
+    checkboxes = document.querySelectorAll(".checkbox");
+    outfitTypeSelect = document.getElementById(
+      "outfit-type-select",
+    ) as HTMLSelectElement;
+  });
+
+  function handleSaveOutfit(e: MouseEvent) {
+    e.preventDefault();
+
+    const outfitType = outfitTypeSelect.value as keyof typeof OutfitType;
+
+    const outfitName = (
+      document.getElementById("outfitName") as HTMLInputElement
+    ).value;
+
+    if (outfitName === "") {
+      showAlert(t("outfit.name_required"), AlertType.ERROR);
+      return;
+    }
+
+    const clothesId = [];
+    const clothesValue = get(clothes);
+    for (let i = 0; i < clothesValue.length; i++) {
+      clothesId.push(clothesValue[i].id);
+    }
+
+    saveOutfit(outfitName, OutfitType[outfitType], clothesId).then((ok) => {
+      if (!ok) {
+        showAlert(t("outfit.save_outfit_error"), AlertType.ERROR);
+        return;
+      }
+      showAlert(t("outfit.save_outfit_success"), AlertType.SUCCESS);
+    });
+  }
+
+  function handleDiscardOutfit(e: MouseEvent) {
+    e.preventDefault();
+
+    for (let i = 0; i < checkboxes.length; i++) {
+      checkboxes[i].checked = false;
+    }
+    outfitTypeSelect.value = "";
+    clothes.set([]);
+  }
 </script>
 
 <div class="mt-4"></div>
@@ -86,8 +141,35 @@
         <div class="margin-top">
           <ColorsCheckbox {windowLocation} />
         </div>
+
+        {#if $clothes.length > 0 && !$loading}
+          <h3 class="margin-top text-center text-lg underline">
+            {t("outfit.save_outfit")}
+          </h3>
+
+          <div class="flex justify-center mt-7">
+            <div class="flex flex-col gap-4 w-100">
+              <label class="w-100 input input-bordered items-center gap-2">
+                {@html Hanger}
+                <input
+                  id="outfitName"
+                  type="text"
+                  class="grow w-100"
+                  placeholder={t("outfit.name")}
+                />
+              </label>
+              <div class="flex justify-between">
+                <button onclick={handleDiscardOutfit} class="btn btn-error">
+                  {t("outfit.discard_outfit_button")}
+                </button>
+                <button onclick={handleSaveOutfit} class="btn btn-success">
+                  {t("outfit.save_outfit_button")}
+                </button>
+              </div>
+            </div>
+          </div>
+        {/if}
       </div>
-      <div class="line-horizontal"></div>
     </div>
     <div class="right">
       {#if $loading}
@@ -101,7 +183,6 @@
         {/each}
       </div>
     </div>
-    <div class="line-horizontal"></div>
   </div>
 
   <style>

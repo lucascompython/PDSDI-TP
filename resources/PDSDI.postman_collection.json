@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "122b3b81-322c-44d6-bcd7-6ff44ff3f693",
+		"_postman_id": "cc4dea9f-6dc1-4476-81a2-e5f2f45d1fc7",
 		"name": "PDSDI",
 		"description": "Postman Collection for this project",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
@@ -76,7 +76,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"email\": \"joao@gmail.com\",\n    \"password\": \"1234\"\n}",
+							"raw": "{\n    \"email\": \"admin@gmail.com\",\n    \"password\": \"1234\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -142,9 +142,21 @@
 			"item": [
 				{
 					"name": "get_clothe",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
 					"request": {
 						"method": "GET",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
 							"raw": "{{host}}/clothes/get",
 							"host": [
@@ -155,7 +167,93 @@
 								"get"
 							]
 						},
-						"description": "Route to get all the clothes from a givern user"
+						"description": "Route to get all the clothes from a givern user  \nReturn 404 Not Found if the user doesn't have any clothes uploaded"
+					},
+					"response": []
+				},
+				{
+					"name": "upload",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "asdasd",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/clothes/upload",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"clothes",
+								"upload"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "outfits",
+			"item": [
+				{
+					"name": "generate",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"bool_pack\": 3138\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/outfits/generate",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"outfits",
+								"generate"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "save",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"grande outfit\",\n    \"outfit_type\": 1,\n    \"clothes\": [37, 39]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/outfits/save",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"outfits",
+								"save"
+							]
+						}
 					},
 					"response": []
 				}

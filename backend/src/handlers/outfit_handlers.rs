@@ -3,6 +3,7 @@ use actix_web::{web, HttpResponse, Responder};
 use pyo3::prelude::*;
 use serde::{Deserialize, Serialize};
 use tokio::{fs, io::AsyncReadExt};
+use tokio_postgres::types::ToSql;
 
 use crate::{
     utils::{bool_pack::BoolPack, json_utils::Json, session_utils::validate_session},
@@ -101,4 +102,60 @@ pub async fn generate_outfit(
     HttpResponse::Ok()
         .content_type("application/octet-stream")
         .body(response)
+}
+
+#[derive(Deserialize)]
+struct SaveOutfitRequest {
+    name: String,
+    outfit_type: i32,
+    clothes: Vec<i16>,
+}
+
+pub async fn save_outfit(
+    state: web::Data<State>,
+    session: Session,
+    data: web::Bytes,
+) -> impl Responder {
+    let user_id = match validate_session(&session) {
+        Ok(id) => id,
+        Err(response) => return response,
+    };
+
+    let Json(req): Json<SaveOutfitRequest> = Json::from_bytes(data).unwrap();
+
+    let outfit = state
+        .db
+        .client
+        .query_one(
+            &state.db.statements.insert_outfit,
+            &[
+                &req.name,
+                &(user_id as i16),
+                &&0_i16,
+                &(req.outfit_type as i16),
+            ],
+        )
+        .await
+        .unwrap();
+
+    let outfit_id: i16 = outfit.get(0);
+
+    let mut query = String::from("INSERT INTO outfit_clothes (outfit_id, clothe_id) VALUES ");
+
+    let mut params: Vec<&(dyn ToSql + Sync)> = Vec::with_capacity(req.clothes.len() * 2);
+
+    for (i, clothe_id) in req.clothes.iter().enumerate() {
+        if i != 0 {
+            query.push_str(", ");
+        }
+
+        query.push_str(&format!("(${}, ${})", i * 2 + 1, i * 2 + 2));
+
+        params.push(&outfit_id);
+        params.push(clothe_id);
+    }
+
+    state.db.client.execute(&query, &params).await.unwrap();
+
+    HttpResponse::Ok().finish()
 }
