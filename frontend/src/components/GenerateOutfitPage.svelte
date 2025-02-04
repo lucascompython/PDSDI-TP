@@ -17,50 +17,36 @@
       <div class="margin-top">
         <ColorsCheckbox {windowLocation} />
       </div>
-      <div class="margin-top centers">
-        <div class="card bg-base-100 w-64 shadow-xl">
-          <figure>
-            <img
-              src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
-              alt="Shoes"
-            />
-          </figure>
-          <div class="card-body">
-            <h2 class="card-title">
-              Shoes!
-              <div class="badge badge-secondary">NEW</div>
-            </h2>
-            <p>If a dog chews shoes whose shoes does he choose?</p>
-            <div class="card-actions justify-end">
-              <div class="badge badge-outline">Fashion</div>
-              <div class="badge badge-outline">Products</div>
-            </div>
+
+      <div class="divider"></div>
+
+      <div class="centers">
+        {#if $loading}
+          <div class="loading-container">
+            <span class="loading loading-ring loading-xl"></span>
           </div>
-        </div>
-        <div class="card bg-base-100 w-64 shadow-xl">
-          <figure>
-            <img
-              src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
-              alt="Shoes"
-            />
-          </figure>
-          <div class="card-body">
-            <h2 class="card-title">
-              Shoes!
-              <div class="badge badge-secondary">NEW</div>
-            </h2>
-            <p>If a dog chews shoes whose shoes does he choose?</p>
-            <div class="card-actions justify-end">
-              <div class="badge badge-outline">Fashion</div>
-              <div class="badge badge-outline">Products</div>
-            </div>
-          </div>
+        {/if}
+        <div class="eye-cards-column">
+          {#each $clothes as clothe}
+            <EyeCard {clothe} {t} />
+          {/each}
         </div>
       </div>
     </div>
   </div>
 
   <style>
+    .loading-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+    }
+    .loading {
+      height: 100px;
+      width: 100px;
+    }
+
     main {
       color: white;
       display: flex;
@@ -100,13 +86,12 @@
       <div class="line-horizontal"></div>
     </div>
     <div class="right">
+      {#if $loading}
+        <div class="loading-container">
+          <span class="loading loading-ring loading-xl"></span>
+        </div>
+      {/if}
       <div class="eye-cards-column">
-        {#if $loading}
-          <div class="loading-container">
-            <span class="loading loading-ring loading-xl"></span>
-          </div>
-        {/if}
-
         {#each $clothes as clothe}
           <EyeCard {clothe} {t} />
         {/each}
@@ -117,13 +102,10 @@
 
   <style>
     .loading-container {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
       display: flex;
-      align-items: center;
       justify-content: center;
+      align-items: center;
+      height: 100%;
     }
     .loading {
       height: 100px;
@@ -147,6 +129,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+      position: relative;
     }
     .left {
       flex-basis: 50%;
@@ -159,6 +142,7 @@
     .right {
       border-left: 3px solid #b3b1b1;
       flex-basis: 50%;
+      position: relative;
     }
     .margin-left {
       margin-left: 2rem;
