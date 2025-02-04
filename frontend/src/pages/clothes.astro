@@ -45,6 +45,8 @@ const t = useTranslations(getLangFromUrl(Astro.url));
     display: flex;
     flex: 1;
     margin-top: 1rem;
+    max-height: 5vh;
+    padding-bottom: 1rem;
   }
   .div-2 {
     display: flex;
@@ -52,6 +54,8 @@ const t = useTranslations(getLangFromUrl(Astro.url));
     align-items: center;
     text-align: center;
     flex: 1;
+    max-height: 80vh;
+    overflow: auto;
   }
   .searchbar {
     background-color: var(--bg-color);
