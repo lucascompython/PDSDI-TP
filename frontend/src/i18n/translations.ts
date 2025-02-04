@@ -93,6 +93,8 @@ export const translations = {
     "table.admin": "Admin",
     "table.yes": "Yes",
     "table.no": "No",
+    "clothes.no_clothes": "No clothes found",
+    "clothes.add_clothes": "Add clothes here",
   },
   pt: {
     "nav.home": "Início",
@@ -181,5 +183,7 @@ export const translations = {
     "table.admin": "Admin",
     "table.yes": "Sim",
     "table.no": "Não",
+    "clothes.no_clothes": "Nenhuma roupa encontrada",
+    "clothes.add_clothes": "Adicione roupas aqui",
   },
 } as const;
