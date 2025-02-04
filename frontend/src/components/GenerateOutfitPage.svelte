@@ -3,6 +3,8 @@
 
   import DropdownTemperature from "./DropdownTemperature.svelte";
   import ColorsCheckbox from "./ColorsCheckbox.svelte";
+  import EyeCard from "./EyeCard.svelte";
+  import { clothes, loading } from "./stores";
 
   const { windowLocation }: { windowLocation: URL } = $props();
   const t = useTranslations(getLangFromUrl(windowLocation));
@@ -99,72 +101,35 @@
     </div>
     <div class="right">
       <div class="eye-cards-column">
-        <!-- <EyeCard />
-        <EyeCard />
-        <EyeCard /> -->
-        <div class="card bg-base-100 w-96 shadow-xl">
-          <figure>
-            <img
-              src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
-              alt="Shoes"
-            />
-          </figure>
-          <div class="card-body">
-            <h2 class="card-title">
-              Shoes!
-              <div class="badge badge-secondary">NEW</div>
-            </h2>
-            <p>If a dog chews shoes whose shoes does he choose?</p>
-            <div class="card-actions justify-end">
-              <div class="badge badge-outline">Fashion</div>
-              <div class="badge badge-outline">Products</div>
-            </div>
+        {#if $loading}
+          <div class="loading-container">
+            <span class="loading loading-ring loading-xl"></span>
           </div>
-        </div>
-        <div class="card bg-base-100 w-96 shadow-xl">
-          <figure>
-            <img
-              src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
-              alt="Shoes"
-            />
-          </figure>
-          <div class="card-body">
-            <h2 class="card-title">
-              Shoes!
-              <div class="badge badge-secondary">NEW</div>
-            </h2>
-            <p>If a dog chews shoes whose shoes does he choose?</p>
-            <div class="card-actions justify-end">
-              <div class="badge badge-outline">Fashion</div>
-              <div class="badge badge-outline">Products</div>
-            </div>
-          </div>
-        </div>
-        <div class="card bg-base-100 w-96 shadow-xl">
-          <figure>
-            <img
-              src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
-              alt="Shoes"
-            />
-          </figure>
-          <div class="card-body">
-            <h2 class="card-title">
-              Shoes!
-              <div class="badge badge-secondary">NEW</div>
-            </h2>
-            <p>If a dog chews shoes whose shoes does he choose?</p>
-            <div class="card-actions justify-end">
-              <div class="badge badge-outline">Fashion</div>
-              <div class="badge badge-outline">Products</div>
-            </div>
-          </div>
-        </div>
+        {/if}
+
+        {#each $clothes as clothe}
+          <EyeCard {clothe} {t} />
+        {/each}
       </div>
     </div>
     <div class="line-horizontal"></div>
   </div>
 
   <style>
+    .loading-container {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .loading {
+      height: 100px;
+      width: 100px;
+    }
+
     main {
       color: white;
       display: flex;

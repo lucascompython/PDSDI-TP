@@ -18,7 +18,9 @@ CREATE TABLE IF NOT EXISTS outfits (
     name VARCHAR(100) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     user_id SMALLINT NOT NULL REFERENCES users(user_id) ON DELETE CASCADE,
-    color_mask SMALLINT NOT NULL DEFAULT 0 -- Bitmask to store multiple colors
+    -- Bitmask to store multiple colors
+    color_mask SMALLINT NOT NULL DEFAULT 0,
+    outfit_type SMALLINT NOT NULL
 );
 CREATE TABLE IF NOT EXISTS outfit_clothes (
     outfit_id SMALLINT NOT NULL REFERENCES outfits(outfit_id) ON DELETE CASCADE,

@@ -5,6 +5,7 @@ import sys
 from dataclasses import dataclass
 from time import perf_counter
 
+
 if "backend" in os.getcwd():  # Make utils module always available
     sys.path.append("..")
     CWD = "."
@@ -22,6 +23,7 @@ class Args:
     release: bool
     clean: bool
     run: bool
+    test: bool
 
 
 def _clean() -> None:
@@ -68,6 +70,9 @@ def main(args: Args) -> None:
     if args.clean:
         _clean()
 
+    if args.test:
+        run_command(("cargo", "test"))
+
     if args.dev:
         _dev()
     elif args.release:
@@ -107,6 +112,12 @@ def parse_args() -> Args:
         "--run",
         action="store_true",
         help="Run the release application",
+    )
+    parser.add_argument(
+        "-t",
+        "--test",
+        action="store_true",
+        help="Run tests",
     )
 
     if len(sys.argv) == 1:

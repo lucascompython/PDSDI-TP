@@ -20,6 +20,7 @@ pub struct Db {
     pub statements: DbStatements,
 }
 
+#[derive(serde::Serialize)]
 pub struct ClotheCache {
     pub name: String,
     pub color: Color,

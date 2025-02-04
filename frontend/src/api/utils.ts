@@ -1,6 +1,7 @@
 const API_BASE_URL = "https://pauloministro.com:6969";
 export type { ClotheResponse }; // re-export Clothe from cbf.d.ts
 import init, { Clothe as ClotheResponse } from "../../../cbf/pkg/cbf.js";
+import type { BoolPack } from "./bool_pack";
 
 export enum Color {
   Red = "Red",
@@ -262,6 +263,33 @@ export async function getClothes(): Promise<ClotheResponse[]> {
 
   if (!response.ok) {
     return []; // No clothes
+  }
+
+  const buffer = await response.arrayBuffer();
+  const clothes = deserializeClothesFromBytes(new Uint8Array(buffer));
+
+  return clothes;
+}
+
+export async function generateOutfit(
+  boolPack: BoolPack
+): Promise<ClotheResponse[]> {
+  const { deserializeClothesFromBytes } = await import(
+    "../../../cbf/pkg/cbf.js"
+  );
+  await init();
+
+  const response = await fetch(`${API_BASE_URL}/outfits/generate`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/octet-stream",
+    },
+    credentials: "include",
+    body: JSON.stringify({ bool_pack: boolPack.toNumber() }),
+  });
+
+  if (!response.ok) {
+    return [];
   }
 
   const buffer = await response.arrayBuffer();

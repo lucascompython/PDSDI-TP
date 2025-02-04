@@ -23,6 +23,7 @@ use actix_web::{
     web, App, HttpServer,
 };
 use db::{Cache, Db};
+use pyo3::prelude::*;
 use rustls::{pki_types::PrivateKeyDer, ServerConfig};
 use rustls_pemfile::{certs, pkcs8_private_keys};
 
@@ -43,6 +44,17 @@ async fn main() -> std::io::Result<()> {
     } else {
         println!("Production Server running at https://0.0.0.0:1234");
     }
+
+    pyo3::prepare_freethreaded_python();
+
+    Python::with_gil(|py| {
+        let sys = PyModule::import(py, "sys").unwrap();
+        sys.getattr("path")
+            .unwrap()
+            .call_method1("append", ("..",))
+            .unwrap();
+    });
+    println!("Python initialized");
 
     let key = Key::generate();
 
