@@ -17,6 +17,10 @@ const t = useTranslations(getLangFromUrl(Astro.url));
       <input type="text" class="grow" placeholder="Search" />
       <Fragment set:html={Search} />
     </label>
+    <label>
+      <span class="mr-2">Admin:</span>
+      <input type="checkbox" checked={true} class="toggle toggle-info" />
+    </label>
     <div class="grid-container">
       <CardLoader client:load windowLocation={Astro.url} />
     </div>
