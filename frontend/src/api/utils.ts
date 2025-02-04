@@ -1,4 +1,4 @@
-const API_BASE_URL = "http://localhost:1234";
+const API_BASE_URL = "https://pauloministro.com:6969";
 export type { ClotheResponse }; // re-export Clothe from cbf.d.ts
 import init, { Clothe as ClotheResponse } from "../../../cbf/pkg/cbf.js";
 import type { BoolPack, OutfitType } from "./bool_pack";
