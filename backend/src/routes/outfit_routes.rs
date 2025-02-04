@@ -10,6 +10,10 @@ pub fn init(cfg: &mut web::ServiceConfig) {
             .route(
                 "/save",
                 web::post().to(crate::handlers::outfit_handlers::save_outfit),
+            )
+            .route(
+                "/last",
+                web::get().to(crate::handlers::outfit_handlers::get_last_outfit),
             ),
     );
 }

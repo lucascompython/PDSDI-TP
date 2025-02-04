@@ -14,6 +14,8 @@ pub struct DbStatements {
     pub get_user_by_email: Statement,
     pub check_user_exists: Statement,
     pub insert_outfit: Statement,
+    pub get_last_outfit_by_user: Statement,
+    pub get_last_clothes_by_user: Statement,
 }
 
 pub struct Db {
@@ -60,7 +62,15 @@ impl Db {
             }
         });
 
-        let (_, insert_user, get_user_by_email, check_user_exists, insert_outfit) = tokio::try_join!(
+        let (
+            _,
+            insert_user,
+            get_user_by_email,
+            check_user_exists,
+            insert_outfit,
+            get_last_outfit_by_user,
+            get_last_clothes_by_user,
+        ) = tokio::try_join!(
             client.batch_execute(DB_SCHEMA),
             client.prepare(
                 "INSERT INTO users (username, email, password, is_admin) VALUES ($1, $2, $3, $4)"
@@ -69,7 +79,12 @@ impl Db {
                 "SELECT user_id, username, email, password, is_admin FROM users WHERE email = $1"
             ),
             client.prepare("SELECT user_id FROM users WHERE email = $1"),
-            client.prepare("INSERT INTO outfits (name, user_id, color_mask, outfit_type) VALUES ($1, $2, $3, $4) RETURNING outfit_id") 
+            client.prepare("INSERT INTO outfits (name, user_id, color_mask, outfit_type) VALUES ($1, $2, $3, $4) RETURNING outfit_id"),
+            client.prepare("SELECT outfit_id, name, created_at, user_id, color_mask, outfit_type FROM outfits WHERE user_id = $1 ORDER BY created_at DESC LIMIT 1"),
+            client.prepare("SELECT c.clothe_id, c.name, c.color, c.category, c.user_id, c.is_for_hot_weather FROM clothes c INNER JOIN outfit_clothes oc ON c.clothe_id = oc.clothe_id WHERE oc.outfit_id = $1")
+
+
+
         )?;
 
         println!("Database schema applied and statements prepared!");
@@ -79,6 +94,8 @@ impl Db {
             get_user_by_email,
             check_user_exists,
             insert_outfit,
+            get_last_outfit_by_user,
+            get_last_clothes_by_user,
         };
 
         let password_bytes = hash("1234");

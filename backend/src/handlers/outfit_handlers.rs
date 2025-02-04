@@ -159,3 +159,59 @@ pub async fn save_outfit(
 
     HttpResponse::Ok().finish()
 }
+
+pub async fn get_last_outfit(state: web::Data<State>, session: Session) -> impl Responder {
+    let user_id = match validate_session(&session) {
+        Ok(id) => id,
+        Err(response) => return response,
+    };
+
+    let outfit = state
+        .db
+        .client
+        .query_one(
+            &state.db.statements.get_last_outfit_by_user,
+            &[&(user_id as i16)],
+        )
+        .await
+        .unwrap();
+
+    let outfit_id: i16 = outfit.get(0);
+
+    let clothes = state
+        .db
+        .client
+        .query(&state.db.statements.get_last_clothes_by_user, &[&outfit_id])
+        .await
+        .unwrap();
+
+    let mut outfit_clothes: Vec<cbf::Clothe> = Vec::with_capacity(clothes.len());
+
+    for clothe in clothes {
+        let clothe_id: i16 = clothe.get(0);
+        let mut buffer = Vec::with_capacity(16384);
+        let file_name = format!("uploads/{}.png", clothe_id);
+        let file = fs::File::open(file_name).await.unwrap();
+        let mut reader = tokio::io::BufReader::new(file);
+        reader.read_to_end(&mut buffer).await.unwrap();
+
+        outfit_clothes.push(cbf::Clothe {
+            id: clothe_id as u16,
+            name: clothe.get(1),
+            color: clothe.get::<usize, i16>(2) as u8,
+            category: clothe.get::<usize, i16>(3) as u8,
+            user_id: clothe.get::<usize, i16>(4) as u16,
+            is_for_hot_weather: clothe.get(5),
+            file_name: "".to_string(),
+            file: buffer,
+        });
+    }
+
+    let mut response = Vec::new();
+
+    cbf::serialize_clothes(&outfit_clothes, &mut response).unwrap();
+
+    HttpResponse::Ok()
+        .content_type("application/octet-stream")
+        .body(response)
+}

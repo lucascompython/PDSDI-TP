@@ -13,7 +13,7 @@
     $props();
 </script>
 
-<div class="card bg-base-100 w-96 shadow-xl">
+<div class="card bg-base-100 mwidth shadow-xl">
   <figure>
     <img
       src={URL.createObjectURL(new Blob([clothe.file]))}
@@ -44,5 +44,23 @@
     background-color: var(--text-color);
     color: var(--bg-color);
     border-radius: 1rem;
+  }
+
+  .mwidth {
+    width: calc(var(--spacing) * 100);
+  }
+
+  @media only screen and (max-width: 1210px) {
+    .mwidth {
+      width: calc(var(--spacing) * 40);
+    }
+
+    .badge {
+      font-size: 0.7rem;
+      margin-bottom: 0.5rem;
+    }
+    .badge-outline:nth-child(3) {
+      height: 3.5rem;
+    }
   }
 </style>

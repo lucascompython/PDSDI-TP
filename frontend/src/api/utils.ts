@@ -1,4 +1,4 @@
-const API_BASE_URL = "https://pauloministro.com:6969";
+const API_BASE_URL = "http://localhost:1234";
 export type { ClotheResponse }; // re-export Clothe from cbf.d.ts
 import init, { Clothe as ClotheResponse } from "../../../cbf/pkg/cbf.js";
 import type { BoolPack, OutfitType } from "./bool_pack";
@@ -317,4 +317,25 @@ export async function saveOutfit(
   });
 
   return response.ok;
+}
+
+export async function getLastOutfit(): Promise<ClotheResponse[]> {
+  const { deserializeClothesFromBytes } = await import(
+    "../../../cbf/pkg/cbf.js"
+  );
+  await init();
+
+  const response = await fetch(`${API_BASE_URL}/outfits/last`, {
+    method: "GET",
+    credentials: "include",
+  });
+
+  if (!response.ok) {
+    return [];
+  }
+
+  const buffer = await response.arrayBuffer();
+  const clothes = deserializeClothesFromBytes(new Uint8Array(buffer));
+
+  return clothes;
 }
