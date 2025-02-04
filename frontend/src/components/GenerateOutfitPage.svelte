@@ -10,6 +10,8 @@
   const t = useTranslations(getLangFromUrl(windowLocation));
 </script>
 
+<div class="mt-4"></div>
+
 {#if window.innerWidth < 940}
   <div class="split-screen">
     <div>
