@@ -7,7 +7,7 @@ authors = [
 ]
 
 [dependencies]
-chrono = { version = "0.4.39", default-features = false }
+chrono = { version = "0.4.39", default-features = false, features = ["serde"] }
 actix-web = { version = "4", features = ["rustls-0_23"] }
 mimalloc = "0.1.43"
 serde = { version = "1", default-features = true }

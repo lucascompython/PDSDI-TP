@@ -6,7 +6,11 @@ use tokio::{fs, io::AsyncReadExt};
 use tokio_postgres::types::ToSql;
 
 use crate::{
-    utils::{bool_pack::BoolPack, json_utils::Json, session_utils::validate_session},
+    utils::{
+        bool_pack::BoolPack,
+        json_utils::{json_response, Json},
+        session_utils::validate_session,
+    },
     State,
 };
 
@@ -214,4 +218,77 @@ pub async fn get_last_outfit(state: web::Data<State>, session: Session) -> impl 
     HttpResponse::Ok()
         .content_type("application/octet-stream")
         .body(response)
+}
+
+#[derive(Serialize)]
+struct Outfit {
+    id: i16,
+    name: String,
+    outfit_type: i16,
+    created_at: chrono::NaiveDateTime,
+}
+
+pub async fn get_outfits(state: web::Data<State>, session: Session) -> impl Responder {
+    let user_id = match validate_session(&session) {
+        Ok(id) => id,
+        Err(response) => return response,
+    };
+
+    let outfits = state
+        .db
+        .client
+        .query(
+            &state.db.statements.get_outfits_by_user,
+            &[&(user_id as i16)],
+        )
+        .await
+        .unwrap();
+
+    let mut outfits_json = Vec::with_capacity(outfits.len());
+
+    for outfit in outfits {
+        outfits_json.push(Outfit {
+            id: outfit.get(0),
+            name: outfit.get(1),
+            outfit_type: outfit.get(2),
+            created_at: outfit.get(3),
+        });
+    }
+
+    json_response(&outfits_json)
+}
+
+pub async fn get_outfit_image(
+    state: web::Data<State>,
+    session: Session,
+    outfit_id: web::Path<i16>,
+) -> impl Responder {
+    let user_id = match validate_session(&session) {
+        Ok(id) => id,
+        Err(response) => return response,
+    };
+
+    let outfit_id = outfit_id.into_inner();
+
+    let clothe = state
+        .db
+        .client
+        .query_one(
+            &state.db.statements.get_clothe_id_by_outfit,
+            &[&(outfit_id as i16)],
+        )
+        .await
+        .unwrap();
+
+    let clothe_id: i16 = clothe.get(0);
+
+    let mut buffer = Vec::with_capacity(16384);
+    let file_name = format!("uploads/{}.png", clothe_id);
+    let file = fs::File::open(file_name).await.unwrap();
+    let mut reader = tokio::io::BufReader::new(file);
+    reader.read_to_end(&mut buffer).await.unwrap();
+
+    HttpResponse::Ok()
+        .content_type("application/octet-stream")
+        .body(buffer)
 }

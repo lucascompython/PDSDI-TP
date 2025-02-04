@@ -102,6 +102,10 @@ export const translations = {
     "table.no": "No",
     "clothes.no_clothes": "No clothes found",
     "clothes.add_clothes": "Add clothes here",
+    "clothes.clothes": "Clothes",
+    "clothes.outfits": "Outfits",
+    "clothes.no_outfits": "No outfits found",
+    "clothes.add_outfits": "Create outfits here",
   },
   pt: {
     "nav.home": "Início",
@@ -199,5 +203,9 @@ export const translations = {
     "table.no": "Não",
     "clothes.no_clothes": "Nenhuma roupa encontrada",
     "clothes.add_clothes": "Adicione roupas aqui",
+    "clothes.clothes": "Roupas",
+    "clothes.outfits": "Outfits",
+    "clothes.no_outfits": "Nenhum outfit encontrado",
+    "clothes.add_outfits": "Crie outfits aqui",
   },
 } as const;

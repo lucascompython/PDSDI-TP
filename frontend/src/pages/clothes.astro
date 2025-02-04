@@ -2,7 +2,7 @@
 import Layout from "@layouts/Layout.astro";
 import NavBar from "@components/NavBar.astro";
 import Footer from "@components/Footer.astro";
-import CardLoader from "@components/CardLoader.svelte";
+import ClothesOutfitsSelect from "@components/ClothesOutfitsSelect.svelte";
 import Search from "@components/Icons/SearchIcon.svg?raw";
 
 import { getLangFromUrl, useTranslations } from "src/i18n/utils";
@@ -19,12 +19,17 @@ const t = useTranslations(getLangFromUrl(Astro.url));
         <Fragment set:html={Search} />
       </label>
       <label class="checkboxInput">
-        <span class="mr-2">Admin:</span>
-        <input type="checkbox" checked={false} class="toggle toggle-info" />
+        <span id="toggle-label" class="mr-2">{t("clothes.clothes")}</span>
+        <input
+          id="clothe-toggle"
+          type="checkbox"
+          checked={false}
+          class="toggle"
+        />
       </label>
     </div>
     <div class="div-2 grid-container">
-      <CardLoader client:load windowLocation={Astro.url} />
+      <ClothesOutfitsSelect client:load windowLocation={Astro.url} />
     </div>
     <Footer />
   </main>

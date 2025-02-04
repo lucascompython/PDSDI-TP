@@ -14,6 +14,14 @@ pub fn init(cfg: &mut web::ServiceConfig) {
             .route(
                 "/last",
                 web::get().to(crate::handlers::outfit_handlers::get_last_outfit),
+            )
+            .route(
+                "/get",
+                web::get().to(crate::handlers::outfit_handlers::get_outfits),
+            )
+            .route(
+                "/image/{outfit_id}",
+                web::get().to(crate::handlers::outfit_handlers::get_outfit_image),
             ),
     );
 }

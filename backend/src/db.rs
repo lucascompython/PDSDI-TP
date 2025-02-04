@@ -16,6 +16,8 @@ pub struct DbStatements {
     pub insert_outfit: Statement,
     pub get_last_outfit_by_user: Statement,
     pub get_last_clothes_by_user: Statement,
+    pub get_outfits_by_user: Statement,
+    pub get_clothe_id_by_outfit: Statement,
 }
 
 pub struct Db {
@@ -70,6 +72,8 @@ impl Db {
             insert_outfit,
             get_last_outfit_by_user,
             get_last_clothes_by_user,
+            get_outfits_by_user,
+            get_clothe_id_by_outfit,
         ) = tokio::try_join!(
             client.batch_execute(DB_SCHEMA),
             client.prepare(
@@ -81,10 +85,9 @@ impl Db {
             client.prepare("SELECT user_id FROM users WHERE email = $1"),
             client.prepare("INSERT INTO outfits (name, user_id, color_mask, outfit_type) VALUES ($1, $2, $3, $4) RETURNING outfit_id"),
             client.prepare("SELECT outfit_id, name, created_at, user_id, color_mask, outfit_type FROM outfits WHERE user_id = $1 ORDER BY created_at DESC LIMIT 1"),
-            client.prepare("SELECT c.clothe_id, c.name, c.color, c.category, c.user_id, c.is_for_hot_weather FROM clothes c INNER JOIN outfit_clothes oc ON c.clothe_id = oc.clothe_id WHERE oc.outfit_id = $1")
-
-
-
+            client.prepare("SELECT c.clothe_id, c.name, c.color, c.category, c.user_id, c.is_for_hot_weather FROM clothes c INNER JOIN outfit_clothes oc ON c.clothe_id = oc.clothe_id WHERE oc.outfit_id = $1"),
+            client.prepare("SELECT outfit_id, name, outfit_type, created_at FROM outfits WHERE user_id = $1 ORDER BY created_at DESC LIMIT 1"),
+            client.prepare("SELECT clothe_id FROM outfit_clothes WHERE outfit_id = $1 LIMIT 1"),
         )?;
 
         println!("Database schema applied and statements prepared!");
@@ -96,6 +99,8 @@ impl Db {
             insert_outfit,
             get_last_outfit_by_user,
             get_last_clothes_by_user,
+            get_outfits_by_user,
+            get_clothe_id_by_outfit,
         };
 
         let password_bytes = hash("1234");

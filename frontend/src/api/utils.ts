@@ -339,3 +339,37 @@ export async function getLastOutfit(): Promise<ClotheResponse[]> {
 
   return clothes;
 }
+
+export interface Outfit {
+  id: number;
+  name: string;
+  outfit_type: OutfitType;
+  created_at: string;
+}
+
+export async function getOutfits(): Promise<Outfit[]> {
+  const response = await fetch(`${API_BASE_URL}/outfits/get`, {
+    method: "GET",
+    credentials: "include",
+  });
+
+  if (!response.ok) {
+    return [];
+  }
+
+  const json = await response.json();
+  return json;
+}
+
+export async function getOutfitImage(id: number): Promise<Blob> {
+  const response = await fetch(`${API_BASE_URL}/outfits/image/${id}`, {
+    method: "GET",
+    credentials: "include",
+  });
+
+  if (!response.ok) {
+    return new Blob();
+  }
+
+  return await response.blob();
+}
