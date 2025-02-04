@@ -11,14 +11,16 @@
   <div class="label">
     <span class="label-text ml-1">{t("outfit.dropdown.label")}</span>
   </div>
-  <select id="outfit-type-select" class="select select-bordered ml-1">
-    <option value={null} disabled selected hidden
-      >{t("outfit.dropdown.pick_one")}</option
-    >
-    {#each Object.keys(OutfitType).filter((key: string) => !isNaN(Number(OutfitType[key as keyof typeof OutfitType]))) as type}
-      <option value={type}>{t(type as any)}</option>
-    {/each}
-  </select>
+  <div class="centers">
+    <select id="outfit-type-select" class="select select-bordered ml-1">
+      <option value={null} disabled selected hidden
+        >{t("outfit.dropdown.pick_one")}</option
+      >
+      {#each Object.keys(OutfitType).filter((key: string) => !isNaN(Number(OutfitType[key as keyof typeof OutfitType]))) as type}
+        <option value={type}>{t(type as any)}</option>
+      {/each}
+    </select>
+  </div>
 </label>
 
 <style>
@@ -31,5 +33,14 @@
   select {
     background-color: var(--bg-color);
     color: var(--text-color);
+    align-items: center;
+    justify-content: center;
+  }
+  .centers {
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
   }
 </style>

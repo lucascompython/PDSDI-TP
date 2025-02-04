@@ -28,9 +28,11 @@
             <span class="loading loading-ring loading-xl"></span>
           </div>
         {/if}
-        <div class="eye-cards-column">
+        <div>
           {#each $clothes as clothe}
-            <EyeCard {clothe} {t} />
+            <div class="margin-top">
+              <EyeCard {clothe} {t} />
+            </div>
           {/each}
         </div>
       </div>
@@ -93,7 +95,7 @@
           <span class="loading loading-ring loading-xl"></span>
         </div>
       {/if}
-      <div class="eye-cards-column">
+      <div class="grid-container">
         {#each $clothes as clothe}
           <EyeCard {clothe} {t} />
         {/each}
@@ -127,12 +129,6 @@
       width: 100%;
       position: relative;
     }
-    .eye-cards-column {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      position: relative;
-    }
     .left {
       flex-basis: 50%;
       display: flex;
@@ -145,6 +141,8 @@
       border-left: 3px solid #b3b1b1;
       flex-basis: 50%;
       position: relative;
+      max-height: 85vh;
+      overflow: auto;
     }
     .margin-left {
       margin-left: 2rem;
@@ -152,6 +150,14 @@
 
     .margin-top {
       margin-top: 1rem;
+    }
+    .grid-container {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+      width: 100%;
+      padding: 1rem;
+      justify-items: center;
     }
   </style>
 {/if}
