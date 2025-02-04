@@ -1,4 +1,4 @@
-const API_BASE_URL = "https://pauloministro.com:6969";
+const API_BASE_URL = "http://localhost:1234";
 export type { ClotheResponse }; // re-export Clothe from cbf.d.ts
 import init, { Clothe as ClotheResponse } from "../../../cbf/pkg/cbf.js";
 import type { BoolPack, OutfitType } from "./bool_pack";
@@ -157,15 +157,18 @@ export interface Clothe {
 }
 
 export async function registerUser(
+  username: string,
   email: string,
-  password: string
+  password: string,
+  admin: boolean
 ): Promise<boolean> {
   const response = await fetch(`${API_BASE_URL}/user/register`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ email, password }),
+    credentials: "include",
+    body: JSON.stringify({ username, email, password, admin }),
   });
 
   return response.ok;

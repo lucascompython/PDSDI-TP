@@ -4,10 +4,7 @@ import NavBar from "@components/NavBar.astro";
 import Footer from "@components/Footer.astro";
 import Search from "@components/Icons/SearchIcon.svg?raw";
 import TableAdmin from "@components/TableAdmin.svelte";
-
-import { getLangFromUrl, useTranslations } from "src/i18n/utils";
-
-const t = useTranslations(getLangFromUrl(Astro.url));
+import AddModal from "@components/AddModal.svelte";
 ---
 
 <Layout title="Clothe Match">
@@ -18,7 +15,7 @@ const t = useTranslations(getLangFromUrl(Astro.url));
         <input type="text" class="grow" placeholder="Search" />
         <Fragment set:html={Search} />
       </label>
-      <button class="btn btn-success responsive-btn">Success</button>
+      <AddModal client:load windowLocation={Astro.url} />
     </div>
 
     <div class="flex-1">
